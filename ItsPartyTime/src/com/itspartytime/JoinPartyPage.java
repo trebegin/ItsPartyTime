@@ -8,6 +8,22 @@ import android.view.ViewGroup;
 
 public class JoinPartyPage extends Fragment
 {
+	/**
+	 * Creates and moves to PlaylistViewPage View
+	 */
+	public void createPlaylistView()
+	{
+		
+	}
+	
+	/**
+	 * Connects to the host device to receive party information 
+	 * @param partyName
+	 */
+	public void connectToParty(String partyName)
+	{
+		
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

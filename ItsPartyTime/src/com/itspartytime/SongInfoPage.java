@@ -7,7 +7,8 @@ public class SongInfoPage
 	
 	View songView;
 	
-	SongInfoPage(Song song) {
+	SongInfoPage(Song song) 
+	{
 		
 	}
 	
