@@ -1,16 +1,21 @@
 package com.itspartytime;
 
-public class GoogleMusicInterface {
+public class GoogleMusicInterface 
+{
 	
-	void playSong(int songID){
+	/**
+	 * 
+	 * @param songID
+	 */
+	public void playSong(int songID){
 		
 	}
 	
-	void pause() {
+	public void pause() {
 		
 	}
 	
-	void reorderPlaylist(Playlist playlist){
+	public void reorderPlaylist(Playlist playlist){
 		
 	}
 
