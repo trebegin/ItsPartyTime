@@ -1,5 +1,6 @@
 package com.itspartytime;
 
-public class LANComInterface {
+public class LANComInterface 
+{
 
 }
