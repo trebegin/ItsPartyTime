@@ -1,10 +1,10 @@
-package com.example.itspartytime;
+package com.itspartytime;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class Party extends Activity {
+public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
