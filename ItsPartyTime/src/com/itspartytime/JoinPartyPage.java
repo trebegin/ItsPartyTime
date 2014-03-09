@@ -1,5 +1,6 @@
 package com.itspartytime;
 
-public class JoinPartyPage {
+public class JoinPartyPage 
+{
 
 }
