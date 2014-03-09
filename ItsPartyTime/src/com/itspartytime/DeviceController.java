@@ -1,5 +1,6 @@
 package com.itspartytime;
 
-public class DeviceController {
+public class DeviceController 
+{
 
 }

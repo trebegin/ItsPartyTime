@@ -21,5 +21,7 @@ public class Party extends Activity
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	
 
 }
