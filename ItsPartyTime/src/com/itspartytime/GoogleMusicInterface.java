@@ -4,18 +4,30 @@ public class GoogleMusicInterface
 {
 	
 	/**
+	 * Plays song specified by songID
 	 * 
 	 * @param songID
 	 */
-	public void playSong(int songID){
+	public void playSong(int songID)
+	{
 		
 	}
 	
-	public void pause() {
+	
+	/**
+	 * Plays/pauses music depending on if music is currently playing
+	 */
+	public void pause() 
+	{
 		
 	}
 	
-	public void reorderPlaylist(Playlist playlist){
+	/**
+	 * Pushes new playlist to Google Music
+	 * @param playlist
+	 */
+	public void reorderPlaylist(Playlist playlist)
+	{
 		
 	}
 
