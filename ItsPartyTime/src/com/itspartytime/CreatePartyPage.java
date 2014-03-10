@@ -16,5 +16,12 @@ public class CreatePartyPage extends Fragment
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
-	// create button that updates party
+	/**
+	 * Creates and moves to playlistViewPage
+	 */
+	private void playlistViewPage()
+	{
+		
+	}
+	// create button that updates party and moves to playlistViewPage
 }

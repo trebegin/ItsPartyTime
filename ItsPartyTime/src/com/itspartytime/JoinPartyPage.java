@@ -17,7 +17,7 @@ public class JoinPartyPage extends Fragment
 	}
 
 	/**
-	 * Creates and moves to PlaylistViewPage View, called once party has been connected to
+	 * Creates and moves to PlaylistViewPage View, called if party has been connected to
 	 */
 	public void createPlaylistView()
 	{

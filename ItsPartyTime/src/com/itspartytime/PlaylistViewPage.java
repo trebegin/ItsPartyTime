@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 public class PlaylistViewPage extends Fragment 
 {
+	private boolean isHost;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,6 +28,16 @@ public class PlaylistViewPage extends Fragment
 	public void update(ArrayList<Song> newList) 
 	{
 
+	}
+	
+	
+	/**
+	 * Creates and calls SongInfoPage
+	 * @param song
+	 */
+	private void displaySongInfo(Song song) 
+	{
+		
 	}
 
 	// create pause/play button, skip button and end/leave party button

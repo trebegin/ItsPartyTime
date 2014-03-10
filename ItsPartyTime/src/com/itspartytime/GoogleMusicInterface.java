@@ -1,7 +1,10 @@
 package com.itspartytime;
 
+import java.util.ArrayList;
+
 public class GoogleMusicInterface 
 {
+	boolean isPlaying;
 	
 	/**
 	 * Plays song specified by songID
@@ -28,6 +31,16 @@ public class GoogleMusicInterface
 	 */
 	public void reorderPlaylist(Playlist playlist)
 	{
+		
+	}
+	
+	/**
+	 * Returns available playlists for host to choose from
+	 * @return
+	 */
+	public ArrayList<Playlist> getAvailablePlaylists()
+	{
+		return null;
 		
 	}
 

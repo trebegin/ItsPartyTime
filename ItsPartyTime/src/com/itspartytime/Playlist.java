@@ -20,7 +20,7 @@ public class Playlist
 		
 	/**
 	 * Changes the vote counts in 'song' depending on the value of vote: 
-	 * 1 is upvote, 2 is downvote
+	 * 1 is upvote, 0 is downvote
 	 * 
 	 * @param vote
 	 * @param song
