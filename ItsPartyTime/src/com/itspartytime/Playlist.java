@@ -63,36 +63,6 @@ public class Playlist
 	}
 	
 	/**
-	 * changes songList order and calls GoogleMusicInterface
-	 * 
-	 * preconditions:
-	 * 		- parameter song is non-null
-	 * 		- parameter song exists in songList
-	 * 		- parameter song is not currentSong
-	 * 		- parameter song is the only song that has been changed in songList
-	 * 
-	 * parameters:
-	 * 		- Song song	-> song is the object that needs to be moved according to new 
-	 * 		  vote counts
-	 * 
-	 * postconditions:
-	 * 		- songList order is changed
-	 * 		- GoogleMusic has the updated version of songList
-	 * 
-	 * recent changes:
-	 * 		-
-	 * 
-	 * known bugs:
-	 * 		-
-	 * 
-	 * @param song
-	 */
-	private void updatePlaylist(Song song)
-	{
-		
-	}
-	
-	/**
 	 * pauses/plays current song depending, calls GoogleMusicInterface
 	 * 
 	 * preconditions:
@@ -141,6 +111,34 @@ public class Playlist
 	{
 		
 	}
-
-
+	
+	/**
+	 * changes songList order and calls GoogleMusicInterface
+	 * 
+	 * preconditions:
+	 * 		- parameter song is non-null
+	 * 		- parameter song exists in songList
+	 * 		- parameter song is not currentSong
+	 * 		- parameter song is the only song that has been changed in songList
+	 * 
+	 * parameters:
+	 * 		- Song song	-> song is the object that needs to be moved according to new 
+	 * 		  vote counts
+	 * 
+	 * postconditions:
+	 * 		- songList order is changed
+	 * 		- GoogleMusic has the updated version of songList
+	 * 
+	 * recent changes:
+	 * 		-
+	 * 
+	 * known bugs:
+	 * 		-
+	 * 
+	 * @param song
+	 */
+	private void updatePlaylist(Song song)
+	{
+		
+	}
 }

@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 public class GoogleMusicInterface 
 {
-	boolean isPlaying;
+	private boolean isPlaying;
 	
 	/**
-	 * Plays song specified by songID
+	 * Plays song specified by songIdentifier
 	 * 
 	 * preconditions:
-	 * 		- songID indicates a valid song
+	 * 		- songIdentifier indicates a valid song
 	 * 
 	 * parameters:
-	 * 		- int songID	-> ID of song to be played
+	 * 		- int songIdentifier	-> ID of song to be played
 	 * 
 	 * postconditions:
 	 * 		- returns 1 if successful, 0 if song is not found
-	 * 		- song indicated by songID is playing
+	 * 		- song indicated by songIdentifier is playing
 	 * 
 	 * recent changes:
 	 * 		-
@@ -25,9 +25,9 @@ public class GoogleMusicInterface
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param songID
+	 * @param songIdentifier
 	 */
-	public int playSong(int songID)
+	public int playSong(int songIdentifier)
 	{
 		return 1;
 	}
