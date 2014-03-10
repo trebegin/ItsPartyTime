@@ -16,4 +16,5 @@ public class CreatePartyPage extends Fragment
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
+	// create button that updates party
 }

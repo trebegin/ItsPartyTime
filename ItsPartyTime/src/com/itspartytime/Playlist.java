@@ -7,6 +7,16 @@ public class Playlist
 	
 	private ArrayList<Song> songList; // probably want queue instead, but not sure which kind
 	private Song currentSong;
+	
+	/**
+	 * Constructor, takes a list of songs to manage
+	 * 
+	 * @param songs
+	 */
+	public Playlist(ArrayList<Song> songs) 
+	{
+		
+	}
 		
 	/**
 	 * Changes the vote counts in 'song' depending on the value of vote: 

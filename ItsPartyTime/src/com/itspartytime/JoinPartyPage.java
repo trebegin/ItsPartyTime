@@ -8,23 +8,7 @@ import android.view.ViewGroup;
 
 public class JoinPartyPage extends Fragment
 {
-	/**
-	 * Creates and moves to PlaylistViewPage View
-	 */
-	public void createPlaylistView()
-	{
-		
-	}
 	
-	/**
-	 * Connects to the host device to receive party information 
-	 * @param partyName
-	 */
-	public void connectToParty(String partyName)
-	{
-		
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -32,5 +16,23 @@ public class JoinPartyPage extends Fragment
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
+	/**
+	 * Creates and moves to PlaylistViewPage View, called once party has been connected to
+	 */
+	public void createPlaylistView()
+	{
+		
+	}
+	
+	/**
+	 * Connects to the host device to receive party information, called by connectButton
+	 * @param partyName
+	 */
+	public void connectToParty(String partyName)
+	{
+		
+	}
+	
+	// make createButton
 	
 }
