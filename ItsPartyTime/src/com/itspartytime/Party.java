@@ -40,13 +40,20 @@ public class Party extends Activity
 	}
 	
 	/**
-	 * Pause/plays current song. Ca
+	 * Pause/plays current song. Calls Playlist
 	 */
 	public void pauseSong()
 	{
 		
 	}
 	
-	
-
+	/**
+	 * Changes current song to the new song. Calls Playlist
+	 * 
+	 * @param newSong
+	 */
+	public void changeSong(Song newSong)
+	{
+		
+	}
 }
