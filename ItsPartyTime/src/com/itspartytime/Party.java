@@ -7,10 +7,11 @@ import android.view.Menu;
 public class Party extends Activity 
 {
 	
-	private Playlist playlist;
+	private Playlist mPlaylist;
 	private String partyName;
-	private Device host;
-	private DeviceController deviceController;
+	private Device hostDevice;
+	private boolean isHost;
+	private DeviceController mDeviceController;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -28,8 +29,27 @@ public class Party extends Activity
 	}
 	
 	/**
-	 * Changes the vote counts in 'song' depending on the value of vote: 
-	 * 1 is upvote, 2 is downvote. Calls Playlist
+	 * Changes the vote counts in 'song'
+	 * 
+	 * preconditions:
+	 * 		- parameter vote is a 1 or 0
+	 * 		- parameter song is non-null and exists in mPlaylist
+	 * 
+	 * parameters:
+	 * 		- int vote	-> 1 indicates upvote, 0 indicates downvote for song
+	 * 		- Song song	-> song is the object that should be changed
+	 * 
+	 * postconditions:
+	 * 		- either songUpVotes or songDownVotes is changed in song
+	 * 		- mPlaylist is reordered based on change in song
+	 * 		- PlaylistViewPage fragment is updated
+	 * 		- if device is not host, vote is sent to host
+	 * 
+	 * recent changes:
+	 * 		-
+	 * 
+	 * known bugs:
+	 * 		-
 	 * 
 	 * @param vote
 	 * @param song
@@ -40,7 +60,24 @@ public class Party extends Activity
 	}
 	
 	/**
-	 * Pause/plays current song. Calls Playlist
+	 * Pause/play current song
+	 *
+	 * preconditions:
+	 * 		- device is the host device
+	 * 		- there is a song that is playing or has been paused
+	 * 
+	 * parameters:
+	 * 		- none
+	 * 
+	 * postconditions:
+	 * 		- If there is a song playing, song is paused.
+	 * 		- If there is a song paused, song is resumed
+	 * 
+	 * recent changes:
+	 * 		-
+	 * 
+	 * known bugs:
+	 * 		-
 	 */
 	public void pauseSong()
 	{
@@ -48,7 +85,24 @@ public class Party extends Activity
 	}
 	
 	/**
-	 * Changes current song to the new song. Calls Playlist
+	 * Changes current song to the new song
+	 * 
+	 * preconditions:
+	 * 		- parameter newSong is non-null and exists in mPlaylist 
+	 * 
+	 * parameters:
+	 * 		- Song newSong	-> song to be started
+	 * 
+	 * postconditions:
+	 * 		- newSong is playing
+	 * 		- mPlaylist order is updated
+	 * 		- PlaylistViewPage fragment is updated if visible
+	 * 
+	 * recent changes:
+	 * 		-
+	 * 
+	 * known bugs:
+	 * 		-
 	 * 
 	 * @param newSong
 	 */

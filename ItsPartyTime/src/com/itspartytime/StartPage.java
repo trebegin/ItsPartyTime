@@ -17,17 +17,51 @@ public class StartPage extends Fragment
 	}
 
 	/**
-	 * Creates and moves to CreatePartyPage View, called by createButton
+	 * Creates and moves to CreatePartyPage View
+	 * 
+	 * preconditions:
+	 * 		- StartPage fragment is visible
+	 * 		- Called by createPartyButton
+	 * 
+	 * parameters:
+	 * 		- none
+	 * 
+	 * postconditions:
+	 * 		- StartPage fragment is destroyed
+	 * 		- CreatePartyPage fragment is created and visible
+	 * 
+	 * recent changes:
+	 * 		-
+	 * 
+	 * known bugs:
+	 * 		-
 	 */
-	public void createPartyPage()
+	private void createPartyPage()
 	{
 		
 	}
 	
 	/**
 	 * Creates and moves to JoinPartyPage View, called by joinButton
+	 * 
+	 * preconditions:
+	 * 		- StartPage fragment is visible
+	 * 		- Called by createPartyButton
+	 * 
+	 * parameters:
+	 * 		- none
+	 * 
+	 * postconditions:
+	 * 		- StartPage fragment is destroyed
+	 * 		- JoinPartyPage fragment is created and visible
+	 * 
+	 * recent changes:
+	 * 		-
+	 * 
+	 * known bugs:
+	 * 		-
 	 */
-	public void joinPartyPage()
+	private void joinPartyPage()
 	{
 		
 	}

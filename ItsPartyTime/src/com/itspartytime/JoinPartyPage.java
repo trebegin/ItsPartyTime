@@ -18,19 +18,53 @@ public class JoinPartyPage extends Fragment
 
 	/**
 	 * Creates and moves to PlaylistViewPage View, called if party has been connected to
+	 * 
+	 * preconditions:
+	 * 		- JoinPartyPage fragment is visible
+	 * 		- Playlist holds a non-null song list
+	 * 
+	 * parameters:
+	 * 		- none
+	 * 
+	 * postconditions:
+	 * 		- JoinPartyPage fragment is destroyed
+	 * 		- PlaylistViewPage fragment is created and visible 
+	 * 
+	 * recent changes:
+	 * 		- 
+	 * 
+	 * known bugs:
+	 * 		- 
 	 */
-	public void createPlaylistView()
+	private void createPlaylistView()
 	{
 		
 	}
 	
 	/**
 	 * Connects to the host device to receive party information, called by connectButton
+	 * 
+	 * preconditions:
+	 * 		- JoinPartyPage fragment is visible
+	 * 
+	 * parameters:
+	 * 		- String partyName 	-> title of the party to search
+	 * 
+	 * postconditions:
+	 * 		- returns 1 if party was found, 0 if party does not exist
+	 * 		- Party is updated with found party info if party was found 
+	 * 
+	 * recent changes:
+	 * 		- 
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
 	 * @param partyName
 	 */
-	public void connectToParty(String partyName)
+	private int connectToParty(String partyName)
 	{
-		
+		return 1;
 	}
 	
 	// make createButton
