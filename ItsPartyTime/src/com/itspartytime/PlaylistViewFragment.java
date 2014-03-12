@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PlaylistViewPage extends Fragment 
+public class PlaylistViewFragment extends Fragment 
 {
 	private boolean isHost;
 	private ArrayList<Song> displayList = null; // do we want to save actual song objects here?

@@ -15,7 +15,7 @@ import android.view.ViewGroup;
  *
  */
 
-public class CreatePartyPage extends Fragment
+public class CreatePartyFragment extends Fragment
 {
 	private Playlist selectedPlaylist;
 

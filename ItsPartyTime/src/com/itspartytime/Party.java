@@ -1,7 +1,9 @@
 package com.itspartytime;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.os.Bundle;
 import android.view.Menu;
 
 public class Party extends Activity 
@@ -12,12 +14,19 @@ public class Party extends Activity
 	private Device hostDevice;
 	private boolean isHost;
 	private DeviceController mDeviceController;
+	private StartFragment mStartFragment;
+	private CreatePartyFragment mCreatePartyFragment;
+	private JoinPartyFragment mJoinPartyFragment;
+	private PlaylistViewFragment mPlaylistViewFragment;
+	private FragmentManager mFragmentManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		initFragments();
+		openStartFragment(null);
 	}
 
 	@Override
@@ -26,6 +35,157 @@ public class Party extends Activity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	/**
+	 * Initializes fragments and fragment manager
+	 * 
+	 * preconditions:
+	 * 		- fragments have not already been created
+	 * 
+	 * parameters:
+	 * 		- none
+	 * 
+	 * postconditions:
+	 * 		- fragments have been created and stored
+	 *  
+	 * recent changes:
+	 * 		- initialized FragmentMangager (Becky)
+	 * 		- created fragments (Becky)
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 * 
+	 */
+	private void initFragments()
+	{
+		mFragmentManager = getFragmentManager();
+		mStartFragment = new StartFragment();
+		mCreatePartyFragment = new CreatePartyFragment();
+		mJoinPartyFragment = new JoinPartyFragment();
+		mPlaylistViewFragment = new PlaylistViewFragment();
+		
+		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mStartFragment, "StartPage").commit();
+		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mCreatePartyFragment, "CreatePartyPage").commit();
+		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mJoinPartyFragment, "JoinPartyPage").commit();
+		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mPlaylistViewFragment, "PlaylistViewPage").commit();
+	}
+	
+	/**
+	 * Detaches currentFragment if not null, attaches StartFragment fragment
+	 * 
+	 * preconditions:
+	 * 		- StartFragment is not currently attached
+	 * 
+	 * parameters:
+	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 
+	 * postconditions:
+	 * 		- StartFragment is attached
+	 *  
+	 * recent changes:
+	 * 		- check for currentFragment null (Becky)
+	 * 		- attach StartFragment (Becky)
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 * @param currentFragment
+	 */
+	public void openStartFragment(Fragment currentFragment) 
+	{
+		if(currentFragment != null)
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mStartFragment).commit();
+		else
+			mFragmentManager.beginTransaction().attach(mStartFragment).commit();
+	}
+	
+	/**
+	 * Detaches currentFragment if not null, attaches CreatePartyFragment
+	 * 
+	 * preconditions:
+	 * 		- CreatePartyFragment is not currently attached
+	 * 
+	 * parameters:
+	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 
+	 * postconditions:
+	 * 		- CreatePartyFragment is attached
+	 *  
+	 * recent changes:
+	 * 		- check for currentFragment null (Becky)
+	 * 		- attach CreatePartyFragment (Becky)
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 * @param currentFragment
+	 */
+	public void openCreatePartyFragment(Fragment currentFragment) 
+	{
+		if(currentFragment != null)
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mCreatePartyFragment).commit();
+		else
+			mFragmentManager.beginTransaction().attach(mCreatePartyFragment).commit();
+	}
+	
+	/**
+	 * Detaches currentFragment if not null, attaches JoinPartyFragment
+	 * 
+	 * preconditions:
+	 * 		- JoinPartyFragment is not currently attached
+	 * 
+	 * parameters:
+	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 
+	 * postconditions:
+	 * 		- JoinPartyFragment is attached
+	 *  
+	 * recent changes:
+	 * 		- check for currentFragment null (Becky)
+	 * 		- attach JoinPartyFragment (Becky)
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 * @param currentFragment
+	 */
+	public void openJoinPartyFragment(Fragment currentFragment) 
+	{
+		if(currentFragment != null)
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mJoinPartyFragment).commit();
+		else
+			mFragmentManager.beginTransaction().attach(mJoinPartyFragment).commit();
+	}
+	
+	/**
+	 * Detaches currentFragment if not null, attaches PlaylistViewFragment
+	 * 
+	 * preconditions:
+	 * 		- PlaylistViewFragment is not currently attached
+	 * 
+	 * parameters:
+	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 
+	 * postconditions:
+	 * 		- PlaylistViewFragment is attached
+	 *  
+	 * recent changes:
+	 * 		- check for currentFragment null (Becky)
+	 * 		- attach PlaylistViewFragment (Becky)
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 * @param currentFragment
+	 */
+	public void openPlaylistViewFragment(Fragment currentFragment) 
+	{
+		if(currentFragment != null)
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mPlaylistViewFragment).commit();
+		else
+			mFragmentManager.beginTransaction().attach(mPlaylistViewFragment).commit();
 	}
 	
 	/**
