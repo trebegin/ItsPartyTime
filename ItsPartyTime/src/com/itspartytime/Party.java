@@ -3,6 +3,7 @@ package com.itspartytime;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentManager.BackStackEntry;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -14,11 +15,11 @@ public class Party extends Activity
 	private Device hostDevice;
 	private boolean isHost;
 	private DeviceController mDeviceController;
-	private StartFragment mStartFragment;
-	private CreatePartyFragment mCreatePartyFragment;
-	private JoinPartyFragment mJoinPartyFragment;
-	private PlaylistViewFragment mPlaylistViewFragment;
-	private FragmentManager mFragmentManager;
+	private static StartFragment mStartFragment;
+	private static CreatePartyFragment mCreatePartyFragment;
+	private static JoinPartyFragment mJoinPartyFragment;
+	private static PlaylistViewFragment mPlaylistViewFragment;
+	private static FragmentManager mFragmentManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -87,16 +88,21 @@ public class Party extends Activity
 	 * recent changes:
 	 * 		- check for currentFragment null (Becky)
 	 * 		- attach StartFragment (Becky)
+	 * 		- add fragment to backstack (Becky)
 	 * 
 	 * known bugs:
 	 * 		- 
 	 * 
 	 * @param currentFragment
 	 */
-	public void openStartFragment(Fragment currentFragment) 
+	public static void openStartFragment(Fragment currentFragment) 
 	{
 		if(currentFragment != null)
-			mFragmentManager.beginTransaction().detach(currentFragment).attach(mStartFragment).commit();
+		{
+			mFragmentManager.saveFragmentInstanceState(currentFragment);
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mStartFragment)
+				.addToBackStack(currentFragment.getTag()).commit();
+		}
 		else
 			mFragmentManager.beginTransaction().attach(mStartFragment).commit();
 	}
@@ -116,16 +122,21 @@ public class Party extends Activity
 	 * recent changes:
 	 * 		- check for currentFragment null (Becky)
 	 * 		- attach CreatePartyFragment (Becky)
+	 * 		- add fragment to backstack (Becky)
 	 * 
 	 * known bugs:
 	 * 		- 
 	 * 
 	 * @param currentFragment
 	 */
-	public void openCreatePartyFragment(Fragment currentFragment) 
+	public static void openCreatePartyFragment(Fragment currentFragment) 
 	{
 		if(currentFragment != null)
-			mFragmentManager.beginTransaction().detach(currentFragment).attach(mCreatePartyFragment).commit();
+		{
+			mFragmentManager.saveFragmentInstanceState(currentFragment);
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mCreatePartyFragment)
+				.addToBackStack(currentFragment.getTag()).commit();
+		}
 		else
 			mFragmentManager.beginTransaction().attach(mCreatePartyFragment).commit();
 	}
@@ -145,16 +156,21 @@ public class Party extends Activity
 	 * recent changes:
 	 * 		- check for currentFragment null (Becky)
 	 * 		- attach JoinPartyFragment (Becky)
+	 * 		- add fragment to backstack (Becky)
 	 * 
 	 * known bugs:
 	 * 		- 
 	 * 
 	 * @param currentFragment
 	 */
-	public void openJoinPartyFragment(Fragment currentFragment) 
+	public static void openJoinPartyFragment(Fragment currentFragment) 
 	{
 		if(currentFragment != null)
-			mFragmentManager.beginTransaction().detach(currentFragment).attach(mJoinPartyFragment).commit();
+		{
+			mFragmentManager.saveFragmentInstanceState(currentFragment);
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mJoinPartyFragment)
+				.addToBackStack(currentFragment.getTag()).commit();
+		}
 		else
 			mFragmentManager.beginTransaction().attach(mJoinPartyFragment).commit();
 	}
@@ -174,16 +190,21 @@ public class Party extends Activity
 	 * recent changes:
 	 * 		- check for currentFragment null (Becky)
 	 * 		- attach PlaylistViewFragment (Becky)
+	 * 		- add fragment to backstack (Becky)
 	 * 
 	 * known bugs:
 	 * 		- 
 	 * 
 	 * @param currentFragment
 	 */
-	public void openPlaylistViewFragment(Fragment currentFragment) 
+	public static void openPlaylistViewFragment(Fragment currentFragment) 
 	{
 		if(currentFragment != null)
-			mFragmentManager.beginTransaction().detach(currentFragment).attach(mPlaylistViewFragment).commit();
+		{
+			mFragmentManager.saveFragmentInstanceState(currentFragment);
+			mFragmentManager.beginTransaction().detach(currentFragment).attach(mPlaylistViewFragment)
+				.addToBackStack(currentFragment.getTag()).commit();
+		}
 		else
 			mFragmentManager.beginTransaction().attach(mPlaylistViewFragment).commit();
 	}
