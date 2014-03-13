@@ -22,10 +22,9 @@ public class StartFragment extends Fragment
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.start_fragment_layout, container, false);
 		createPartyButton = (Button) mRelativeLayout.findViewById(R.id.create_party_button);
 		joinPartyButton = (Button) mRelativeLayout.findViewById(R.id.join_party_button);
-		
+	
 		createPartyButton.setOnClickListener(new View.OnClickListener() 
 		{
-			
 			@Override
 			public void onClick(View v) 
 			{
@@ -34,8 +33,7 @@ public class StartFragment extends Fragment
 		});
 		
 		joinPartyButton.setOnClickListener(new View.OnClickListener() 
-		{
-			
+		{	
 			@Override
 			public void onClick(View v) 
 			{

@@ -20,6 +20,7 @@ public class Party extends Activity
 	private static JoinPartyFragment mJoinPartyFragment;
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
+	private static SelectPlaylistFragment mSelectPlaylistFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -66,6 +67,8 @@ public class Party extends Activity
 		mCreatePartyFragment = new CreatePartyFragment();
 		mJoinPartyFragment = new JoinPartyFragment();
 		mPlaylistViewFragment = new PlaylistViewFragment();
+		mSelectPlaylistFragment = new SelectPlaylistFragment();
+		
 		
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mStartFragment, "StartPage").commit();
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mCreatePartyFragment, "CreatePartyPage").commit();
