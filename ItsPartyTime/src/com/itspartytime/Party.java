@@ -3,9 +3,11 @@ package com.itspartytime;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentManager.BackStackEntry;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.widget.PopupWindow;
 
 public class Party extends Activity 
 {
@@ -71,9 +73,13 @@ public class Party extends Activity
 		
 		
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mStartFragment, "StartPage").commit();
-		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mCreatePartyFragment, "CreatePartyPage").commit();
-		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mJoinPartyFragment, "JoinPartyPage").commit();
-		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mPlaylistViewFragment, "PlaylistViewPage").commit();
+		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mCreatePartyFragment, "CreatePartyPage")
+			.detach(mStartFragment).commit();
+		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mJoinPartyFragment, "JoinPartyPage")
+			.detach(mCreatePartyFragment).commit();
+		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mPlaylistViewFragment, "PlaylistViewPage")
+			.detach(mJoinPartyFragment).commit();
+		mFragmentManager.beginTransaction().detach(mPlaylistViewFragment).commit();
 	}
 	
 	/**
@@ -212,6 +218,17 @@ public class Party extends Activity
 			mFragmentManager.beginTransaction().attach(mPlaylistViewFragment).commit();
 	}
 	
+//	public static void openSelectPlaylistPopup()
+//	{
+//		LayoutInflater inflater = (LayoutInflater)
+//			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//		PopupWindow selectPlaylistPopup = new PopupWindow(
+//			       inflater.inflate(R.layout.popup_example, null, false), 
+//			       100, 
+//			       100, 
+//			       true);
+//	}
+//	
 	/**
 	 * Changes the vote counts in 'song'
 	 * 
