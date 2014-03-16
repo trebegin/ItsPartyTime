@@ -5,9 +5,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 public class Party extends Activity 
 {
@@ -23,6 +25,8 @@ public class Party extends Activity
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
 	private static SelectPlaylistFragment mSelectPlaylistFragment;
+	private static LayoutInflater inflater;
+	private static RelativeLayout mRelativeLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -31,6 +35,8 @@ public class Party extends Activity
 		setContentView(R.layout.activity_main);
 		initFragments();
 		openStartFragment(null);
+		this.inflater = (LayoutInflater)
+			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -218,17 +224,13 @@ public class Party extends Activity
 			mFragmentManager.beginTransaction().attach(mPlaylistViewFragment).commit();
 	}
 	
-//	public static void openSelectPlaylistPopup()
-//	{
-//		LayoutInflater inflater = (LayoutInflater)
-//			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//		PopupWindow selectPlaylistPopup = new PopupWindow(
-//			       inflater.inflate(R.layout.popup_example, null, false), 
-//			       100, 
-//			       100, 
-//			       true);
-//	}
-//	
+	
+	public static void openSelectPlaylistDialog()
+	{
+		SelectPlaylistDialog mSelectPlaylistDialog = new SelectPlaylistDialog();
+		mSelectPlaylistDialog.show(mFragmentManager, "SelectPlaylistDialog");
+	}
+	
 	/**
 	 * Changes the vote counts in 'song'
 	 * 

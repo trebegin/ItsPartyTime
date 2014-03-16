@@ -2,18 +2,21 @@ package com.itspartytime;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 /**
  * Author: 
  * Date approved:
  * Approved by:
  * 
- * @author Becky
+ * @author Matt
  *
  */
 
@@ -22,11 +25,13 @@ public class CreatePartyFragment extends Fragment
 	private Button selectPlaylistButton;
 	private Button doneCreatingPartyButton;
 	private Playlist selectedPlaylist;
+	private LayoutInflater inflater;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+		this.inflater = inflater;
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.create_party_fragment_layout, container, false);
 		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_playlist_button);
 		doneCreatingPartyButton = (Button) mRelativeLayout.findViewById(R.id.done_creating_party_button);
@@ -72,7 +77,13 @@ public class CreatePartyFragment extends Fragment
 	 */
 	private void openSelectPlaylistView() 
 	{
+		openSelectPlaylistDialog();
 		
+	}
+	
+	public void openSelectPlaylistDialog()
+	{
+		Party.openSelectPlaylistDialog();
 	}
 	
 	/**
