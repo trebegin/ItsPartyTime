@@ -17,6 +17,7 @@ public class Party extends Activity
 	private Device hostDevice;
 	private boolean isHost;
 	private DeviceController mDeviceController;
+	private GoogleMusicInterface mGoogleMusicInterface;
 	private static StartFragment mStartFragment;
 	private static CreatePartyFragment mCreatePartyFragment;
 	private static JoinPartyFragment mJoinPartyFragment;
@@ -32,6 +33,14 @@ public class Party extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initFragments();
+		mGoogleMusicInterface = new GoogleMusicInterface();
+		try 
+		{
+			mGoogleMusicInterface.setup("Bovary*0418");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		openStartFragment(null);
 		this.inflater = (LayoutInflater)
 			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

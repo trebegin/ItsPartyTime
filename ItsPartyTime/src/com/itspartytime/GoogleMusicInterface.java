@@ -1,10 +1,71 @@
 package com.itspartytime;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
+
+import android.media.MediaPlayer;
+import android.util.Log;
+
+import com.faceture.google.play.LoginResponse;
+import com.faceture.google.play.LoginResult;
+import com.faceture.google.play.PlayClient;
+import com.faceture.google.play.PlayClientBuilder;
+import com.faceture.google.play.PlaySession;
 
 public class GoogleMusicInterface 
 {
 	private boolean isPlaying;
+	private MediaPlayer mp;
+	private PlayClient mPlayClient;
+	private PlaySession mPlaySession;
+	private Collection<com.faceture.google.play.domain.Playlist> availablePlaylists;
+	private com.faceture.google.play.domain.Playlist currentPlaylist;
+	private Collection<com.faceture.google.play.domain.Song> songList;
+	private com.faceture.google.play.domain.Song currentSong;
+	private Login mLogin;
+	
+	public void setup(final String password) throws Exception 
+	{
+		//mLogin = new Login();
+		//mLogin.setup(password);
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				PlayClientBuilder mPlayClientBuilder = new PlayClientBuilder();
+				PlayClient mPlayClient = mPlayClientBuilder.create();
+				LoginResponse mLoginResponse;
+				try {
+					mLoginResponse = mPlayClient.login("trebegin@gmail.com", password);
+					assert(LoginResult.SUCCESS == mLoginResponse.getLoginResult());
+					// assume login is success
+					mPlaySession = mLoginResponse.getPlaySession();
+					assert(mPlaySession != null);
+					//availablePlaylists = mPlayClient.loadAllPlaylists(mPlaySession);
+					//currentPlaylist = availablePlaylists.iterator().next();
+					//currentSong = currentPlaylist.getPlaylist().iterator().next();
+//					songList = mPlayClient.loadAllTracks(mPlaySession);
+//					currentSong = songList.iterator().next();
+//					Log.w("ItsPartyTime", "SongTitle = " + currentSong.getTitle());
+//					mp = new MediaPlayer();
+//					mp.setDataSource(currentSong.getUrl());
+//					mp.prepare();
+//					mp.start();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}).start();
+		//mPlaySession = mLogin.doInBackground(null);
+		
+	}
 	
 	/**
 	 * Plays song specified by songIdentifier
