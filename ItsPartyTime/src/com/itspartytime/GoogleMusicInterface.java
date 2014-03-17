@@ -39,31 +39,31 @@ public class GoogleMusicInterface
 				PlayClientBuilder mPlayClientBuilder = new PlayClientBuilder();
 				PlayClient mPlayClient = mPlayClientBuilder.create();
 				LoginResponse mLoginResponse;
-				try {
-					mLoginResponse = mPlayClient.login("trebegin@gmail.com", password);
-					//assert(LoginResult.SUCCESS == mLoginResponse.getLoginResult());
-					// assume login is success
-					mPlaySession = mLoginResponse.getPlaySession();
-					assert(mPlaySession != null);
-					//availablePlaylists = mPlayClient.loadAllPlaylists(mPlaySession);
-					//currentPlaylist = availablePlaylists.iterator().next();
-					//currentSong = currentPlaylist.getPlaylist().iterator().next();
-//					songList = mPlayClient.loadAllTracks(mPlaySession);
-//					currentSong = songList.iterator().next();
-//					Log.w("ItsPartyTime", "SongTitle = " + currentSong.getTitle());
-//					mp = new MediaPlayer();
-//					mp.setDataSource(currentSong.getUrl());
-//					mp.prepare();
-					//mp = MediaPlayer.create(context, R.raw.no_satisfaction_test_song);
-					//mp.start();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+//				try {
+//					//mLoginResponse = mPlayClient.login("trebegin@gmail.com", password);
+//					//assert(LoginResult.SUCCESS == mLoginResponse.getLoginResult());
+//					// assume login is success
+//					//mPlaySession = mLoginResponse.getPlaySession();
+//					//assert(mPlaySession != null);
+//					//availablePlaylists = mPlayClient.loadAllPlaylists(mPlaySession);
+//					//currentPlaylist = availablePlaylists.iterator().next();
+//					//currentSong = currentPlaylist.getPlaylist().iterator().next();
+////					songList = mPlayClient.loadAllTracks(mPlaySession);
+////					currentSong = songList.iterator().next();
+////					Log.w("ItsPartyTime", "SongTitle = " + currentSong.getTitle());
+////					mp = new MediaPlayer();
+////					mp.setDataSource(currentSong.getUrl());
+////					mp.prepare();
+//					//mp = MediaPlayer.create(context, R.raw.no_satisfaction_test_song);
+//					//mp.start();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (URISyntaxException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
 			}
 		}).start();
 		//mPlaySession = mLogin.doInBackground(null);
