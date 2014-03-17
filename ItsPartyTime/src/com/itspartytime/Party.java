@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,7 +18,7 @@ public class Party extends Activity
 	private Device hostDevice;
 	private boolean isHost;
 	private DeviceController mDeviceController;
-	private GoogleMusicInterface mGoogleMusicInterface;
+	private static GoogleMusicInterface mGoogleMusicInterface;
 	private static StartFragment mStartFragment;
 	private static CreatePartyFragment mCreatePartyFragment;
 	private static JoinPartyFragment mJoinPartyFragment;
@@ -33,10 +34,12 @@ public class Party extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initFragments();
+		//MediaPlayer md = MediaPlayer.create(this, R.raw.no_satisfaction_test_song);
+		//md.start();
 		mGoogleMusicInterface = new GoogleMusicInterface();
 		try 
 		{
-			mGoogleMusicInterface.setup("Bovary*0418");
+			mGoogleMusicInterface.setup("", this);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -289,9 +292,9 @@ public class Party extends Activity
 	 * known bugs:
 	 * 		-
 	 */
-	public void pauseSong()
+	public static void pauseSong()
 	{
-		
+		mGoogleMusicInterface.pause();
 	}
 	
 	/**
@@ -316,8 +319,8 @@ public class Party extends Activity
 	 * 
 	 * @param newSong
 	 */
-	public void changeSong(Song newSong)
+	public static void changeSong(Song newSong)
 	{
-		
+		mGoogleMusicInterface.playSong(0);
 	}
 }

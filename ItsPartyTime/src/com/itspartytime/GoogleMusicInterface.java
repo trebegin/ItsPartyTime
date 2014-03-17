@@ -5,8 +5,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import android.content.Context;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import com.faceture.google.play.LoginResponse;
 import com.faceture.google.play.LoginResult;
@@ -25,9 +25,11 @@ public class GoogleMusicInterface
 	private Collection<com.faceture.google.play.domain.Song> songList;
 	private com.faceture.google.play.domain.Song currentSong;
 	private Login mLogin;
+	private Context context;
 	
-	public void setup(final String password) throws Exception 
+	public void setup(final String password, final Context context) throws Exception 
 	{
+		this.context = context;
 		//mLogin = new Login();
 		//mLogin.setup(password);
 		new Thread(new Runnable() {
@@ -39,7 +41,7 @@ public class GoogleMusicInterface
 				LoginResponse mLoginResponse;
 				try {
 					mLoginResponse = mPlayClient.login("trebegin@gmail.com", password);
-					assert(LoginResult.SUCCESS == mLoginResponse.getLoginResult());
+					//assert(LoginResult.SUCCESS == mLoginResponse.getLoginResult());
 					// assume login is success
 					mPlaySession = mLoginResponse.getPlaySession();
 					assert(mPlaySession != null);
@@ -52,7 +54,8 @@ public class GoogleMusicInterface
 //					mp = new MediaPlayer();
 //					mp.setDataSource(currentSong.getUrl());
 //					mp.prepare();
-//					mp.start();
+					//mp = MediaPlayer.create(context, R.raw.no_satisfaction_test_song);
+					//mp.start();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -90,6 +93,17 @@ public class GoogleMusicInterface
 	 */
 	public int playSong(int songIdentifier)
 	{
+		if(mp == null)
+		{
+			mp = MediaPlayer.create(context, R.raw.no_satisfaction_test_song);
+			mp.start();
+			isPlaying = true;
+		}
+		if(!mp.isPlaying())
+		{
+			mp.start();
+		}
+		
 		return 1;
 	}
 	
@@ -117,7 +131,11 @@ public class GoogleMusicInterface
 	 */
 	public void pause() 
 	{
-		
+		if(mp != null)
+		{
+			if(mp.isPlaying()) mp.pause();
+			else mp.start();
+		}
 	}
 	
 	/**
@@ -196,5 +214,4 @@ public class GoogleMusicInterface
 	{
 		return null;
 	}
-
 }

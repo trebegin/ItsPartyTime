@@ -7,18 +7,44 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class PlaylistViewFragment extends Fragment 
 {
 	private boolean isHost;
 	private ArrayList<Song> displayList = null; // do we want to save actual song objects here?
+	private Button playButton;
+	private Button pauseButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		// TODO Auto-generated method stub
-		return super.onCreateView(inflater, container, savedInstanceState);
+		LinearLayout mLinearLayout = (LinearLayout) inflater.inflate(R.layout.playlist_view_fragment, container, false);
+		playButton = (Button) mLinearLayout.findViewById(R.id.play_button);
+		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
+	
+		playButton.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Party.changeSong(null);
+			}
+		});
+		
+		pauseButton.setOnClickListener(new View.OnClickListener() 
+		{	
+			@Override
+			public void onClick(View v) 
+			{
+				Party.pauseSong();
+			}
+		});
+		
+		return mLinearLayout;
 	}
 
 	/**
