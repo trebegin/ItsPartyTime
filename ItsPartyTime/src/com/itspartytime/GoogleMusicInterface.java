@@ -1,69 +1,65 @@
 package com.itspartytime;
 
+import gmusic.api.impl.GoogleMusicAPI;
+import gmusic.api.impl.InvalidCredentialsException;
+import gmusic.api.model.Playlists;
+
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-
-import com.faceture.google.play.LoginResponse;
-import com.faceture.google.play.LoginResult;
-import com.faceture.google.play.PlayClient;
-import com.faceture.google.play.PlayClientBuilder;
-import com.faceture.google.play.PlaySession;
+import android.net.Uri;
 
 public class GoogleMusicInterface 
 {
 	private boolean isPlaying;
 	private MediaPlayer mp;
-	private PlayClient mPlayClient;
-	private PlaySession mPlaySession;
-	private Collection<com.faceture.google.play.domain.Playlist> availablePlaylists;
-	private com.faceture.google.play.domain.Playlist currentPlaylist;
-	private Collection<com.faceture.google.play.domain.Song> songList;
-	private com.faceture.google.play.domain.Song currentSong;
-	private Login mLogin;
 	private Context context;
+	private GoogleMusicAPI api;
 	
 	public void setup(final String password, final Context context) throws Exception 
 	{
+		api = new GoogleMusicAPI();
 		this.context = context;
 		//mLogin = new Login();
 		//mLogin.setup(password);
 		new Thread(new Runnable() {
 			
+			private Collection<gmusic.api.model.Playlist> availablePlaylists;
+			private gmusic.api.model.Playlist currentPlaylist;
+			private gmusic.api.model.Song currentSong;
+
 			@Override
 			public void run() {
-				PlayClientBuilder mPlayClientBuilder = new PlayClientBuilder();
-				PlayClient mPlayClient = mPlayClientBuilder.create();
-				LoginResponse mLoginResponse;
-//				try {
-//					//mLoginResponse = mPlayClient.login("trebegin@gmail.com", password);
-//					//assert(LoginResult.SUCCESS == mLoginResponse.getLoginResult());
-//					// assume login is success
-//					//mPlaySession = mLoginResponse.getPlaySession();
-//					//assert(mPlaySession != null);
-//					//availablePlaylists = mPlayClient.loadAllPlaylists(mPlaySession);
-//					//currentPlaylist = availablePlaylists.iterator().next();
-//					//currentSong = currentPlaylist.getPlaylist().iterator().next();
-////					songList = mPlayClient.loadAllTracks(mPlaySession);
-////					currentSong = songList.iterator().next();
-////					Log.w("ItsPartyTime", "SongTitle = " + currentSong.getTitle());
-////					mp = new MediaPlayer();
-////					mp.setDataSource(currentSong.getUrl());
-////					mp.prepare();
-//					//mp = MediaPlayer.create(context, R.raw.no_satisfaction_test_song);
-//					//mp.start();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} catch (URISyntaxException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				
+				
+				try {
+					api.login("trebegin@gmail.com", password);
+					Playlists playlists = api.getAllPlaylists();
+					availablePlaylists = playlists.getPlaylists();
+					currentPlaylist = availablePlaylists.iterator().next();
+					currentSong = currentPlaylist.getPlaylist().iterator().next();
+					URI songURI = api.getSongURL(currentSong);
+					
+					mp = new MediaPlayer();
+					mp.setDataSource(songURI.toString());
+					mp.prepare();
+					mp.start();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidCredentialsException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		}).start();
 		//mPlaySession = mLogin.doInBackground(null);
