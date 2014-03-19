@@ -1,11 +1,15 @@
 package com.itspartytime;
 
 import java.util.ArrayList;
+import java.util.Collection;
+
+import android.content.Context;
 
 public class Playlist 
 {
 	
-	private ArrayList<Song> songList; // probably want queue instead, but not sure which kind
+	private GoogleMusicInterface mGoogleMusicInterface;
+	private Collection<gmusic.api.model.Song> songList; // probably want queue instead, but not sure which kind
 	private Song currentSong;
 	
 	/**
@@ -26,10 +30,19 @@ public class Playlist
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param songs
+	 * @param collection
 	 */
-	public Playlist(ArrayList<Song> songs) 
+	public Playlist(Context context) 
 	{
+		mGoogleMusicInterface = new GoogleMusicInterface();
+		try 
+		{
+			mGoogleMusicInterface.setup("rejeto123!", context);
+			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 		
@@ -83,7 +96,7 @@ public class Playlist
 	 */
 	public void pause()
 	{
-		
+		mGoogleMusicInterface.pause();
 	}
 	
 	/**
@@ -105,11 +118,15 @@ public class Playlist
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param newSong
+	 * @param songID
 	 */
-	public void changeSong(Song newSong)
+	public void changeSong(String songID)
 	{
-		
+		for(gmusic.api.model.Song song:songList)
+		{
+			if(song.getId() == songID)
+				mGoogleMusicInterface.playSong(song);
+		}
 	}
 	
 	/**
@@ -139,6 +156,35 @@ public class Playlist
 	 */
 	private void updatePlaylist(Song song)
 	{
+		
+	}
+
+	public ArrayList<gmusic.api.model.Song> getSongList() {
+		ArrayList<gmusic.api.model.Song> list = new ArrayList<gmusic.api.model.Song>();
+		if(songList != null)
+		{
+			for(gmusic.api.model.Song item:songList)
+			{
+				list.add(item);
+			}
+		}
+		return list;
+	}
+
+	public void setSongList(Collection<gmusic.api.model.Song> collection) {
+		this.songList = collection;
+	}
+
+	public Song getCurrentSong() {
+		return currentSong;
+	}
+
+	public void setCurrentSong(Song currentSong) {
+		this.currentSong = currentSong;
+	}
+
+	public void update() {
+		setSongList(mGoogleMusicInterface.getCurrentSongList());
 		
 	}
 }

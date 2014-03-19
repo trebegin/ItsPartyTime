@@ -1,5 +1,8 @@
 package com.itspartytime;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -13,12 +16,11 @@ import android.widget.RelativeLayout;
 public class Party extends Activity 
 {
 	
-	private Playlist mPlaylist;
+	private static Playlist mPlaylist;
 	private String partyName;
 	private Device hostDevice;
 	private boolean isHost;
 	private DeviceController mDeviceController;
-	private static GoogleMusicInterface mGoogleMusicInterface;
 	private static StartFragment mStartFragment;
 	private static CreatePartyFragment mCreatePartyFragment;
 	private static JoinPartyFragment mJoinPartyFragment;
@@ -36,14 +38,7 @@ public class Party extends Activity
 		initFragments();
 		//MediaPlayer md = MediaPlayer.create(this, R.raw.no_satisfaction_test_song);
 		//md.start();
-		mGoogleMusicInterface = new GoogleMusicInterface();
-		try 
-		{
-			mGoogleMusicInterface.setup("", this);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		mPlaylist = new Playlist(this);
 		openStartFragment(null);
 		this.inflater = (LayoutInflater)
 			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -224,6 +219,8 @@ public class Party extends Activity
 	 */
 	public static void openPlaylistViewFragment(Fragment currentFragment) 
 	{
+		mPlaylist.update();
+		
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -294,7 +291,7 @@ public class Party extends Activity
 	 */
 	public static void pauseSong()
 	{
-		mGoogleMusicInterface.pause();
+		mPlaylist.pause();
 	}
 	
 	/**
@@ -317,10 +314,15 @@ public class Party extends Activity
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param newSong
+	 * @param songID
 	 */
-	public static void changeSong(Song newSong)
+	public static void changeSong(String songID)
 	{
-		mGoogleMusicInterface.playSong(0);
+		mPlaylist.changeSong(songID);
+	}
+	
+	public static  ArrayList<gmusic.api.model.Song> getCurrentPlaylist()
+	{
+		return mPlaylist.getSongList();
 	}
 }

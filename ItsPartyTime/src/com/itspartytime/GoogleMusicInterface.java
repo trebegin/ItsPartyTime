@@ -3,6 +3,8 @@ package com.itspartytime;
 import gmusic.api.impl.GoogleMusicAPI;
 import gmusic.api.impl.InvalidCredentialsException;
 import gmusic.api.model.Playlists;
+import gmusic.api.model.QueryResponse;
+import gmusic.api.model.Song;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +15,7 @@ import java.util.Collection;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 
 public class GoogleMusicInterface 
 {
@@ -20,6 +23,9 @@ public class GoogleMusicInterface
 	private MediaPlayer mp;
 	private Context context;
 	private GoogleMusicAPI api;
+	private Collection<gmusic.api.model.Playlist> availablePlaylists;
+	private Collection<gmusic.api.model.Song> currentSongList;
+	private gmusic.api.model.Song currentSong;
 	
 	public void setup(final String password, final Context context) throws Exception 
 	{
@@ -28,26 +34,26 @@ public class GoogleMusicInterface
 		//mLogin = new Login();
 		//mLogin.setup(password);
 		new Thread(new Runnable() {
-			
-			private Collection<gmusic.api.model.Playlist> availablePlaylists;
-			private gmusic.api.model.Playlist currentPlaylist;
-			private gmusic.api.model.Song currentSong;
 
 			@Override
 			public void run() {
 				
 				try {
-					api.login("trebegin@gmail.com", password);
-					Playlists playlists = api.getAllPlaylists();
-					availablePlaylists = playlists.getPlaylists();
-					currentPlaylist = availablePlaylists.iterator().next();
-					currentSong = currentPlaylist.getPlaylist().iterator().next();
-					URI songURI = api.getSongURL(currentSong);
+					api.login("torrey1028@gmail.com", password);
+					//Playlists playlists = api.getAllPlaylists();
+					//availablePlaylists = playlists.getPlaylists();
+					//currentPlaylist = availablePlaylists.iterator().next();
+					setCurrentSongList(api.getAllSongs());
+					//currentSong = api.getAllSongs().iterator().next();//currentPlaylist.getPlaylist().iterator().next();
+					Log.w("Done", "Songs done loading");
+					//QueryResponse q = api.search("Lorde");
+					//currentSong = q.getResults().getArtists().iterator().next();
+//					URI songURI = api.getSongURL(currentSong);
 					
-					mp = new MediaPlayer();
-					mp.setDataSource(songURI.toString());
-					mp.prepare();
-					mp.start();
+//					mp = new MediaPlayer();
+//					mp.setDataSource(songURI.toString());
+//					mp.prepare();
+//					mp.start();
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -85,20 +91,42 @@ public class GoogleMusicInterface
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param songIdentifier
+	 * @param song
 	 */
-	public int playSong(int songIdentifier)
+	public int playSong(Song song)
 	{
-		if(mp == null)
-		{
-			mp = MediaPlayer.create(context, R.raw.no_satisfaction_test_song);
+		if(mp == null) mp = new MediaPlayer();
+		try {
+			mp.setDataSource(api.getSongURL(song).toString());
+			mp.prepare();
 			mp.start();
-			isPlaying = true;
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if(!mp.isPlaying())
-		{
-			mp.start();
-		}
+		
+//		if(mp == null)
+//		{
+//			mp = MediaPlayer.create(context, R.raw.no_satisfaction_test_song);
+//			mp.start();
+//			isPlaying = true;
+//		}
+//		if(!mp.isPlaying())
+//		{
+//			mp.start();
+//		}
 		
 		return 1;
 	}
@@ -181,7 +209,9 @@ public class GoogleMusicInterface
 	 */
 	public ArrayList<String> getAvailablePlaylists()
 	{
-		return null;
+		ArrayList<String> temp = new ArrayList<String>();
+		temp.add("Current Playlist");
+		return temp;
 		
 	}
 	
@@ -209,5 +239,15 @@ public class GoogleMusicInterface
 	public ArrayList<Song> getPlaylist(String playlistName)
 	{
 		return null;
+	}
+
+	public Collection<Song> getCurrentSongList() 
+	{
+		return currentSongList;
+	}
+
+	public void setCurrentSongList(Collection<Song> currentSongList) 
+	{
+		this.currentSongList = currentSongList;
 	}
 }

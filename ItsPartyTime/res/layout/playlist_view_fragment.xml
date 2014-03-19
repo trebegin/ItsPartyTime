@@ -4,15 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <ListView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/playlist_listview"></ListView>
+   
+    
     <Button 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:id="@+id/play_button"
         android:text="Start Song (to be replaced with List of songs)"/>
     
     <Button 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:id="@+id/pause_button"
         android:text="Pause/Play (to be replaced with play and pause symbols)"/>
 
