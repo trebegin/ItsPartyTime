@@ -7,12 +7,14 @@ import java.util.Map;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class PlaylistViewFragment extends Fragment 
 {
@@ -69,6 +71,7 @@ public class PlaylistViewFragment extends Fragment
 			{
 				if(songCount++ < 10)
 					displayList.put(song.getId(), song.getName());
+				Log.w("HAHAHA", song.getName());
 			}
 		}
 	}
