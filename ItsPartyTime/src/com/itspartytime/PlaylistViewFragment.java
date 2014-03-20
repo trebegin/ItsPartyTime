@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import android.widget.Toast;
+
 public class PlaylistViewFragment extends Fragment 
 {
 	private boolean isHost;

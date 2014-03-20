@@ -160,7 +160,8 @@ public class Playlist
 		
 	}
 
-	public ArrayList<gmusic.api.model.Song> getSongList() {
+	public ArrayList<gmusic.api.model.Song> getSongList() 
+	{
 		ArrayList<gmusic.api.model.Song> list = new ArrayList<gmusic.api.model.Song>();
 		if(songList != null)
 		{
@@ -172,7 +173,8 @@ public class Playlist
 		return list;
 	}
 
-	public void setSongList(Collection<gmusic.api.model.Song> collection) {
+	public void setSongList(Collection<gmusic.api.model.Song> collection) 
+	{
 		this.songList = collection;
 	}
 
