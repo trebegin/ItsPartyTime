@@ -2,6 +2,7 @@ package com.itspartytime;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ public class SongView extends LinearLayout
 	private TextView mTitle;
 	private TextView mArtist;
 	private ImageView mAlbumArt;
+	private boolean isCurrentSong;
 
 	public SongView(Context context, gmusic.api.model.Song song) {
 		super(context);
@@ -25,14 +27,19 @@ public class SongView extends LinearLayout
 		mTitle.setText("Title: " + title);
 		mTitle.setTextSize(19);
 		mTitle.setTextColor(Color.BLACK);
+		isCurrentSong = Party.isCurrentSong(song);
+		if(isCurrentSong)
+			mTitle.setTypeface(null, Typeface.BOLD);
+		else
+			mTitle.setTypeface(null, Typeface.NORMAL);
 		
 		String artist = song.getArtistNorm();
 		mArtist.setText("Artist: " + artist);
 		mArtist.setTextSize(12);
 		mArtist.setTextColor(Color.GRAY);
 		
-		 addView(mTitle, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-	     addView(mArtist, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		 addView(mTitle, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+	     addView(mArtist, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 	}
 
 	public String getTitle() {
@@ -51,5 +58,12 @@ public class SongView extends LinearLayout
 		mArtist.setText("Artist: " + artist);
 	}
 
-
+	public void setCurrentSong(boolean isCurrentSong){
+		this.isCurrentSong = isCurrentSong;
+		if(isCurrentSong)
+			mTitle.setTypeface(null, Typeface.BOLD);
+		else
+			mTitle.setTypeface(null, Typeface.NORMAL);
+	}
+	
 }

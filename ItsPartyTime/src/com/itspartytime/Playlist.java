@@ -11,7 +11,7 @@ public class Playlist
 {
 	
 	private GoogleMusicInterface mGoogleMusicInterface;
-	private Collection<gmusic.api.model.Song> songList; // probably want queue instead, but not sure which kind
+	private ArrayList<gmusic.api.model.Song> songList; // probably want queue instead, but not sure which kind
 	private Song currentSong;
 	
 	/**
@@ -39,7 +39,7 @@ public class Playlist
 		mGoogleMusicInterface = new GoogleMusicInterface();
 		try 
 		{
-			mGoogleMusicInterface.setup("Bovary*0418", context);
+			mGoogleMusicInterface.setup("rejeto123!", context);
 			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -173,17 +173,9 @@ public class Playlist
 		return list;
 	}
 
-	public void setSongList(Collection<gmusic.api.model.Song> collection) 
+	public void setSongList(ArrayList<Song> collection) 
 	{
 		this.songList = collection;
-	}
-
-	public Song getCurrentSong() {
-		return currentSong;
-	}
-
-	public void setCurrentSong(Song currentSong) {
-		this.currentSong = currentSong;
 	}
 
 	public void update() {
@@ -191,9 +183,16 @@ public class Playlist
 		
 	}
 
-	public void nextSong() {
-		currentSong = songList.iterator().next();
+	public void nextSong() 
+	{
+		currentSong = songList.get(songList.indexOf(currentSong) + 1);
+		Party.notifyChange();
 		mGoogleMusicInterface.playSong(currentSong);
 		
+	}
+
+	public boolean isCurrentSong(gmusic.api.model.Song song) {
+		if(currentSong == null) return false;
+		return currentSong == song;
 	}
 }

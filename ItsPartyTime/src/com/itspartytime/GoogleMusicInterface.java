@@ -24,7 +24,7 @@ public class GoogleMusicInterface
 	private Context context;
 	private GoogleMusicAPI api;
 	private Collection<gmusic.api.model.Playlist> availablePlaylists;
-	private Collection<gmusic.api.model.Song> currentSongList;
+	private ArrayList<Song> currentSongList;
 	private gmusic.api.model.Song currentSong;
 	
 	public void setup(final String password, final Context context) throws Exception 
@@ -251,7 +251,7 @@ public class GoogleMusicInterface
 		return null;
 	}
 
-	public Collection<Song> getCurrentSongList() 
+	public ArrayList<Song> getCurrentSongList() 
 	{
 		return currentSongList;
 	}
