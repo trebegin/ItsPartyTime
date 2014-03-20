@@ -37,7 +37,6 @@ public class PlaylistViewFragment extends Fragment
 		//if(displayList != null)
 		//	addSongsToDisplay((LinearLayout) mLinearLayout.findViewById(R.id.playlist_song_view_holder));
 		mPlaylistAdapter = new PlaylistAdapter(getActivity(), Party.getCurrentPlaylist());
-		
 		mListView.setAdapter(mPlaylistAdapter);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -144,6 +143,11 @@ public class PlaylistViewFragment extends Fragment
 	private void displaySongInfo(Song song) 
 	{
 		
+	}
+
+	public void notifyChange() {
+		if(mPlaylistAdapter != null)
+			mPlaylistAdapter.notifyDataSetChanged();
 	}
 
 	

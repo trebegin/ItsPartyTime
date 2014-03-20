@@ -1,5 +1,7 @@
 package com.itspartytime;
 
+import gmusic.api.model.Song;
+
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -43,6 +45,7 @@ public class PlaylistAdapter extends BaseAdapter
 			v = new SongView(mContext, (gmusic.api.model.Song) getItem(position));
 		else 
 		{
+			v.setCurrentSong(Party.isCurrentSong((gmusic.api.model.Song) getItem(position)));
 			v.setTitle(((gmusic.api.model.Song)getItem(position)).getName());
 			v.setArtist(((gmusic.api.model.Song)getItem(position)).getArtistNorm());
 		}

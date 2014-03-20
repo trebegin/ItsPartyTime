@@ -331,4 +331,13 @@ public class Party extends Activity
 		mPlaylist.nextSong();
 		
 	}
+
+	public static boolean isCurrentSong(gmusic.api.model.Song song) {
+		return mPlaylist.isCurrentSong(song);
+	}
+
+	public static void notifyChange() {
+		mPlaylistViewFragment.notifyChange();
+		
+	}
 }
