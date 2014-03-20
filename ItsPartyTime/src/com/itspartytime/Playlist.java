@@ -39,7 +39,7 @@ public class Playlist
 		mGoogleMusicInterface = new GoogleMusicInterface();
 		try 
 		{
-			mGoogleMusicInterface.setup("Bovary*0418", context);
+			mGoogleMusicInterface.setup("", context);
 			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -125,6 +125,7 @@ public class Playlist
 	public void changeSong(gmusic.api.model.Song song)
 	{
 		currentSong = song;
+		Party.notifyChange();
 		
 		//while(currentSong != songList.iterator().next());
 		mGoogleMusicInterface.playSong(song);
