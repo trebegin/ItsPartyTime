@@ -17,7 +17,7 @@ public class Party extends Activity
 {
 	
 	private static Playlist mPlaylist;
-	private String partyName;
+	private static String partyName;
 	private Device hostDevice;
 	private boolean isHost;
 	private DeviceController mDeviceController;
@@ -330,5 +330,10 @@ public class Party extends Activity
 	public static void nextSong() {
 		mPlaylist.nextSong();
 		
+	}
+	
+	public static void setPartyName(String name)
+	{
+		partyName = name;
 	}
 }

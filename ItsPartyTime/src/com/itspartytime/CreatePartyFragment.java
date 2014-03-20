@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Author: 
@@ -105,6 +107,10 @@ public class CreatePartyFragment extends Fragment
 	 */
 	private void openPlaylistViewFragment()
 	{
+		EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
+		Party.setPartyName(partyNameTxt.getText().toString());
+		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
+		topRunner.setText(partyNameTxt.getText().toString());
 		Party.openPlaylistViewFragment(this);
 	}
 	// create button that updates party and moves to playlistViewPage

@@ -23,4 +23,19 @@
         android:layout_above="@id/done_creating_party_button"
         android:text="@string/select_playlist_button_text"
         android:id="@+id/select_playlist_button"/>
+
+    <EditText
+        android:id="@+id/partyNameTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/select_playlist_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="96dp"
+        android:ems="10"
+        android:hint="@string/party_name_hint"
+        android:textColor="#287AA9" >
+
+        <requestFocus />
+    </EditText>
+
 </RelativeLayout>
