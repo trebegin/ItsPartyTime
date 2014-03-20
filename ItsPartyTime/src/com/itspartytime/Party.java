@@ -314,15 +314,21 @@ public class Party extends Activity
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param songID
+	 * @param song
 	 */
-	public static void changeSong(String songID)
+	public static void changeSong(gmusic.api.model.Song song)
 	{
-		mPlaylist.changeSong(songID);
+		mPlaylist.changeSong(song);
 	}
 	
 	public static  ArrayList<gmusic.api.model.Song> getCurrentPlaylist()
 	{
+		mPlaylist.update();
 		return mPlaylist.getSongList();
+	}
+
+	public static void nextSong() {
+		mPlaylist.nextSong();
+		
 	}
 }

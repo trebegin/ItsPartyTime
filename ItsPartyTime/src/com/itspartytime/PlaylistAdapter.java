@@ -1,9 +1,6 @@
 package com.itspartytime;
 
-import gmusic.api.model.Song;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.view.View;
@@ -14,7 +11,7 @@ public class PlaylistAdapter extends BaseAdapter
 {
 
 	private Context mContext;
-	private List<gmusic.api.model.Song> currentPlaylist = new ArrayList<gmusic.api.model.Song>();
+	private ArrayList<gmusic.api.model.Song> currentPlaylist = new ArrayList<gmusic.api.model.Song>();
 	
 	public PlaylistAdapter(Context context, ArrayList<gmusic.api.model.Song> playlist)
 	{
@@ -41,14 +38,15 @@ public class PlaylistAdapter extends BaseAdapter
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		SongView v = (SongView) convertView;
 		if (convertView == null)
-			convertView = new SongView(mContext, (Song) getItem(position));
+			v = new SongView(mContext, (gmusic.api.model.Song) getItem(position));
 		else 
 		{
-			((SongView) convertView).setTitle(((Song)getItem(position)).getTitle());
-			((SongView) convertView).setArtist(((Song)getItem(position)).getArtist());
+			v.setTitle(((gmusic.api.model.Song)getItem(position)).getName());
+			v.setArtist(((gmusic.api.model.Song)getItem(position)).getArtistNorm());
 		}
-		return convertView;
+		return v;
 	}
 
 }

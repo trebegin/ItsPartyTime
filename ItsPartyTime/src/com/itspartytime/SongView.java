@@ -21,14 +21,15 @@ public class SongView extends LinearLayout
 		mArtist = new TextView(context);
 		mAlbumArt = new ImageView(context);
 		
-		String title = song.getTitle();
+		String title = song.getName();
 		mTitle.setText("Title: " + title);
 		mTitle.setTextSize(19);
 		mTitle.setTextColor(Color.BLACK);
 		
-		String artist = song.getArtist();
+		String artist = song.getArtistNorm();
 		mArtist.setText("Artist: " + artist);
 		mArtist.setTextSize(12);
+		mArtist.setTextColor(Color.GRAY);
 		
 		 addView(mTitle, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 	     addView(mArtist, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -39,7 +40,7 @@ public class SongView extends LinearLayout
 	}
 
 	public void setTitle(String title) {
-		mTitle.setText(title);
+		mTitle.setText("Title: " + title);
 	}
 
 	public String getArtist() {
@@ -47,7 +48,7 @@ public class SongView extends LinearLayout
 	}
 
 	public void setArtist(String artist) {
-		mArtist.setText(artist);
+		mArtist.setText("Artist: " + artist);
 	}
 
 

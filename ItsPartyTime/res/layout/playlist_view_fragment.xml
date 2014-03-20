@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:id="@+id/play_button"
-        android:text="Start Song (to be replaced with List of songs)"/>
+        android:id="@+id/skip_song_button"
+        android:text="Skip Song (to be replaced with skip icon)"/>
     
     <Button 
         android:layout_width="wrap_content"

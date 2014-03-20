@@ -93,29 +93,39 @@ public class GoogleMusicInterface
 	 * 
 	 * @param song
 	 */
-	public int playSong(Song song)
+	public int playSong(final Song song)
 	{
 		if(mp == null) mp = new MediaPlayer();
-		try {
-			mp.setDataSource(api.getSongURL(song).toString());
-			mp.prepare();
-			mp.start();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					mp.reset();
+					mp.setDataSource(api.getSongURL(song).toString());
+					mp.prepare();
+					mp.start();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}).start();
+		
 		
 //		if(mp == null)
 //		{
@@ -248,6 +258,15 @@ public class GoogleMusicInterface
 
 	public void setCurrentSongList(Collection<Song> currentSongList) 
 	{
-		this.currentSongList = currentSongList;
+		if(this.currentSongList == null)
+			this.currentSongList = new ArrayList<Song>();
+		int count = 0;
+		for(Song song:currentSongList)
+		{
+			if(count++ < 100)
+				this.currentSongList.add(song);
+			else break;
+		}
+		
 	}
 }

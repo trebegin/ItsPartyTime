@@ -1,5 +1,7 @@
 package com.itspartytime;
 
+import gmusic.api.model.Song;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -37,7 +39,7 @@ public class Playlist
 		mGoogleMusicInterface = new GoogleMusicInterface();
 		try 
 		{
-			mGoogleMusicInterface.setup("rejeto123!", context);
+			mGoogleMusicInterface.setup("", context);
 			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -118,15 +120,14 @@ public class Playlist
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param songID
+	 * @param song
 	 */
-	public void changeSong(String songID)
+	public void changeSong(gmusic.api.model.Song song)
 	{
-		for(gmusic.api.model.Song song:songList)
-		{
-			if(song.getId() == songID)
-				mGoogleMusicInterface.playSong(song);
-		}
+		currentSong = song;
+		
+		//while(currentSong != songList.iterator().next());
+		mGoogleMusicInterface.playSong(song);
 	}
 	
 	/**
@@ -185,6 +186,12 @@ public class Playlist
 
 	public void update() {
 		setSongList(mGoogleMusicInterface.getCurrentSongList());
+		
+	}
+
+	public void nextSong() {
+		currentSong = songList.iterator().next();
+		mGoogleMusicInterface.playSong(currentSong);
 		
 	}
 }

@@ -37,9 +37,9 @@ public final class R {
         public static final int join_party_button=0x7f0a000a;
         public static final int main=0x7f0a0000;
         public static final int pause_button=0x7f0a0008;
-        public static final int play_button=0x7f0a0007;
         public static final int playlist_listview=0x7f0a0006;
         public static final int select_playlist_button=0x7f0a0004;
+        public static final int skip_song_button=0x7f0a0007;
         public static final int song_title=0x7f0a0005;
         public static final int test=0x7f0a0009;
         public static final int test2=0x7f0a0002;
