@@ -19,41 +19,25 @@ import android.util.Log;
 
 public class GoogleMusicInterface 
 {
-	private boolean isPlaying;
 	private MediaPlayer mp;
-	private Context context;
 	private GoogleMusicAPI api;
 	private Collection<gmusic.api.model.Playlist> availablePlaylists;
 	private ArrayList<Song> currentSongList;
 	private gmusic.api.model.Song currentSong;
 	
-	public void setup(final String password, final Context context) throws Exception 
+	public void setup(final String email, final String password) throws Exception 
 	{
 		api = new GoogleMusicAPI();
-		this.context = context;
-		//mLogin = new Login();
-		//mLogin.setup(password);
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				
 				try {
-					api.login("trebegin@gmail.com", password);
-					//Playlists playlists = api.getAllPlaylists();
-					//availablePlaylists = playlists.getPlaylists();
-					//currentPlaylist = availablePlaylists.iterator().next();
+					api.login(email, password);
 					setCurrentSongList(api.getAllSongs());
-					//currentSong = api.getAllSongs().iterator().next();//currentPlaylist.getPlaylist().iterator().next();
 					Log.w("Done", "Songs done loading");
-					//QueryResponse q = api.search("Lorde");
-					//currentSong = q.getResults().getArtists().iterator().next();
-//					URI songURI = api.getSongURL(currentSong);
-					
-//					mp = new MediaPlayer();
-//					mp.setDataSource(songURI.toString());
-//					mp.prepare();
-//					mp.start();
+					Party.setLoggedIn(true);
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

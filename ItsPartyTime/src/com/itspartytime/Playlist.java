@@ -36,15 +36,7 @@ public class Playlist
 	 */
 	public Playlist(Context context) 
 	{
-		mGoogleMusicInterface = new GoogleMusicInterface();
-		try 
-		{
-			mGoogleMusicInterface.setup("", context);
-			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 	}
 		
@@ -176,7 +168,8 @@ public class Playlist
 
 	public void setSongList(ArrayList<Song> collection) 
 	{
-		this.songList = collection;
+		if (collection != null)
+			this.songList = collection;
 	}
 
 	public void update() {
@@ -195,5 +188,18 @@ public class Playlist
 	public boolean isCurrentSong(gmusic.api.model.Song song) {
 		if(currentSong == null) return false;
 		return currentSong == song;
+	}
+
+	public void login() {
+		mGoogleMusicInterface = new GoogleMusicInterface();
+		try 
+		{
+			mGoogleMusicInterface.setup(Party.getEmail(), Party.getPassword());
+			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

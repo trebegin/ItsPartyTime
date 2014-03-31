@@ -11,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
-
-import android.widget.Toast;
 
 public class PlaylistViewFragment extends Fragment 
 {
@@ -36,18 +34,20 @@ public class PlaylistViewFragment extends Fragment
 		
 		//if(displayList != null)
 		//	addSongsToDisplay((LinearLayout) mLinearLayout.findViewById(R.id.playlist_song_view_holder));
-		mPlaylistAdapter = new PlaylistAdapter(getActivity(), Party.getCurrentPlaylist());
-		mListView.setAdapter(mPlaylistAdapter);
-		mListView.setOnItemClickListener(new OnItemClickListener() {
+		if(Party.isLoggedIn()) 
+		{
+			mPlaylistAdapter = new PlaylistAdapter(getActivity(), Party.getCurrentPlaylist());
+			mListView.setAdapter(mPlaylistAdapter);
+			mListView.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				changeSong((gmusic.api.model.Song) arg0.getItemAtPosition(arg2));
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+						long arg3) {
+					changeSong((gmusic.api.model.Song) arg0.getItemAtPosition(arg2));
 				
-			}
-		});
-		
+				}
+			});
+		}
 		playButton = (Button) mLinearLayout.findViewById(R.id.skip_song_button);
 		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
 	

@@ -13,6 +13,10 @@
         <item>Test 1</item>
         <item>Test 2</item>
     </string-array>
-        <string name="party_name_hint">Party Name</string>
+    <string name="party_name_hint">Party Name</string>
+    <string name="login_email_hint">enter email</string>
+    <string name="login_password_hint">enter password</string>
+    <string name="login_title_text">Login to Google: </string>
+    <string name="login_button_text">Login</string>
 
 </resources>

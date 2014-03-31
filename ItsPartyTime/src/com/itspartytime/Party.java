@@ -9,6 +9,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.widget.RelativeLayout;
@@ -29,6 +30,9 @@ public class Party extends Activity
 	private static SelectPlaylistFragment mSelectPlaylistFragment;
 	private static LayoutInflater inflater;
 	private static RelativeLayout mRelativeLayout;
+	private static String email;
+	private static String password;
+	private static boolean loggedIn = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -39,6 +43,7 @@ public class Party extends Activity
 		//MediaPlayer md = MediaPlayer.create(this, R.raw.no_satisfaction_test_song);
 		//md.start();
 		mPlaylist = new Playlist(this);
+		//openLoginDialog();
 		openStartFragment(null);
 		this.inflater = (LayoutInflater)
 			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -91,6 +96,12 @@ public class Party extends Activity
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mPlaylistViewFragment, "PlaylistViewPage")
 			.detach(mJoinPartyFragment).commit();
 		mFragmentManager.beginTransaction().detach(mPlaylistViewFragment).commit();
+	}
+	
+	public static void openLoginDialog()
+	{
+		LoginDialog login = new LoginDialog();
+		login.show(mFragmentManager, "login");
 	}
 	
 	/**
@@ -343,6 +354,35 @@ public class Party extends Activity
 
 	public static void notifyChange() {
 		mPlaylistViewFragment.notifyChange();
+	}
+
+	public static String getEmail() {
+		return email;
+	}
+
+	public static String getPassword() {
+		return password;
+	}
+
+	public static void setEmail(String text) {
+		email = text;
+	}
+
+	public static void setPassword(String text) {
+		password = text;
 		
+	}
+
+	public static void login() {
+		mPlaylist.login();
+		
+	}
+
+	public static boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public static void setLoggedIn(boolean login) {
+		loggedIn = login;
 	}
 }
