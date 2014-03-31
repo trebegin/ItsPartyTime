@@ -229,9 +229,7 @@ public class Party extends Activity
 	 * @param currentFragment
 	 */
 	public static void openPlaylistViewFragment(Fragment currentFragment) 
-	{
-		mPlaylist.update();
-		
+	{	
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -384,5 +382,9 @@ public class Party extends Activity
 
 	public static void setLoggedIn(boolean login) {
 		loggedIn = login;
+	}
+
+	public static void updatePauseButton(boolean playing) {
+		mPlaylistViewFragment.updatePauseButton(playing);
 	}
 }

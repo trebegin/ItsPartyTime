@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,38 +21,29 @@ public class PlaylistViewFragment extends Fragment
 {
 	private boolean isHost;
 	private Map<String, String> displayList = new HashMap<String, String>(); // do we want to save actual song objects here?
-	private Button playButton;
+	private Button skipButton;
 	private Button pauseButton;
 	private PlaylistAdapter mPlaylistAdapter;
+	private LinearLayout mLinearLayout;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
 		//getDisplayList();
-		LinearLayout mLinearLayout = (LinearLayout) inflater.inflate(R.layout.playlist_view_fragment, container, false);
-		ListView mListView = (ListView) mLinearLayout.findViewById(R.id.playlist_listview);
+		mLinearLayout = (LinearLayout) inflater.inflate(R.layout.playlist_view_fragment, container, false);
 		
 		//if(displayList != null)
 		//	addSongsToDisplay((LinearLayout) mLinearLayout.findViewById(R.id.playlist_song_view_holder));
 		if(Party.isLoggedIn()) 
 		{
-			mPlaylistAdapter = new PlaylistAdapter(getActivity(), Party.getCurrentPlaylist());
-			mListView.setAdapter(mPlaylistAdapter);
-			mListView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-						long arg3) {
-					changeSong((gmusic.api.model.Song) arg0.getItemAtPosition(arg2));
-				
-				}
-			});
+			playlistAdapterInit();
+			mLinearLayout.findViewById(R.id.not_logged_in).setVisibility(View.GONE);
 		}
-		playButton = (Button) mLinearLayout.findViewById(R.id.skip_song_button);
+		skipButton = (Button) mLinearLayout.findViewById(R.id.skip_song_button);
 		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
 	
-		playButton.setOnClickListener(new View.OnClickListener() 
+		skipButton.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
@@ -62,6 +54,7 @@ public class PlaylistViewFragment extends Fragment
 		
 		pauseButton.setOnClickListener(new View.OnClickListener() 
 		{	
+
 			@Override
 			public void onClick(View v) 
 			{
@@ -72,6 +65,37 @@ public class PlaylistViewFragment extends Fragment
 		return mLinearLayout;
 	}
 	
+	
+	
+	private void playlistAdapterInit() {
+		ListView mListView = (ListView) mLinearLayout.findViewById(R.id.playlist_listview);
+		mLinearLayout.findViewById(R.id.not_logged_in).setVisibility(View.GONE);
+		mPlaylistAdapter = new PlaylistAdapter(getActivity(), Party.getCurrentPlaylist());
+		mListView.setAdapter(mPlaylistAdapter);
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				changeSong((gmusic.api.model.Song) arg0.getItemAtPosition(arg2));
+			
+			}
+		});
+	}
+
+
+
+	@Override
+	public void onAttach(Activity activity) {
+		if(Party.isLoggedIn() && (mPlaylistAdapter == null)) 
+		{
+			playlistAdapterInit();
+		}
+		super.onAttach(activity);
+	}
+
+
+
 	private void getDisplayList()
 	{
 		int songCount = 0;
@@ -148,6 +172,14 @@ public class PlaylistViewFragment extends Fragment
 	public void notifyChange() {
 		if(mPlaylistAdapter != null)
 			mPlaylistAdapter.notifyDataSetChanged();
+	}
+	
+	public void updatePauseButton(boolean playing) 
+	{
+		if(playing)
+			pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
+		else
+			pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
 	}
 
 	

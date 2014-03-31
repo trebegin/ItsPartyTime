@@ -202,4 +202,11 @@ public class Playlist
 		}
 		
 	}
+
+	public static void updatePauseButton(boolean playing) {
+		Party.updatePauseButton(playing);
+		
+	}
+
+	
 }

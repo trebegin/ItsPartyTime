@@ -3,26 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <ListView 
+
+    <ListView
+        android:id="@+id/playlist_listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/not_logged_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:id="@+id/playlist_listview"></ListView>
-   
-    
-    <Button 
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:text="Not Logged In" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:id="@+id/skip_song_button"
-        android:text="Skip Song (to be replaced with skip icon)"/>
-    
-    <Button 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:id="@+id/pause_button"
-        android:text="Pause/Play (to be replaced with play and pause symbols)"/>
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/pause_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" 
+            android:background="@drawable/play_icon"/>
+
+        <Button
+            android:id="@+id/skip_song_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@drawable/skip_icon" />
+    </LinearLayout>
 
 </LinearLayout>

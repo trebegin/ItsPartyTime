@@ -28,6 +28,8 @@ public class GoogleMusicInterface
 	public void setup(final String email, final String password) throws Exception 
 	{
 		api = new GoogleMusicAPI();
+		mp = new MediaPlayer();
+		
 		new Thread(new Runnable() {
 
 			@Override
@@ -52,6 +54,27 @@ public class GoogleMusicInterface
 				
 			}
 		}).start();
+		
+		new Thread(new Runnable () 
+		{
+			@Override
+			public void run() 
+			{
+				boolean playing = false;
+				while(true)
+				{
+					
+						if(playing != mp.isPlaying())
+						{
+							playing = mp.isPlaying();
+							Playlist.updatePauseButton(playing);
+							Log.w("GoogleMusicInterface", "updating");
+
+						}
+						//Playlist.updatePauseButton(mp.isPlaying());
+				}
+			}
+		});
 		//mPlaySession = mLogin.doInBackground(null);
 		
 	}
@@ -79,17 +102,25 @@ public class GoogleMusicInterface
 	 */
 	public int playSong(final Song song)
 	{
-		if(mp == null) mp = new MediaPlayer();
 		
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
+					//mp.release();
 					mp.reset();
 					mp.setDataSource(api.getSongURL(song).toString());
-					mp.prepare();
-					mp.start();
+					mp.prepareAsync();
+					mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+				        @Override
+				        public void onPrepared(MediaPlayer mp) {
+				            // TODO Auto-generated method stub
+
+				            mp.start();
+
+				        }
+				    });
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
