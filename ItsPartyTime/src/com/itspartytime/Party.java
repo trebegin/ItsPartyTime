@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class Party extends Activity 
 {
@@ -28,11 +29,13 @@ public class Party extends Activity
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
 	private static SelectPlaylistFragment mSelectPlaylistFragment;
+	private static Fragment mFragment;
 	private static LayoutInflater inflater;
 	private static RelativeLayout mRelativeLayout;
 	private static String email;
 	private static String password;
 	private static boolean loggedIn = false;
+	private static Context mApplicationContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -43,6 +46,7 @@ public class Party extends Activity
 		//MediaPlayer md = MediaPlayer.create(this, R.raw.no_satisfaction_test_song);
 		//md.start();
 		mPlaylist = new Playlist(this);
+		mApplicationContext = getApplicationContext();
 		//openLoginDialog();
 		openStartFragment(null);
 		this.inflater = (LayoutInflater)
@@ -128,6 +132,7 @@ public class Party extends Activity
 	 */
 	public static void openStartFragment(Fragment currentFragment) 
 	{
+		mFragment = mStartFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -162,6 +167,7 @@ public class Party extends Activity
 	 */
 	public static void openCreatePartyFragment(Fragment currentFragment) 
 	{
+		mFragment = mCreatePartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -196,6 +202,7 @@ public class Party extends Activity
 	 */
 	public static void openJoinPartyFragment(Fragment currentFragment) 
 	{
+		mFragment = mJoinPartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -230,6 +237,7 @@ public class Party extends Activity
 	 */
 	public static void openPlaylistViewFragment(Fragment currentFragment) 
 	{	
+		mFragment = mPlaylistViewFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -386,5 +394,16 @@ public class Party extends Activity
 
 	public static void updatePauseButton(boolean playing) {
 		mPlaylistViewFragment.updatePauseButton(playing);
+	}
+	
+	public static void toaster(final String message)
+	{
+		mFragment.getActivity().runOnUiThread(new Runnable(){
+			@Override
+			public void run()
+			{
+				Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 }

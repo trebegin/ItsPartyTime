@@ -1,6 +1,7 @@
 package com.itspartytime;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Author: 
@@ -25,6 +27,7 @@ public class CreatePartyFragment extends Fragment
 	private Button doneCreatingPartyButton;
 	private Playlist selectedPlaylist;
 	private LayoutInflater inflater;
+	private Button loginButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +37,7 @@ public class CreatePartyFragment extends Fragment
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.create_party_fragment_layout, container, false);
 		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_playlist_button);
 		doneCreatingPartyButton = (Button) mRelativeLayout.findViewById(R.id.done_creating_party_button);
+		loginButton = (Button) mRelativeLayout.findViewById(R.id.login_button);
 	
 		selectPlaylistButton.setOnClickListener(new View.OnClickListener() 
 		{
@@ -50,6 +54,15 @@ public class CreatePartyFragment extends Fragment
 			public void onClick(View v) 
 			{
 				openPlaylistViewFragment();
+			}
+		});
+		
+		loginButton.setOnClickListener(new View.OnClickListener() 
+		{	
+			@Override
+			public void onClick(View v) 
+			{
+				openLoginDialog();
 			}
 		});
 		
@@ -77,12 +90,16 @@ public class CreatePartyFragment extends Fragment
 	private void openSelectPlaylistView() 
 	{
 		openSelectPlaylistDialog();
-		
 	}
 	
 	public void openSelectPlaylistDialog()
 	{
 		Party.openSelectPlaylistDialog();
+	}
+	
+	private void openLoginDialog()
+	{
+		Party.openLoginDialog();
 	}
 	
 	/**
@@ -107,11 +124,22 @@ public class CreatePartyFragment extends Fragment
 	 */
 	private void openPlaylistViewFragment()
 	{
-		EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
-		Party.setPartyName(partyNameTxt.getText().toString());
-		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
-		topRunner.setText(partyNameTxt.getText().toString());
-		Party.openPlaylistViewFragment(this);
+		
+		if(Party.isLoggedIn())
+		{
+			EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
+			Party.setPartyName(partyNameTxt.getText().toString());
+			TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
+			topRunner.setText(partyNameTxt.getText().toString());
+			Party.openPlaylistViewFragment(this);
+		}
+		else
+		{
+			Context context = this.getActivity().getApplicationContext();
+			Toast.makeText(context, "Please Login First", Toast.LENGTH_LONG).show();
+		}
+		
+		
 	}
 	// create button that updates party and moves to playlistViewPage
 }

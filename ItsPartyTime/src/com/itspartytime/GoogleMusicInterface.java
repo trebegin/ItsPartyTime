@@ -15,6 +15,8 @@ import java.util.Collection;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 public class GoogleMusicInterface 
@@ -36,9 +38,11 @@ public class GoogleMusicInterface
 			public void run() {
 				
 				try {
+					Party.toaster("Loging in...");
 					api.login(email, password);
 					setCurrentSongList(api.getAllSongs());
 					Log.w("Done", "Songs done loading");
+					Party.toaster("Login Success");
 					Party.setLoggedIn(true);
 
 				} catch (IOException e) {
@@ -47,8 +51,9 @@ public class GoogleMusicInterface
 				} catch (URISyntaxException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (InvalidCredentialsException e) {
-					// TODO Auto-generated catch block
+				} catch (InvalidCredentialsException e) 
+				{
+					Party.toaster("Invalid Credentials");
 					e.printStackTrace();
 				}
 				

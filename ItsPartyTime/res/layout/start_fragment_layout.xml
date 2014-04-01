@@ -24,10 +24,4 @@
         android:text="@string/create_party_button_text"
         android:id="@+id/create_party_button"/>
     
-    <Button 
-        style="@style/ButtonTheme"
-        android:layout_above="@id/create_party_button"
-        android:text="@string/login_button_text"
-        android:id="@+id/login_button"/>
-
 </RelativeLayout>
