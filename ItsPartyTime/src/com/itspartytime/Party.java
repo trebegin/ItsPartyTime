@@ -1,15 +1,14 @@
 package com.itspartytime;
 
+import gmusic.api.model.Song;
+
 import java.util.ArrayList;
-import java.util.Collection;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.widget.RelativeLayout;
@@ -18,20 +17,21 @@ public class Party extends Activity
 {
 	
 	private static Playlist mPlaylist;
-	private static String partyName;
 	private Device hostDevice;
-	private boolean isHost;
 	private DeviceController mDeviceController;
+	
 	private static StartFragment mStartFragment;
 	private static CreatePartyFragment mCreatePartyFragment;
 	private static JoinPartyFragment mJoinPartyFragment;
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
 	private static SelectPlaylistFragment mSelectPlaylistFragment;
-	private static LayoutInflater inflater;
-	private static RelativeLayout mRelativeLayout;
+	
 	private static String email;
 	private static String password;
+	private static String partyName;
+	
+	private static boolean isHost;
 	private static boolean loggedIn = false;
 
 	@Override
@@ -40,13 +40,8 @@ public class Party extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initFragments();
-		//MediaPlayer md = MediaPlayer.create(this, R.raw.no_satisfaction_test_song);
-		//md.start();
 		mPlaylist = new Playlist(this);
-		//openLoginDialog();
 		openStartFragment(null);
-		this.inflater = (LayoutInflater)
-			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -386,5 +381,13 @@ public class Party extends Activity
 
 	public static void updatePauseButton(boolean playing) {
 		mPlaylistViewFragment.updatePauseButton(playing);
+	}
+
+	public static boolean isHost() {
+		return isHost;
+	}
+
+	public static void setHost(boolean isHost) {
+		Party.isHost = isHost;
 	}
 }

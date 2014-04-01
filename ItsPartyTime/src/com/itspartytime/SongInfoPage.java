@@ -1,5 +1,7 @@
 package com.itspartytime;
 
+import gmusic.api.model.Song;
+
 
 // Should this extend Fragment or is there some sort of pop-up class in Android
 public class SongInfoPage 

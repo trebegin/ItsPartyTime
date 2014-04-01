@@ -1,6 +1,7 @@
 package com.itspartytime;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Author: 
@@ -24,13 +26,11 @@ public class CreatePartyFragment extends Fragment
 	private Button selectPlaylistButton;
 	private Button doneCreatingPartyButton;
 	private Playlist selectedPlaylist;
-	private LayoutInflater inflater;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		this.inflater = inflater;
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.create_party_fragment_layout, container, false);
 		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_playlist_button);
 		doneCreatingPartyButton = (Button) mRelativeLayout.findViewById(R.id.done_creating_party_button);
@@ -40,7 +40,7 @@ public class CreatePartyFragment extends Fragment
 			@Override
 			public void onClick(View v) 
 			{
-				openSelectPlaylistView();
+				openSelectPlaylistDialog();
 			}
 		});
 		
@@ -49,7 +49,17 @@ public class CreatePartyFragment extends Fragment
 			@Override
 			public void onClick(View v) 
 			{
-				openPlaylistViewFragment();
+				if(Party.isLoggedIn())
+					openPlaylistViewFragment();
+				else
+				{
+					Context context = getActivity().getApplicationContext();
+					CharSequence text = "Not logged in yet!";
+					int duration = Toast.LENGTH_SHORT;
+
+					Toast toast = Toast.makeText(context, text, duration);
+					toast.show();
+				}
 			}
 		});
 		
@@ -74,12 +84,6 @@ public class CreatePartyFragment extends Fragment
 	 * known bugs:
 	 * 		- 
 	 */
-	private void openSelectPlaylistView() 
-	{
-		openSelectPlaylistDialog();
-		
-	}
-	
 	public void openSelectPlaylistDialog()
 	{
 		Party.openSelectPlaylistDialog();
@@ -90,6 +94,7 @@ public class CreatePartyFragment extends Fragment
 	 * 
 	 * preconditions:
 	 * 		- CreatePartyPage fragment is visible
+	 * 		- User has selected desired playlist
 	 * 		- Playlist holds a non-null song list
 	 * 
 	 * parameters:
@@ -113,5 +118,4 @@ public class CreatePartyFragment extends Fragment
 		topRunner.setText(partyNameTxt.getText().toString());
 		Party.openPlaylistViewFragment(this);
 	}
-	// create button that updates party and moves to playlistViewPage
 }

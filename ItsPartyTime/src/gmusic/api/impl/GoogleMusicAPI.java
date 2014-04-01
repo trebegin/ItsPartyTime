@@ -142,7 +142,6 @@ public class GoogleMusicAPI implements IGoogleMusicAPI
 		FormBuilder builder = new FormBuilder();
 		builder.addFields(fields);
 		builder.close();
-
 		return client.dispatchPost(new URI(HTTPS_PLAY_GOOGLE_COM_MUSIC_SERVICES_LOADPLAYLIST), builder);
 	}
 
@@ -150,11 +149,11 @@ public class GoogleMusicAPI implements IGoogleMusicAPI
 	{
 		Collection<Song> chunkedCollection = new ArrayList<Song>();
 
-		Map<String, String> fields = new HashMap<String, String>();
-		fields.put("json", "{\"continuationToken\":\"" + continuationToken + "\"}");
+		// Map<String, String> fields = new HashMap<String, String>();
+		// fields.put("json", "{\"continuationToken\":\"" + continuationToken + "\"}");
 
 		FormBuilder form = new FormBuilder();
-		form.addFields(fields);
+		// form.addFields(fields);
 		form.close();
 
 		String response = client.dispatchPost(new URI(HTTPS_PLAY_GOOGLE_COM_MUSIC_SERVICES_LOADALLTRACKS), form);
@@ -162,20 +161,74 @@ public class GoogleMusicAPI implements IGoogleMusicAPI
 		int end = response.indexOf("window.parent['slat_progress'](1.0);");
 		response = response.substring(start, end);
 		String[] responses = response.split("\\]\\r?\\n,\\[");
+
 		for(String r : responses)
 		{
-			String[] values = r.split(",");
-				
+			String[] values = splitNotInQuotes(r);
+
 			Song s = new Song();
-			s.setId(values[0].replace("\"", ""));
-			s.setName(values[1].replace("\"", ""));
-			s.setAlbumArtUrl(values[2].replace("\"", ""));
-			s.setAlbumArtist(values[3].replace("\"", ""));
-			s.setAlbum(values[4].replace("\"", ""));
+			s.setId(values[0]);
+			s.setTitle(values[1]);
+			s.setName(values[1]);
+			if(!Strings.isNullOrEmpty(values[2]))
+			{
+				s.setAlbumArtUrl("https:" + values[2]);
+			}
+			s.setArtist(values[3]);
+			s.setAlbum(values[4]);
+			s.setAlbumArtist(values[5]);
+			s.setGenre(values[11]);
+			s.setDurationMillis(toLong(values[13]));
+			s.setType(toInt(values[16]));
+			s.setYear(toInt(values[18]));
+			s.setPlaycount(toInt(values[22]));
+			s.setRating(values[23]);
+			if(!Strings.isNullOrEmpty(values[24]))
+			{
+				s.setCreationDate(Float.valueOf(values[24]) / 1000);
+			}
+			if(!Strings.isNullOrEmpty(values[36]))
+			{
+				s.setUrl("https:" + values[36]);
+			}
+
 			chunkedCollection.add(s);
 		}
 
 		return chunkedCollection;
+	}
+
+	private String[] splitNotInQuotes(String r)
+	{
+		return r.replace("\"", "").split(",");
+	}
+
+	private int toInt(String str)
+	{
+		int retInt;
+		try
+		{
+			retInt = Integer.valueOf(str);
+		}
+		catch(NumberFormatException e)
+		{
+			retInt = 0;
+		}
+		return retInt;
+	}
+
+	private long toLong(String str)
+	{
+		long retLong;
+		try
+		{
+			retLong = Long.valueOf(str);
+		}
+		catch(NumberFormatException e)
+		{
+			retLong = 0;
+		}
+		return retLong;
 	}
 
 	@Override

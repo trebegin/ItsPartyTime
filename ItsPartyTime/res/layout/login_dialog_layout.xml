@@ -7,22 +7,22 @@
     <EditText
         android:id="@+id/login_email_field"
         android:inputType="textEmailAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
+        android:layout_gravity="center"
         android:ems="10"
         android:hint="@string/login_email_hint"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionGo"
         android:textColor="#287AA9" />
 
     <EditText
+        android:layout_gravity="center"
         android:id="@+id/login_password_field"
         android:inputType="textPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
         android:ems="10"
         android:hint="@string/login_password_hint"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionGo"
         android:textColor="#287AA9" />
 </LinearLayout>

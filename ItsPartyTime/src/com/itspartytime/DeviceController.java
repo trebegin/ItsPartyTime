@@ -1,5 +1,7 @@
 package com.itspartytime;
 
+import gmusic.api.model.Song;
+
 import java.util.ArrayList;
 
 public class DeviceController 

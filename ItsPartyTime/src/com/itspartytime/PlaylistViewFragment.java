@@ -1,5 +1,7 @@
 package com.itspartytime;
 
+import gmusic.api.model.Song;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -174,12 +176,19 @@ public class PlaylistViewFragment extends Fragment
 			mPlaylistAdapter.notifyDataSetChanged();
 	}
 	
-	public void updatePauseButton(boolean playing) 
+	public void updatePauseButton(final boolean playing) 
 	{
-		if(playing)
-			pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
-		else
-			pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
+		getActivity().runOnUiThread(new Runnable () {
+			@Override
+			public void run()
+			{
+				if(playing)
+					pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
+				else
+					pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
+			}
+		});
+		
 	}
 
 	
