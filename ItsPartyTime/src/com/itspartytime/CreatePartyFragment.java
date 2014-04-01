@@ -25,6 +25,7 @@ public class CreatePartyFragment extends Fragment
 {
 	private Button selectPlaylistButton;
 	private Button doneCreatingPartyButton;
+	private Button loginButton;
 	private Playlist selectedPlaylist;
 
 	@Override
@@ -34,6 +35,7 @@ public class CreatePartyFragment extends Fragment
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.create_party_fragment_layout, container, false);
 		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_playlist_button);
 		doneCreatingPartyButton = (Button) mRelativeLayout.findViewById(R.id.done_creating_party_button);
+		loginButton = (Button) mRelativeLayout.findViewById(R.id.login_button); 
 	
 		selectPlaylistButton.setOnClickListener(new View.OnClickListener() 
 		{
@@ -63,6 +65,15 @@ public class CreatePartyFragment extends Fragment
 			}
 		});
 		
+		loginButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) 
+			{
+				openLoginDialog();
+			}
+		});
+		
 		return mRelativeLayout;
 	}
 	
@@ -84,7 +95,7 @@ public class CreatePartyFragment extends Fragment
 	 * known bugs:
 	 * 		- 
 	 */
-	public void openSelectPlaylistDialog()
+	private void openSelectPlaylistDialog()
 	{
 		Party.openSelectPlaylistDialog();
 	}
@@ -117,5 +128,10 @@ public class CreatePartyFragment extends Fragment
 		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
 		topRunner.setText(partyNameTxt.getText().toString());
 		Party.openPlaylistViewFragment(this);
+	}
+	
+	private void openLoginDialog()
+	{
+		Party.openLoginDialog();
 	}
 }
