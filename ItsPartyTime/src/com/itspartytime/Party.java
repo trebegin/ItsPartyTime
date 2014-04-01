@@ -41,6 +41,7 @@ public class Party extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		mApplicationContext = getApplicationContext();
 		setContentView(R.layout.activity_main);
 		initFragments();
 		mPlaylist = new Playlist(this);
