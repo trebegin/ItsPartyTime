@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class Party extends Activity 
 {
@@ -26,6 +27,7 @@ public class Party extends Activity
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
 	private static SelectPlaylistFragment mSelectPlaylistFragment;
+	private static Fragment mFragment;
 	
 	private static String email;
 	private static String password;
@@ -33,6 +35,7 @@ public class Party extends Activity
 	
 	private static boolean isHost;
 	private static boolean loggedIn = false;
+	private static Context mApplicationContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -123,6 +126,7 @@ public class Party extends Activity
 	 */
 	public static void openStartFragment(Fragment currentFragment) 
 	{
+		mFragment = mStartFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -157,6 +161,7 @@ public class Party extends Activity
 	 */
 	public static void openCreatePartyFragment(Fragment currentFragment) 
 	{
+		mFragment = mCreatePartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -191,6 +196,7 @@ public class Party extends Activity
 	 */
 	public static void openJoinPartyFragment(Fragment currentFragment) 
 	{
+		mFragment = mJoinPartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -225,6 +231,7 @@ public class Party extends Activity
 	 */
 	public static void openPlaylistViewFragment(Fragment currentFragment) 
 	{	
+		mFragment = mPlaylistViewFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -389,5 +396,16 @@ public class Party extends Activity
 
 	public static void setHost(boolean isHost) {
 		Party.isHost = isHost;
+	}
+	
+	public static void toaster(final String message)
+	{
+		mFragment.getActivity().runOnUiThread(new Runnable(){
+			@Override
+			public void run()
+			{
+				Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 }

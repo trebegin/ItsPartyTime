@@ -11,9 +11,12 @@ import java.util.Collection;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
-public class GoogleMusicInterface {
+public class GoogleMusicInterface 
+{
 	private MediaPlayer mp;
 	private GoogleMusicAPI api;
 	private Collection<gmusic.api.model.Playlist> availablePlaylists;
@@ -21,8 +24,8 @@ public class GoogleMusicInterface {
 	private gmusic.api.model.Song currentSong;
 	private Thread mpThread;
 
-	public void setup(final String email, final String password)
-			throws Exception {
+	public void setup(final String email, final String password) throws Exception 
+	{
 		api = new GoogleMusicAPI();
 		mp = new MediaPlayer();
 
@@ -32,16 +35,19 @@ public class GoogleMusicInterface {
 			public void run() {
 
 				try {
+					Party.toaster("Logging in...");
 					api.login(email, password);
 					setCurrentSongList(api.getAllSongs());
 					Log.d("Done", "Songs done loading");
+					Party.toaster("Login Success");
 					Party.setLoggedIn(true);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
-				} catch (InvalidCredentialsException e) {
-					// toast invalid credentials
+				} catch (InvalidCredentialsException e) 
+				{
+					Party.toaster("Invalid Credentials");
 					e.printStackTrace();
 				}
 
