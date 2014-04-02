@@ -33,7 +33,7 @@ public class CreatePartyFragment extends Fragment
 			Bundle savedInstanceState)
 	{
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.create_party_fragment_layout, container, false);
-		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_playlist_button);
+		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_party_button);
 		doneCreatingPartyButton = (Button) mRelativeLayout.findViewById(R.id.done_creating_party_button);
 		loginButton = (Button) mRelativeLayout.findViewById(R.id.login_button); 
 	
@@ -123,7 +123,7 @@ public class CreatePartyFragment extends Fragment
 	 */
 	private void openPlaylistViewFragment()
 	{
-		EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
+		EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.userName);
 		Party.setPartyName(partyNameTxt.getText().toString());
 		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
 		topRunner.setText(partyNameTxt.getText().toString());

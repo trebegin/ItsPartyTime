@@ -18,7 +18,8 @@ public class Party extends Activity
 {
 	
 	private static Playlist mPlaylist;
-	private Device hostDevice;
+	private static Device hostDevice;
+	private static Device mDevice;
 	private DeviceController mDeviceController;
 	
 	private static StartFragment mStartFragment;
