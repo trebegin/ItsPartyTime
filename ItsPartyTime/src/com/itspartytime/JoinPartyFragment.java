@@ -5,14 +5,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 public class JoinPartyFragment extends Fragment
 {
+	private Button selectParty;
+	private EditText userNameField;
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
+	{
+		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.join_party_fragment_layout, container, false);
+		selectParty = (Button) mRelativeLayout.findViewById(R.id.select_party_button);
+		userNameField = (EditText) mRelativeLayout.findViewById(R.id.userName);
+		
+		selectParty.setOnClickListener(new View.OnClickListener() 
+		{
+			
+			@Override
+			public void onClick(View v) 
+			{
+				createPlaylistView();
+			}
+		});
+		
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
