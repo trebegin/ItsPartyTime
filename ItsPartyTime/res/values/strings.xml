@@ -18,5 +18,7 @@
     <string name="login_password_hint">enter password</string>
     <string name="login_title_text">Login to Google: </string>
     <string name="login_button_text">Login</string>
+    <string name="username_hint">Name</string>
+    <string name="select_party_button">Select Party</string>
 
 </resources>
