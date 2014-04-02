@@ -127,7 +127,7 @@ public class CreatePartyFragment extends Fragment
 		Party.setPartyName(partyNameTxt.getText().toString());
 		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
 		topRunner.setText(partyNameTxt.getText().toString());
-		Party.openPlaylistViewFragment(this);
+		Party.openPlaylistViewFragment();
 	}
 	
 	private void openLoginDialog()

@@ -13,7 +13,6 @@ public class StartFragment extends Fragment
 	
 	private Button createPartyButton;
 	private Button joinPartyButton;
-	private Button loginButton;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -22,11 +21,7 @@ public class StartFragment extends Fragment
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.start_fragment_layout, container, false);
 		createPartyButton = (Button) mRelativeLayout.findViewById(R.id.create_party_button);
 		joinPartyButton = (Button) mRelativeLayout.findViewById(R.id.join_party_button);
-		
-		
-		if(Party.isLoggedIn())
-			loginButton.setVisibility(View.GONE);
-	
+
 		createPartyButton.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
@@ -72,7 +67,7 @@ public class StartFragment extends Fragment
 	 */
 	private void openCreatePartyFragment()
 	{
-		Party.openCreatePartyFragment(this);
+		Party.openCreatePartyFragment();
 	}
 	
 	/**
@@ -97,7 +92,7 @@ public class StartFragment extends Fragment
 	 */
 	private void openJoinPartyFragment()
 	{
-		Party.openJoinPartyFragment(this);
+		Party.openJoinPartyFragment();
 	}
 	
 	

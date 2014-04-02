@@ -27,7 +27,7 @@ public class Party extends Activity
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
 	private static SelectPlaylistFragment mSelectPlaylistFragment;
-	private static Fragment mFragment;
+	private static Fragment currentFragment;
 	
 	private static String email;
 	private static String password;
@@ -45,7 +45,7 @@ public class Party extends Activity
 		setContentView(R.layout.activity_main);
 		initFragments();
 		mPlaylist = new Playlist(this);
-		openStartFragment(null);
+		openStartFragment();
 	}
 
 	@Override
@@ -69,12 +69,12 @@ public class Party extends Activity
 	 * 		- fragments have been created and stored
 	 *  
 	 * recent changes:
-	 * 		- initialized FragmentMangager (Becky)
-	 * 		- created fragments (Becky)
+	 * 		- initialized FragmentMangager
+	 * 		- create fragments
+	 * 		- add fragments to FragmentManager
 	 * 
 	 * known bugs:
 	 * 		- 
-	 * 
 	 * 
 	 */
 	private void initFragments()
@@ -97,6 +97,28 @@ public class Party extends Activity
 		mFragmentManager.beginTransaction().detach(mPlaylistViewFragment).commit();
 	}
 	
+	
+	/**
+	 * Opens login screen
+	 * 
+	 * preconditions:
+	 * 		- Not already logged in to google
+	 * 		- mFragmentManager has been initialized
+	 * 
+	 * parameters:
+	 * 		- 
+	 * 
+	 * postconditions:
+	 * 		- Login dialog is open and is in focus
+	 *  
+	 * recent changes:
+	 * 		- create LoginDialog
+	 * 		- show LoginDialog
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 */
 	public static void openLoginDialog()
 	{
 		LoginDialog login = new LoginDialog();
@@ -110,24 +132,23 @@ public class Party extends Activity
 	 * 		- StartFragment is not currently attached
 	 * 
 	 * parameters:
-	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 		- 
 	 * 
 	 * postconditions:
 	 * 		- StartFragment is attached
 	 *  
 	 * recent changes:
-	 * 		- check for currentFragment null (Becky)
-	 * 		- attach StartFragment (Becky)
-	 * 		- add fragment to backstack (Becky)
+	 * 		- check for currentFragment null
+	 * 		- attach StartFragment
+	 * 		- add fragment to backstack
+	 * 		- replace currentFragment parameter with this.currentFragment
+	 * 		- update currentFragment
 	 * 
 	 * known bugs:
 	 * 		- 
-	 * 
-	 * @param currentFragment
 	 */
-	public static void openStartFragment(Fragment currentFragment) 
+	public static void openStartFragment() 
 	{
-		mFragment = mStartFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -136,6 +157,7 @@ public class Party extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mStartFragment).commit();
+		currentFragment = mStartFragment;
 	}
 	
 	/**
@@ -145,24 +167,24 @@ public class Party extends Activity
 	 * 		- CreatePartyFragment is not currently attached
 	 * 
 	 * parameters:
-	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 		- 
 	 * 
 	 * postconditions:
 	 * 		- CreatePartyFragment is attached
 	 *  
 	 * recent changes:
-	 * 		- check for currentFragment null (Becky)
-	 * 		- attach CreatePartyFragment (Becky)
-	 * 		- add fragment to backstack (Becky)
+	 * 		- check for currentFragment null
+	 * 		- attach CreatePartyFragment
+	 * 		- add fragment to backstack 
+	 * 		- replace currentFragment parameter with this.currentFragment
+	 * 		- update currentFragment
 	 * 
 	 * known bugs:
 	 * 		- 
 	 * 
-	 * @param currentFragment
 	 */
-	public static void openCreatePartyFragment(Fragment currentFragment) 
+	public static void openCreatePartyFragment() 
 	{
-		mFragment = mCreatePartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -171,6 +193,8 @@ public class Party extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mCreatePartyFragment).commit();
+		
+		currentFragment = mCreatePartyFragment;
 	}
 	
 	/**
@@ -180,24 +204,24 @@ public class Party extends Activity
 	 * 		- JoinPartyFragment is not currently attached
 	 * 
 	 * parameters:
-	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 		- 
 	 * 
 	 * postconditions:
 	 * 		- JoinPartyFragment is attached
 	 *  
 	 * recent changes:
-	 * 		- check for currentFragment null (Becky)
-	 * 		- attach JoinPartyFragment (Becky)
-	 * 		- add fragment to backstack (Becky)
+	 * 		- check for currentFragment null
+	 * 		- attach JoinPartyFragment
+	 * 		- add fragment to backstack
+	 * 		- replace currentFragment parameter with this.currentFragment
+	 * 		- update currentFragment
 	 * 
 	 * known bugs:
 	 * 		- 
 	 * 
-	 * @param currentFragment
 	 */
-	public static void openJoinPartyFragment(Fragment currentFragment) 
+	public static void openJoinPartyFragment() 
 	{
-		mFragment = mJoinPartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -206,6 +230,8 @@ public class Party extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mJoinPartyFragment).commit();
+		
+		currentFragment = mJoinPartyFragment;
 	}
 	
 	/**
@@ -215,24 +241,23 @@ public class Party extends Activity
 	 * 		- PlaylistViewFragment is not currently attached
 	 * 
 	 * parameters:
-	 * 		- Fragment currentFragment	-> fragment that is currently attached
+	 * 		-
 	 * 
 	 * postconditions:
 	 * 		- PlaylistViewFragment is attached
 	 *  
 	 * recent changes:
-	 * 		- check for currentFragment null (Becky)
-	 * 		- attach PlaylistViewFragment (Becky)
-	 * 		- add fragment to backstack (Becky)
+	 * 		- check for currentFragment null
+	 * 		- attach PlaylistViewFragment
+	 * 		- add fragment to backstack
+	 * 		- 
 	 * 
 	 * known bugs:
 	 * 		- 
 	 * 
-	 * @param currentFragment
 	 */
-	public static void openPlaylistViewFragment(Fragment currentFragment) 
+	public static void openPlaylistViewFragment() 
 	{	
-		mFragment = mPlaylistViewFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -241,9 +266,30 @@ public class Party extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mPlaylistViewFragment).commit();
-	}
+		
+		currentFragment = mPlaylistViewFragment;
+	}	
 	
-	
+	/**
+	 * Creates and opens SelectPlaylistDialog 
+	 * 
+	 * preconditions:
+	 * 		- mFragmentManager is not null
+	 * 
+	 * parameters:
+	 * 		- 
+	 * 
+	 * postconditions:
+	 * 		- SelectPlaylistDialog is opened
+	 *  
+	 * recent changes:
+	 * 		- create new SelectPlaylistDialog
+	 * 		- show SelectPlaylistDialog
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 */
 	public static void openSelectPlaylistDialog()
 	{
 		SelectPlaylistDialog mSelectPlaylistDialog = new SelectPlaylistDialog();
@@ -328,80 +374,33 @@ public class Party extends Activity
 	 * 
 	 * @param song
 	 */
-	public static void changeSong(gmusic.api.model.Song song)
+	public static void changeSong(Song song)
 	{
 		mPlaylist.changeSong(song);
 	}
 	
-	public static  ArrayList<gmusic.api.model.Song> getCurrentPlaylist()
-	{
-		mPlaylist.update();
-		return mPlaylist.getSongList();
-	}
-
-	public static void nextSong() {
-		mPlaylist.nextSong();
-		
-	}
-	
-	public static void setPartyName(String name)
-	{
-		partyName = name;
-	}
-
-	public static boolean isCurrentSong(gmusic.api.model.Song song) {
-		return mPlaylist.isCurrentSong(song);
-	}
-
-	public static void notifyChange() {
-		mPlaylistViewFragment.notifyChange();
-	}
-
-	public static String getEmail() {
-		return email;
-	}
-
-	public static String getPassword() {
-		return password;
-	}
-
-	public static void setEmail(String text) {
-		email = text;
-	}
-
-	public static void setPassword(String text) {
-		password = text;
-		
-	}
-
-	public static void login() {
-		mPlaylist.login();
-		
-	}
-
-	public static boolean isLoggedIn() {
-		return loggedIn;
-	}
-
-	public static void setLoggedIn(boolean login) {
-		loggedIn = login;
-	}
-
-	public static void updatePauseButton(boolean playing) {
-		mPlaylistViewFragment.updatePauseButton(playing);
-	}
-
-	public static boolean isHost() {
-		return isHost;
-	}
-
-	public static void setHost(boolean isHost) {
-		Party.isHost = isHost;
-	}
-	
+	/**
+	 * Create toast based on parameter
+	 * 
+	 * preconditions:
+	 * 		- 
+	 * 
+	 * parameters:
+	 * 		- String message 	-> string of text to display
+	 * 
+	 * postconditions:
+	 * 		- toast is displayed for long length
+	 *  
+	 * recent changes:
+	 * 		- find activity and run toast on UI thread
+	 * 
+	 * known bugs:
+	 * 		- 
+	 * 
+	 */
 	public static void toaster(final String message)
 	{
-		mFragment.getActivity().runOnUiThread(new Runnable(){
+		currentFragment.getActivity().runOnUiThread(new Runnable(){
 			@Override
 			public void run()
 			{
@@ -409,4 +408,90 @@ public class Party extends Activity
 			}
 		});
 	}
+	
+	// call down to Playlist class
+	public static void nextSong() 
+	{
+		mPlaylist.nextSong();
+	}
+	
+	// call down to Playlist class
+	public static void login() 
+	{
+		mPlaylist.login();		
+	}
+	
+	// call down to Playlist class
+	public static boolean isCurrentSong(Song song) 
+	{
+		return mPlaylist.isCurrentSong(song);
+	}
+	
+	// refreshes playlist, returns song list
+	public static  ArrayList<Song> getCurrentPlaylist()
+	{
+		mPlaylist.update();
+		return mPlaylist.getSongList();
+	}
+	
+	// call up to PlaylistViewFragment class
+	public static void notifyChange() 
+	{
+		mPlaylistViewFragment.notifyChange();
+	}
+	
+	// call up to PlaylistViewFragment class
+	public static void updatePauseButton(boolean playing) 
+	{
+		mPlaylistViewFragment.updatePauseButton(playing);
+	}
+	
+	// set party name
+	public static void setPartyName(String name)
+	{
+		partyName = name;
+	}
+
+	// get email
+	public static String getEmail() {
+		return email;
+	}
+
+	// get password
+	public static String getPassword() {
+		return password;
+	}
+
+	// set email
+	public static void setEmail(String text) {
+		email = text;
+	}
+
+	// set password
+	public static void setPassword(String text) {
+		password = text;
+		
+	}
+	
+	// get logged in state
+	public static boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	// set logged in stated
+	public static void setLoggedIn(boolean login) {
+		loggedIn = login;
+	}
+
+
+	// get if host
+	public static boolean isHost() {
+		return isHost;
+	}
+
+	// set if host
+	public static void setHost(boolean isHost) {
+		Party.isHost = isHost;
+	}
+
 }
