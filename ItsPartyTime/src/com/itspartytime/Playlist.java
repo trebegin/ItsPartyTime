@@ -36,8 +36,8 @@ public class Playlist
 	 */
 	public Playlist(Context context) 
 	{
-		
-		
+		mGoogleMusicInterface = new GoogleMusicInterface();
+		mGoogleMusicInterface.setup();
 	}
 		
 	/**
@@ -190,17 +190,9 @@ public class Playlist
 		return currentSong == song;
 	}
 
-	public void login() {
-		mGoogleMusicInterface = new GoogleMusicInterface();
-		try 
-		{
-			mGoogleMusicInterface.setup(Party.getEmail(), Party.getPassword());
-			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	public void login(String email, String password) 
+	{
+		mGoogleMusicInterface.login(email, password);
 	}
 
 	public static void updatePauseButton(boolean playing) {

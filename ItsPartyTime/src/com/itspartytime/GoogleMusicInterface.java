@@ -19,20 +19,24 @@ public class GoogleMusicInterface
 {
 	private MediaPlayer mp;
 	private GoogleMusicAPI api;
-	private Collection<gmusic.api.model.Playlist> availablePlaylists;
 	private ArrayList<Song> currentSongList;
-	private gmusic.api.model.Song currentSong;
 	private Thread mpThread;
 
-	public void setup(final String email, final String password) throws Exception 
+	public void setup()
 	{
 		api = new GoogleMusicAPI();
 		mp = new MediaPlayer();
+	}
+	
+	public void login(final String email, final String password)
+	{
 
-		new Thread(new Runnable() {
+		new Thread(new Runnable() 
+		{
 
 			@Override
-			public void run() {
+			public void run() 
+			{
 
 				try {
 					Party.toaster("Logging in...");
@@ -94,6 +98,9 @@ public class GoogleMusicInterface
 	 * @param song
 	 */
 	public void playSong(final Song song) {
+		
+		//mpThread.interrupt();
+		//mpThread.
 
 		new Thread(new Runnable() {
 

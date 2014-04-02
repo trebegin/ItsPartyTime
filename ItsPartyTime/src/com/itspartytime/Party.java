@@ -418,7 +418,7 @@ public class Party extends Activity
 	// call down to Playlist class
 	public static void login() 
 	{
-		mPlaylist.login();		
+		mPlaylist.login(email, password);		
 	}
 	
 	// call down to Playlist class
