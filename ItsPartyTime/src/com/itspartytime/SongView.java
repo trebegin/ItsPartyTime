@@ -1,27 +1,53 @@
 package com.itspartytime;
 
+import gmusic.api.model.Song;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class SongView extends LinearLayout
+public class SongView extends RelativeLayout
 {
 	//private gmusic.api.model.Song song;
 
 	private TextView mTitle;
 	private TextView mArtist;
 	private ImageView mAlbumArt;
+	private Button voteUpButton;
+	private Button voteDownButton;
 	private boolean isCurrentSong;
 
-	public SongView(Context context, gmusic.api.model.Song song) {
+	public SongView(Context context, final Song song) {
 		super(context);
-		setOrientation(VERTICAL);
-		mTitle = new TextView(context);
-		mArtist = new TextView(context);
-		mAlbumArt = new ImageView(context);
+		inflate(context, R.layout.song_view_layout, this);
+		mTitle = (TextView) findViewById(R.id.song_title);
+		mArtist = (TextView) findViewById(R.id.song_artist);
+		voteUpButton = (Button) findViewById(R.id.vote_up_button);
+		voteDownButton = (Button) findViewById(R.id.vote_down_button);
+		
+		voteUpButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				song.addUpVote();
+				voteUpButton.setText("Vote Up (" + song.getUpVotes() + ")");
+				
+			}
+		});
+		
+		voteDownButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				song.addDownVote();
+				voteDownButton.setText("Vote Down (" + song.getDownVotes() + ")");
+			}
+		});
 		
 		String title = song.getName();
 		mTitle.setText("Title: " + title);
@@ -37,9 +63,6 @@ public class SongView extends LinearLayout
 		mArtist.setText("Artist: " + artist);
 		mArtist.setTextSize(12);
 		mArtist.setTextColor(Color.GRAY);
-		
-		 addView(mTitle, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-	     addView(mArtist, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 	}
 
 	public String getTitle() {
@@ -65,5 +88,16 @@ public class SongView extends LinearLayout
 		else
 			mTitle.setTypeface(null, Typeface.NORMAL);
 	}
+
+	public void setUpVotes(int upVotes) {
+		voteUpButton.setText("Vote Up (" + upVotes + ")");
+	}
+
+	public void setDownVotes(int downVotes) {
+		voteDownButton.setText("Vote Down (" + downVotes + ")");
+		
+	}
+	
+	
 	
 }

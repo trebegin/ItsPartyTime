@@ -13,9 +13,9 @@ public class PlaylistAdapter extends BaseAdapter
 {
 
 	private Context mContext;
-	private ArrayList<gmusic.api.model.Song> currentPlaylist = new ArrayList<gmusic.api.model.Song>();
+	private ArrayList<Song> currentPlaylist = new ArrayList<Song>();
 	
-	public PlaylistAdapter(Context context, ArrayList<gmusic.api.model.Song> playlist)
+	public PlaylistAdapter(Context context, ArrayList<Song> playlist)
 	{
 		mContext = context;
 		currentPlaylist = playlist;
@@ -42,12 +42,14 @@ public class PlaylistAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent) {
 		SongView v = (SongView) convertView;
 		if (convertView == null)
-			v = new SongView(mContext, (gmusic.api.model.Song) getItem(position));
+			v = new SongView(mContext, (Song) getItem(position));
 		else 
 		{
-			v.setCurrentSong(Party.isCurrentSong((gmusic.api.model.Song) getItem(position)));
-			v.setTitle(((gmusic.api.model.Song)getItem(position)).getName());
-			v.setArtist(((gmusic.api.model.Song)getItem(position)).getArtistNorm());
+			v.setCurrentSong(Party.isCurrentSong((Song) getItem(position)));
+			v.setTitle(((Song)getItem(position)).getName());
+			v.setArtist(((Song)getItem(position)).getArtistNorm());
+			v.setUpVotes(((Song)getItem(position)).getUpVotes());
+			v.setDownVotes(((Song)getItem(position)).getDownVotes());
 		}
 		return v;
 	}

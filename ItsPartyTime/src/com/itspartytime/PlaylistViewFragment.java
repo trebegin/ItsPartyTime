@@ -79,7 +79,7 @@ public class PlaylistViewFragment extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				changeSong((gmusic.api.model.Song) arg0.getItemAtPosition(arg2));
+				changeSong((Song) arg0.getItemAtPosition(arg2));
 			
 			}
 		});
@@ -98,21 +98,21 @@ public class PlaylistViewFragment extends Fragment
 
 
 
-	private void getDisplayList()
-	{
-		int songCount = 0;
-		Collection<gmusic.api.model.Song> tempList = Party.getCurrentPlaylist();
-		if(tempList != null)
-		{
-			for (gmusic.api.model.Song song:tempList)
-			{
-				if(songCount++ < 10)
-					displayList.put(song.getId(), song.getName());
-			}
-		}
-	}
-	
-	
+//	private void getDisplayList()
+//	{
+//		int songCount = 0;
+//		Collection<gmusic.api.model.Song> tempList = Party.getCurrentPlaylist();
+//		if(tempList != null)
+//		{
+//			for (gmusic.api.model.Song song:tempList)
+//			{
+//				if(songCount++ < 10)
+//					displayList.put(song.getId(), song.getName());
+//			}
+//		}
+//	}
+//	
+//	
 	
 	private void changeSong(gmusic.api.model.Song song)
 	{

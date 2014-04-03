@@ -33,9 +33,14 @@ public class Song extends Tune
 	private String metajamId;
 	private int type;
 	private int disc;
+	private int upVoteCount;
+	private int downVoteCount;
 
 	public Song()
-	{}
+	{
+		upVoteCount = 0;
+		downVoteCount = 0;
+	}
 
 	public final String getMetajamId()
 	{
@@ -241,6 +246,24 @@ public class Song extends Tune
 	public final void setComment(String comment)
 	{
 		this.comment = comment;
+	}
+
+	public void addUpVote() {
+		upVoteCount++;
+		
+	}
+
+	public void addDownVote() {
+		downVoteCount++;
+		
+	}
+	
+	public int getUpVotes() {
+		return upVoteCount;
+	}
+	
+	public int getDownVotes() {
+		return downVoteCount;
 	}
 
 }
