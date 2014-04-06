@@ -129,7 +129,7 @@ public class CreatePartyFragment extends Fragment
 		topRunner.setText(partyNameTxt.getText().toString());
 		Party.openPlaylistViewFragment(this);
 	}
-	
+
 	private void openLoginDialog()
 	{
 		Party.openLoginDialog();
