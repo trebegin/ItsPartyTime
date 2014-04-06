@@ -17,6 +17,8 @@ public class SongView extends RelativeLayout
 
 	private TextView mTitle;
 	private TextView mArtist;
+    private TextView mUpVoteCount;
+    private TextView mDownVoteCount;
 	private ImageView mAlbumArt;
 	private Button voteUpButton;
 	private Button voteDownButton;
@@ -27,6 +29,8 @@ public class SongView extends RelativeLayout
 		inflate(context, R.layout.song_view_layout, this);
 		mTitle = (TextView) findViewById(R.id.song_title);
 		mArtist = (TextView) findViewById(R.id.song_artist);
+        mUpVoteCount = (TextView) findViewById(R.id.up_vote_count);
+        mDownVoteCount = (TextView) findViewById(R.id.down_vote_count);
 		voteUpButton = (Button) findViewById(R.id.vote_up_button);
 		voteDownButton = (Button) findViewById(R.id.vote_down_button);
 		
@@ -35,7 +39,8 @@ public class SongView extends RelativeLayout
 			@Override
 			public void onClick(View v) {
 				song.addUpVote();
-				voteUpButton.setText("Vote Up (" + song.getUpVotes() + ")");
+                mUpVoteCount.setText(Integer.toString(song.getUpVotes()));
+				//voteUpButton.setText("Vote Up (" + song.getUpVotes() + ")");
 				
 			}
 		});
@@ -45,7 +50,8 @@ public class SongView extends RelativeLayout
 			@Override
 			public void onClick(View v) {
 				song.addDownVote();
-				voteDownButton.setText("Vote Down (" + song.getDownVotes() + ")");
+                mDownVoteCount.setText(Integer.toString(song.getDownVotes()));
+				//voteDownButton.setText("Vote Down (" + song.getDownVotes() + ")");
 			}
 		});
 		
