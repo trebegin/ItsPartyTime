@@ -1,7 +1,11 @@
 package com.itspartytime;
 
 import gmusic.api.model.Song;
+
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -10,6 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class SongView extends RelativeLayout
 {
@@ -23,71 +31,100 @@ public class SongView extends RelativeLayout
 	private Button voteUpButton;
 	private Button voteDownButton;
 	private boolean isCurrentSong;
+    private Context mContext;
 
 	public SongView(Context context, final Song song) {
 		super(context);
+        mContext = context;
 		inflate(context, R.layout.song_view_layout, this);
 		mTitle = (TextView) findViewById(R.id.song_title);
 		mArtist = (TextView) findViewById(R.id.song_artist);
+        mAlbumArt = (ImageView) findViewById(R.id.song_album_art);
         mUpVoteCount = (TextView) findViewById(R.id.up_vote_count);
         mDownVoteCount = (TextView) findViewById(R.id.down_vote_count);
 		voteUpButton = (Button) findViewById(R.id.vote_up_button);
 		voteDownButton = (Button) findViewById(R.id.vote_down_button);
 		
 		voteUpButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				song.addUpVote();
-                mUpVoteCount.setText(Integer.toString(song.getUpVotes()));
-				//voteUpButton.setText("Vote Up (" + song.getUpVotes() + ")");
-				
+                setUpVotes(song.getUpVotes());
+                Log.d("SongView", "Still works ~ish");
 			}
 		});
-		
+
 		voteDownButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				song.addDownVote();
-                mDownVoteCount.setText(Integer.toString(song.getDownVotes()));
-				//voteDownButton.setText("Vote Down (" + song.getDownVotes() + ")");
+                setDownVotes(song.getDownVotes());
+                Log.d("SongView", "Still works ~ish");
 			}
 		});
-		
-		String title = song.getName();
+
+        mTitle.setTextSize(19);
+        mTitle.setTextColor(Color.BLACK);
+
+        mArtist.setTextSize(12);
+        mArtist.setTextColor(Color.GRAY);
+
+        update(song);
+	}
+
+    public void update(final Song song) {
+
+        setTitle(song.getName());
+        setIsCurrentSong(Party.isCurrentSong(song));
+        setArtist(song.getArtist());
+        setUpVotes(song.getUpVotes());
+        setDownVotes(song.getDownVotes());
+//        new Thread (new Runnable() {
+//            @Override
+//            public void run() {
+//
+//        URL newurl = null;
+//        Bitmap mIcon_val = null;
+//        try {
+//            newurl = new URL(song.getAlbumArtUrl());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//                setAlbumArt(mIcon_val);
+//
+//            }
+//        }).start();
+//        //mAlbumArt.set(song.getAlbumArtUrl());
+
+    }
+
+    private void setAlbumArt(final Bitmap mIcon_val) {
+
+        ((Activity)mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAlbumArt.setImageBitmap(mIcon_val);
+                Log.d("Image", "Image found:" + mIcon_val.toString());
+            }
+        });
+    }
+
+    public void setTitle(String title) {
 		mTitle.setText("Title: " + title);
-		mTitle.setTextSize(19);
-		mTitle.setTextColor(Color.BLACK);
-		isCurrentSong = Party.isCurrentSong(song);
-		if(isCurrentSong)
-			mTitle.setTypeface(null, Typeface.BOLD);
-		else
-			mTitle.setTypeface(null, Typeface.NORMAL);
-		
-		String artist = song.getArtistNorm();
-		mArtist.setText("Artist: " + artist);
-		mArtist.setTextSize(12);
-		mArtist.setTextColor(Color.GRAY);
-	}
-
-	public String getTitle() {
-		return mTitle.toString();
-	}
-
-	public void setTitle(String title) {
-		mTitle.setText("Title: " + title);
-	}
-
-	public String getArtist() {
-		return mArtist.toString();
 	}
 
 	public void setArtist(String artist) {
 		mArtist.setText("Artist: " + artist);
 	}
 
-	public void setCurrentSong(boolean isCurrentSong){
+	public void setIsCurrentSong(boolean isCurrentSong){
 		this.isCurrentSong = isCurrentSong;
 		if(isCurrentSong)
 			mTitle.setTypeface(null, Typeface.BOLD);

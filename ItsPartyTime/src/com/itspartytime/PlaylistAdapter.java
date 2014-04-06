@@ -19,7 +19,7 @@ public class PlaylistAdapter extends BaseAdapter
 	{
 		mContext = context;
 		currentPlaylist = playlist;
-	}
+    }
 	
 	@Override
 	public int getCount() 
@@ -40,17 +40,7 @@ public class PlaylistAdapter extends BaseAdapter
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		SongView v = (SongView) convertView;
-		if (convertView == null)
-			v = new SongView(mContext, (Song) getItem(position));
-		else 
-		{
-			v.setCurrentSong(Party.isCurrentSong((Song) getItem(position)));
-			v.setTitle(((Song)getItem(position)).getName());
-			v.setArtist(((Song)getItem(position)).getArtistNorm());
-			v.setUpVotes(((Song)getItem(position)).getUpVotes());
-			v.setDownVotes(((Song)getItem(position)).getDownVotes());
-		}
+		SongView v = new SongView(mContext, (Song) getItem(position));
 		return v;
 	}
 

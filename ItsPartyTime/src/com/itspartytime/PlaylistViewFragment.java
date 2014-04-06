@@ -10,6 +10,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class PlaylistViewFragment extends Fragment
 			playlistAdapterInit();
 			mLinearLayout.findViewById(R.id.not_logged_in).setVisibility(View.GONE);
 		}
+
 		skipButton = (Button) mLinearLayout.findViewById(R.id.skip_song_button);
 		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
 	
@@ -77,10 +79,25 @@ public class PlaylistViewFragment extends Fragment
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				changeSong((Song) arg0.getItemAtPosition(arg2));
-			
+			public void onItemClick(AdapterView<?> adapter, View view, int position,
+					long id) {
+                switch (view.getId())
+                {
+                    case R.id.vote_up_button:
+                        ((Song) adapter.getItemAtPosition(position)).addUpVote();
+                        Log.d("Playlist Fragment", "up button!");
+                        break;
+                    case R.id.vote_down_button:
+                        ((Song) adapter.getItemAtPosition(position)).addDownVote();
+                        Log.d("Playlist Fragment", "down button!");
+                        break;
+                    default:
+                        changeSong((Song) adapter.getItemAtPosition(position));
+                        Log.d("Playlist Fragment", "default");
+                        Log.d("Playlist Fragment", String.valueOf(view.getId()));
+                        break;
+                }
+
 			}
 		});
 	}
