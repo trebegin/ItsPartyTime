@@ -95,13 +95,14 @@ public class SongView extends RelativeLayout
 			mTitle.setTypeface(null, Typeface.NORMAL);
 	}
 
-	public void setUpVotes(int upVotes) {
-		voteUpButton.setText("Vote Up (" + upVotes + ")");
+	public void setUpVotes(int upVotes)
+    {
+		mUpVoteCount.setText(Integer.toString(upVotes));
 	}
 
-	public void setDownVotes(int downVotes) {
-		voteDownButton.setText("Vote Down (" + downVotes + ")");
-		
+	public void setDownVotes(int downVotes)
+    {
+		mDownVoteCount.setText(Integer.toString(downVotes));
 	}
 	
 	
