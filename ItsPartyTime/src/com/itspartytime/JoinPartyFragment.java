@@ -20,7 +20,8 @@ public class JoinPartyFragment extends Fragment
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.join_party_fragment_layout, container, false);
 		selectParty = (Button) mRelativeLayout.findViewById(R.id.select_party_button);
 		userNameField = (EditText) mRelativeLayout.findViewById(R.id.userName);
-		
+
+        //Needs to be conditional on correct party name
 		selectParty.setOnClickListener(new View.OnClickListener() 
 		{
 			
@@ -31,7 +32,7 @@ public class JoinPartyFragment extends Fragment
 			}
 		});
 		
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return mRelativeLayout;
 	}
 
 	/**

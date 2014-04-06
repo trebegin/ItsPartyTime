@@ -17,20 +17,40 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/song_title" />
 
-    <Button
-        android:id="@+id/vote_up_button"
+    <TextView
+        android:id="@+id/down_vote_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/vote_down_button"
+        android:layout_alignBaseline="@id/vote_down_button"
+        android:textColor="@android:color/holo_red_light"
+        />
+
+    <TextView
+        android:id="@+id/up_vote_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/vote_up_button"
+        android:layout_alignBaseline="@id/vote_up_button"
+        android:textColor="@android:color/holo_green_light"
+        />
+
+
+    <Button
+        android:id="@+id/vote_up_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Vote Up" />
+        android:background="@drawable/thumbs_up"
+        />
 
     <Button
         android:id="@+id/vote_down_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/vote_up_button" 
-        android:text="Vote Down"/>
+        android:layout_below="@id/vote_up_button"
+        android:background="@drawable/thumbs_down"/>
 
 </RelativeLayout>

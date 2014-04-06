@@ -1,8 +1,17 @@
 package com.itspartytime;
 
-public class LANComInterface 
+
+
+public class LANComInterface
 {
-	/**
+
+
+    /**
+     * Created by Trent on 4/5/14.
+     */
+
+
+    /**
 	 * Pushes packet to the specified MAC address
 	 * 
 	 * preconditions:
@@ -28,4 +37,6 @@ public class LANComInterface
 	{
 
 	}
+
+
 }
