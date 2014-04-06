@@ -19,16 +19,16 @@
 
     <Button
         android:id="@+id/vote_up_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="Vote Up" />
 
     <Button
         android:id="@+id/vote_down_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/vote_up_button" 
         android:text="Vote Down"/>
