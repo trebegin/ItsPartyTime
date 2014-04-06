@@ -43,6 +43,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/thumbs_up"
+        android:paddingBottom="4dp"
         />
 
     <Button
@@ -51,6 +52,9 @@
         android:layout_height="32dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/vote_up_button"
-        android:background="@drawable/thumbs_down"/>
+        android:background="@drawable/thumbs_down"
+        android:paddingTop="4dp"
+        />
+
 
 </RelativeLayout>
