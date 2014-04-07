@@ -274,12 +274,6 @@ public class Song extends Tune implements Comparable<Song>
     public int compareTo(Song song) {
         int compareToVotes = song.getUpVotes() - song.getDownVotes();
         int thisVotes = getUpVotes() - getDownVotes();
-        if (getUpVotes() > 0)
-        {
-            Log.d(song.getTitle(), String.valueOf(song.getUpVotes()) + " " + String.valueOf(song.getDownVotes()));
-            Log.d(getTitle(), String.valueOf(getUpVotes()) + " " + String.valueOf(getDownVotes()));
-            Log.d(getTitle(), String.valueOf(compareToVotes) + " " + String.valueOf(thisVotes));
-        }
         return compareToVotes - thisVotes;
     }
 }

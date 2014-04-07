@@ -9,59 +9,46 @@
 
     <TextView
         android:id="@+id/song_title"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/song_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/song_title" />
 
-    <TextView
-        android:id="@+id/down_vote_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/vote_down_button"
-        android:layout_alignBaseline="@id/vote_down_button"
-        android:textColor="@android:color/holo_red_light"
-        />
-
-    <TextView
-        android:id="@+id/up_vote_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/vote_up_button"
-        android:layout_alignBaseline="@id/vote_up_button"
-        android:textColor="@android:color/holo_green_light"
-        />
-
-
     <Button
         android:id="@+id/vote_up_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/song_title"
         android:background="@drawable/thumbs_up"
-        android:paddingBottom="4dp"
+        android:paddingBottom="1dp"
+        android:paddingLeft="8dp"
         android:layout_margin="8dp"
         android:focusable="false"
+        android:text="0"
+        android:gravity="center_horizontal|bottom"
+        android:textColor="@android:color/white"
         />
 
     <Button
         android:id="@+id/vote_down_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/vote_up_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/vote_up_button"
         android:background="@drawable/thumbs_down"
-        android:paddingTop="4dp"
+        android:paddingTop="1dp"
+        android:paddingRight="8dp"
         android:layout_margin="8dp"
         android:focusable="false"
+        android:text="0"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/white"
         />
 
 

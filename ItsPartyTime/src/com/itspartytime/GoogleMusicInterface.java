@@ -45,7 +45,7 @@ public class GoogleMusicInterface
 					e.printStackTrace();
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
-				} catch (InvalidCredentialsException e) 
+				} catch (InvalidCredentialsException e)
 				{
 					Party.toaster("Invalid Credentials");
 					e.printStackTrace();
@@ -53,7 +53,7 @@ public class GoogleMusicInterface
 
 			}
 		}).start();
-		
+
 		mpThread = new Thread(new Runnable() {
 
 			@Override

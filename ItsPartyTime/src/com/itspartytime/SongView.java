@@ -20,8 +20,8 @@ public class SongView extends RelativeLayout
 
 	private TextView mTitle;
 	private TextView mArtist;
-    private TextView mUpVoteCount;
-    private TextView mDownVoteCount;
+//    private TextView mUpVoteCount;
+//    private TextView mDownVoteCount;
 	private ImageView mAlbumArt;
 	private Button voteUpButton;
 	private Button voteDownButton;
@@ -35,8 +35,8 @@ public class SongView extends RelativeLayout
 		mTitle = (TextView) findViewById(R.id.song_title);
 		mArtist = (TextView) findViewById(R.id.song_artist);
         mAlbumArt = (ImageView) findViewById(R.id.song_album_art);
-        mUpVoteCount = (TextView) findViewById(R.id.up_vote_count);
-        mDownVoteCount = (TextView) findViewById(R.id.down_vote_count);
+//        mUpVoteCount = (TextView) findViewById(R.id.up_vote_count);
+//        mDownVoteCount = (TextView) findViewById(R.id.down_vote_count);
 		voteUpButton = (Button) findViewById(R.id.vote_up_button);
 		voteDownButton = (Button) findViewById(R.id.vote_down_button);
 		
@@ -127,12 +127,12 @@ public class SongView extends RelativeLayout
 
 	public void setUpVotes(int upVotes)
     {
-		mUpVoteCount.setText(Integer.toString(upVotes));
+		voteUpButton.setText(Integer.toString(upVotes));
 	}
 
 	public void setDownVotes(int downVotes)
     {
-		mDownVoteCount.setText(Integer.toString(downVotes));
+		voteDownButton.setText(Integer.toString(downVotes));
 	}
 	
 	
