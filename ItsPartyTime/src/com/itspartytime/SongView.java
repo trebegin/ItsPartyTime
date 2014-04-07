@@ -5,7 +5,6 @@ import gmusic.api.model.Song;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -14,10 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class SongView extends RelativeLayout
 {
@@ -51,7 +46,6 @@ public class SongView extends RelativeLayout
 			public void onClick(View v) {
 				song.addUpVote();
                 setUpVotes(song.getUpVotes());
-                Log.d("SongView", "Still works ~ish");
 			}
 		});
 
@@ -61,7 +55,6 @@ public class SongView extends RelativeLayout
 			public void onClick(View v) {
 				song.addDownVote();
                 setDownVotes(song.getDownVotes());
-                Log.d("SongView", "Still works ~ish");
 			}
 		});
 

@@ -3,7 +3,6 @@ package com.itspartytime;
 import gmusic.api.model.Song;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ import android.widget.ListView;
 public class PlaylistViewFragment extends Fragment 
 {
 	private boolean isHost;
-	private Map<String, String> displayList = new HashMap<String, String>(); // do we want to save actual song objects here?
 	private Button skipButton;
 	private Button pauseButton;
 	private PlaylistAdapter mPlaylistAdapter;
@@ -81,26 +79,10 @@ public class PlaylistViewFragment extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
 					long id) {
-                switch (view.getId())
-                {
-                    case R.id.vote_up_button:
-                        ((Song) adapter.getItemAtPosition(position)).addUpVote();
-                        Log.d("Playlist Fragment", "up button!");
-                        break;
-                    case R.id.vote_down_button:
-                        ((Song) adapter.getItemAtPosition(position)).addDownVote();
-                        Log.d("Playlist Fragment", "down button!");
-                        break;
-                    default:
-                        changeSong((Song) adapter.getItemAtPosition(position));
-                        Log.d("Playlist Fragment", "default");
-                        Log.d("Playlist Fragment", String.valueOf(view.getId()));
-                        break;
-                }
-
-			}
-		});
-	}
+                changeSong((Song) adapter.getItemAtPosition(position));
+            }
+	    });
+    }
 
 
 
@@ -188,9 +170,12 @@ public class PlaylistViewFragment extends Fragment
 		
 	}
 
-	public void notifyChange() {
+	public void notifyChange(Object o) {
 		if(mPlaylistAdapter != null)
+        {
+            if (o instanceof Song) mPlaylistAdapter.sortCurrentPlaylist();
 			mPlaylistAdapter.notifyDataSetChanged();
+        }
 	}
 	
 	public void updatePauseButton(final boolean playing) 

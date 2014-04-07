@@ -10,12 +10,16 @@
  ******************************************************************************/
 package gmusic.api.model;
 
+import android.util.Log;
+
+import com.itspartytime.Party;
+
 import gmusic.model.Tune;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Song extends Tune
+public class Song extends Tune implements Comparable<Song>
 {
 	private int totalTracks;
 	private boolean subjectToCuration;
@@ -249,13 +253,13 @@ public class Song extends Tune
 	}
 
 	public void addUpVote() {
-		upVoteCount++;
-		
+        upVoteCount++;
+        Party.notifyChange(this);
 	}
 
 	public void addDownVote() {
-		downVoteCount++;
-		
+        downVoteCount++;
+        Party.notifyChange(this);
 	}
 	
 	public int getUpVotes() {
@@ -266,4 +270,16 @@ public class Song extends Tune
 		return downVoteCount;
 	}
 
+    @Override
+    public int compareTo(Song song) {
+        int compareToVotes = song.getUpVotes() - song.getDownVotes();
+        int thisVotes = getUpVotes() - getDownVotes();
+        if (getUpVotes() > 0)
+        {
+            Log.d(song.getTitle(), String.valueOf(song.getUpVotes()) + " " + String.valueOf(song.getDownVotes()));
+            Log.d(getTitle(), String.valueOf(getUpVotes()) + " " + String.valueOf(getDownVotes()));
+            Log.d(getTitle(), String.valueOf(compareToVotes) + " " + String.valueOf(thisVotes));
+        }
+        return compareToVotes - thisVotes;
+    }
 }

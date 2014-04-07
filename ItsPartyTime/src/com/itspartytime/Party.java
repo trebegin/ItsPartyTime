@@ -9,9 +9,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class Party extends Activity 
@@ -354,8 +352,8 @@ public class Party extends Activity
 		return mPlaylist.isCurrentSong(song);
 	}
 
-	public static void notifyChange() {
-		mPlaylistViewFragment.notifyChange();
+	public static void notifyChange(Object o) {
+		mPlaylistViewFragment.notifyChange(o);
 	}
 
 	public static String getEmail() {

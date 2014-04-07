@@ -3,6 +3,7 @@ package com.itspartytime;
 import gmusic.api.model.Song;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.view.View;
@@ -13,12 +14,16 @@ public class PlaylistAdapter extends BaseAdapter
 {
 
 	private Context mContext;
-	private ArrayList<Song> currentPlaylist = new ArrayList<Song>();
+	private static ArrayList<Song> currentPlaylist = new ArrayList<Song>();
 	
 	public PlaylistAdapter(Context context, ArrayList<Song> playlist)
 	{
 		mContext = context;
 		currentPlaylist = playlist;
+    }
+
+    public void sortCurrentPlaylist(){
+        Collections.sort(currentPlaylist);
     }
 	
 	@Override
@@ -40,8 +45,7 @@ public class PlaylistAdapter extends BaseAdapter
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		SongView v = new SongView(mContext, (Song) getItem(position));
-		return v;
+		return new SongView(mContext, (Song) getItem(position));
 	}
 
 }

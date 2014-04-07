@@ -3,7 +3,6 @@ package com.itspartytime;
 import gmusic.api.model.Song;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import android.content.Context;
 
@@ -32,7 +31,7 @@ public class Playlist
 	 * known bugs:
 	 * 		-
 	 * 
-	 * @param collection
+	 * @param context
 	 */
 	public Playlist(Context context) 
 	{
@@ -117,7 +116,7 @@ public class Playlist
 	public void changeSong(gmusic.api.model.Song song)
 	{
 		currentSong = song;
-		Party.notifyChange();
+		Party.notifyChange(this);
 		
 		//while(currentSong != songList.iterator().next());
 		mGoogleMusicInterface.playSong(song);
@@ -180,7 +179,7 @@ public class Playlist
 	public void nextSong() 
 	{
 		currentSong = songList.get(songList.indexOf(currentSong) + 1);
-		Party.notifyChange();
+		Party.notifyChange(this);
 		mGoogleMusicInterface.playSong(currentSong);
 		
 	}
