@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 /**
  * Author: 
  * Date approved:
@@ -29,8 +30,7 @@ public class CreatePartyFragment extends Fragment
 	private Playlist selectedPlaylist;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.create_party_fragment_layout, container, false);
 		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_playlist_button);
@@ -116,17 +116,18 @@ public class CreatePartyFragment extends Fragment
 	 * 		- PlaylistViewPage fragment is created and visible 
 	 * 
 	 * recent changes:
-	 * 		- 
+	 * recent changes:
+	 * 		-
 	 * 
 	 * known bugs:
 	 * 		- 
 	 */
 	private void openPlaylistViewFragment()
 	{
-		EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
-		Party.setPartyName(partyNameTxt.getText().toString());
+		//EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
+		//Party.setPartyName(partyNameTxt.getText().toString());
 		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
-		topRunner.setText(partyNameTxt.getText().toString());
+		topRunner.setText(Party.getPartyName());
 		Party.openPlaylistViewFragment(this);
 	}
 

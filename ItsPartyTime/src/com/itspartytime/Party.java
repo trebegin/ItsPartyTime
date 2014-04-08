@@ -342,11 +342,17 @@ public class Party extends Activity
 		mPlaylist.nextSong();
 		
 	}
-	
-	public static void setPartyName(String name)
-	{
-		partyName = name;
-	}
+
+    public static void setPartyName(String name)
+    {
+        partyName = name;
+    }
+
+    public static String getPartyName()
+    {
+        return partyName;
+    }
+
 
 	public static boolean isCurrentSong(gmusic.api.model.Song song) {
 		return mPlaylist.isCurrentSong(song);
@@ -377,6 +383,7 @@ public class Party extends Activity
 		mPlaylist.login();
 		
 	}
+
 
 	public static boolean isLoggedIn() {
 		return loggedIn;

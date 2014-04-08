@@ -16,26 +16,12 @@
         android:text="@string/done_creating_party_button_text"
         android:id="@+id/done_creating_party_button"/>
 
-    <EditText
-        android:id="@+id/partyNameTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:hint="@string/party_name_hint"
-        android:imeOptions="actionDone"
-        android:textColor="#287AA9" >
-
-        <requestFocus />
-    </EditText>
-
     <Button
         android:id="@+id/login_button"
         style="@style/ButtonTheme"
         android:layout_alignLeft="@+id/select_playlist_button"
-        android:layout_below="@+id/partyNameTxt"
-        android:text="@string/login_button_text" />
+        android:text="@string/login_button_text"
+        android:layout_centerVertical="true"/>
 
     <Button
         android:id="@+id/select_playlist_button"

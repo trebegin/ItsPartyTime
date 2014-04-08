@@ -7,7 +7,7 @@
     <string name="create_party_button_text">Create Party!</string>
     <string name="join_party_button_text">Join Party!</string>
     <string name="select_playlist_button_text">Select Playlist</string>
-    <string name="done_creating_party_button_text">Done</string>
+    <string name="done_creating_party_button_text">Create Party</string>
     <string name="select_playlist_dialog_text">Select Playlist:</string>
     <string-array name="select_playlist_titles">
         <item>Test 1</item>
@@ -19,6 +19,8 @@
     <string name="login_title_text">Login to Google: </string>
     <string name="login_button_text">Login</string>
     <string name="username_hint">Name</string>
-    <string name="select_party_button">Select Party</string><string name="login_name_hint">Party Name</string><string name="login_save_check">Save Login Information</string>
+    <string name="select_party_button">Select Party</string>
+    <string name="login_name_hint">party name</string>
+    <string name="login_save_check">Save Login Information</string>
 
 </resources>

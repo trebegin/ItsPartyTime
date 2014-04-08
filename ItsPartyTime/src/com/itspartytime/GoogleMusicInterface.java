@@ -32,20 +32,26 @@ public class GoogleMusicInterface
 		new Thread(new Runnable() {
 
 			@Override
-			public void run() {
-
-				try {
+			public void run()
+            {
+				try
+                {
 					Party.toaster("Logging in...");
 					api.login(email, password);
 					setCurrentSongList(api.getAllSongs());
 					Log.d("Done", "Songs done loading");
 					Party.toaster("Login Success");
 					Party.setLoggedIn(true);
-				} catch (IOException e) {
+				}
+                catch (IOException e)
+                {
 					e.printStackTrace();
-				} catch (URISyntaxException e) {
+				}
+                catch (URISyntaxException e)
+                {
 					e.printStackTrace();
-				} catch (InvalidCredentialsException e)
+				}
+                catch (InvalidCredentialsException e)
 				{
 					Party.toaster("Invalid Credentials");
 					e.printStackTrace();

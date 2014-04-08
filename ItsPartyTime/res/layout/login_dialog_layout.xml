@@ -9,7 +9,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/login_name_field"
         android:hint="@string/login_name_hint"
-        android:paddingBottom="25dp"/>
+        android:ems="10"
+        android:textColor="#287AA9"
+        android:inputType="textAutoCorrect"
+        android:layout_gravity="center"
+        android:imeOptions="actionGo"/>
 
     <EditText
         android:id="@+id/login_email_field"
@@ -36,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_save_check"
-        android:id="@+id/checkBox"
-        />
+        android:id="@+id/saveCheckBox"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>
