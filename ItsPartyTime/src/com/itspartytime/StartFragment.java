@@ -47,57 +47,18 @@ public class StartFragment extends Fragment
 		return mRelativeLayout;
 	}
 
-	/**
-	 * Creates and moves to CreatePartyPage View
-	 * 
-	 * preconditions:
-	 * 		- StartPage fragment is visible
-	 * 		- Called by createPartyButton
-	 * 
-	 * parameters:
-	 * 		- none
-	 * 
-	 * postconditions:
-	 * 		- StartPage fragment is destroyed
-	 * 		- CreatePartyPage fragment is created and visible
-	 * 
-	 * recent changes:
-	 * 		- called openCreatePartyFragment from PartyActivity
-	 * 
-	 * known bugs:
-	 * 		-
-	 */
+
 	private void openCreatePartyFragment()
 	{
 		PartyActivity.openCreatePartyFragment(this);
+        PartyActivity.setHost(true);
 	}
 	
-	/**
-	 * Creates and moves to JoinPartyPage View, called by joinButton
-	 * 
-	 * preconditions:
-	 * 		- StartPage fragment is visible
-	 * 		- Called by createPartyButton
-	 * 
-	 * parameters:
-	 * 		- none
-	 * 
-	 * postconditions:
-	 * 		- StartPage fragment is destroyed
-	 * 		- JoinPartyPage fragment is created and visible
-	 * 
-	 * recent changes:
-	 * 		- 
-	 * 
-	 * known bugs:
-	 * 		-
-	 */
+
 	private void openJoinPartyFragment()
 	{
 		PartyActivity.openJoinPartyFragment(this);
+        PartyActivity.setHost(false);
 	}
-	
-	
-	
-	// make createButton and joinButton
+
 }

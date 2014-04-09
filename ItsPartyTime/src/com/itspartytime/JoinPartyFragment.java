@@ -1,12 +1,15 @@
 package com.itspartytime;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class JoinPartyFragment extends Fragment
@@ -28,6 +31,15 @@ public class JoinPartyFragment extends Fragment
 			@Override
 			public void onClick(View v) 
 			{
+                Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.select_party_dialog_layout);
+
+                ListView lv = (ListView ) dialog.findViewById(R.id.partyList);
+                dialog.setCancelable(true);
+                dialog.setTitle("Select a Party");
+
+
+                dialog.show();
 				createPlaylistView();
 			}
 		});
