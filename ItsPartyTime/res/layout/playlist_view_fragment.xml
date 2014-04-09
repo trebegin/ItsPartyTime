@@ -4,6 +4,84 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:id="@+id/current_song_album_art"/>
+
+        <TextView
+            android:id="@+id/current_song_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/current_song_album_art"
+            android:layout_alignParentTop="true"
+            android:text="Title: This is an Extremely Long Test Title"/>
+
+        <TextView
+            android:id="@+id/current_song_artist"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/current_song_title"
+            android:layout_below="@id/current_song_title"
+            android:text="This is a Long Artist Name"/>
+
+        <Button
+            android:id="@+id/current_vote_up_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/skip_song_button"
+            android:layout_below="@id/current_song_artist"
+            android:background="@drawable/thumbs_up"
+            android:paddingBottom="1dp"
+            android:paddingLeft="8dp"
+            android:layout_margin="8dp"
+            android:focusable="false"
+            android:text="0"
+            android:gravity="center_horizontal|bottom"
+            android:textColor="@android:color/white"
+            />
+
+        <Button
+            android:id="@+id/current_vote_down_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/current_vote_up_button"
+            android:layout_below="@id/current_song_artist"
+            android:background="@drawable/thumbs_down"
+            android:paddingTop="1dp"
+            android:paddingRight="8dp"
+            android:layout_margin="8dp"
+            android:focusable="false"
+            android:text="0"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/white"
+            />
+
+        <Button
+            android:id="@+id/pause_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@drawable/play_icon"
+            android:layout_below="@+id/current_song_artist"
+            android:layout_toRightOf="@+id/current_song_album_art"/>
+
+        <Button
+            android:id="@id/skip_song_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@drawable/skip_icon"
+            android:layout_toRightOf="@+id/pause_button"
+            android:layout_alignBaseline="@id/pause_button"/>
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/playlist_listview"
         android:layout_width="wrap_content"
@@ -20,24 +98,6 @@
         android:gravity="center"
         android:text="Not Logged In" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/pause_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0" 
-            android:background="@drawable/play_icon"/>
-
-        <Button
-            android:id="@+id/skip_song_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:background="@drawable/skip_icon" />
-    </LinearLayout>
 
 </LinearLayout>
