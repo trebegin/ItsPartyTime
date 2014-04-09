@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,7 +31,7 @@ public class JoinPartyFragment extends Fragment
 			public void onClick(View v) 
 			{
                 Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.select_party_dialog_layout);
+                dialog.setContentView(R.layout.list_dialog_layout);
 
                 ListView lv = (ListView ) dialog.findViewById(R.id.partyList);
                 dialog.setCancelable(true);
