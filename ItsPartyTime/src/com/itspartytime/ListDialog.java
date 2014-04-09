@@ -5,13 +5,11 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 
 /**
- * Created by Trent on 4/8/14.
+ * Created by Matt on 4/8/14.
  */
-public class SelectPartyDialog extends DialogFragment
-{
+public class ListDialog extends DialogFragment {
     @Override
-    public Dialog onCreateDialog (Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         return super.onCreateDialog(savedInstanceState);
     }
 }
