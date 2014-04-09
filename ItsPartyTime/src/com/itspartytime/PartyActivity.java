@@ -134,9 +134,9 @@ public class PartyActivity extends Activity
 	}
 
 
-	public static void notifyChange(Object o)
+	public static void notifyChange(int update_message)
     {
-		mPlaylistViewFragment.notifyChange(o);
+		mPlaylistViewFragment.notifyChange(update_message);
 	}
 
     public static void updatePauseButton(boolean playing)
@@ -146,13 +146,12 @@ public class PartyActivity extends Activity
 	
 	public static void toaster(final String message)
 	{
-		mFragment.getActivity().runOnUiThread(new Runnable(){
-			@Override
-			public void run()
-			{
-				Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
-			}
-		});
+		mFragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
+            }
+        });
 	}
 
     /**
@@ -193,6 +192,11 @@ public class PartyActivity extends Activity
     public static void login(String email, String password)
     {
         mPlaylist.login(email, password);
+    }
+    
+    public static boolean isPlaying()
+    {
+        return mPlaylist.isPlaying();
     }
 
     public static Playlist getPlaylist()
