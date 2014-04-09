@@ -1,9 +1,5 @@
 package com.itspartytime;
 
-import gmusic.api.model.Song;
-
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -40,7 +36,13 @@ public class PartyActivity extends Activity
 		openStartFragment(null);
 	}
 
-	@Override
+    @Override
+    protected void onDestroy() {
+        mPlaylist.destroy();
+        super.onDestroy();
+    }
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -134,9 +136,9 @@ public class PartyActivity extends Activity
 	}
 
 
-	public static void notifyChange(Object o)
+	public static void notifyChange(int update_message)
     {
-		mPlaylistViewFragment.notifyChange(o);
+		mPlaylistViewFragment.notifyChange(update_message);
 	}
 
     public static void updatePauseButton(boolean playing)
@@ -188,6 +190,11 @@ public class PartyActivity extends Activity
     public static void setHost(boolean isHost)
     {
         PartyActivity.isHost = isHost;
+    }
+
+    public static boolean isPlaying()
+    {
+        return mPlaylist.isPlaying();
     }
 
     public static void login(String email, String password)

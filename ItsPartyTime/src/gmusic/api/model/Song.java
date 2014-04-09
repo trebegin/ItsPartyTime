@@ -11,6 +11,7 @@
 package gmusic.api.model;
 
 import com.itspartytime.PartyActivity;
+import com.itspartytime.PlaylistViewFragment;
 
 import gmusic.model.Tune;
 
@@ -252,12 +253,12 @@ public class Song extends Tune implements Comparable<Song>
 
 	public void addUpVote() {
         upVoteCount++;
-        PartyActivity.notifyChange(this);
+        PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
 	}
 
 	public void addDownVote() {
         downVoteCount++;
-        PartyActivity.notifyChange(this);
+        PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
 	}
 	
 	public int getUpVotes() {

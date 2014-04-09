@@ -13,16 +13,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class PlaylistViewFragment extends Fragment 
 {
 	private boolean isHost;
 	private Button skipButton;
 	private Button pauseButton;
+    private TextView mCurrentSongTitle;
+    private TextView mCurrentArtist;
+    private ImageView mCurrentAlbumArt;
 	private PlaylistAdapter mPlaylistAdapter;
 	private LinearLayout mLinearLayout;
+    public static final int UPDATE_VOTE =          0;
+    public static final int UPDATE_CURRENT_SONG =  1;
+    public static final int UPDATE_PAUSE_BUTTON =  2;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,6 +38,10 @@ public class PlaylistViewFragment extends Fragment
 	{
 		//getDisplayList();
 		mLinearLayout = (LinearLayout) inflater.inflate(R.layout.playlist_view_fragment, container, false);
+        mCurrentArtist = (TextView) mLinearLayout.findViewById(R.id.current_song_artist);
+        mCurrentSongTitle = (TextView) mLinearLayout.findViewById(R.id.current_song_title);
+        mCurrentAlbumArt = (ImageView) mLinearLayout.findViewById(R.id.current_song_album_art);
+
 		
 		//if(displayList != null)
 		//	addSongsToDisplay((LinearLayout) mLinearLayout.findViewById(R.id.playlist_song_view_holder));
@@ -99,12 +111,29 @@ public class PlaylistViewFragment extends Fragment
 	}
 
 
-	public void notifyChange(Object o) {
-		if(mPlaylistAdapter != null)
+	public void notifyChange(int update_message) {
+		switch(update_message)
         {
-            if (o instanceof Song) mPlaylistAdapter.sortCurrentPlaylist();
-			mPlaylistAdapter.notifyDataSetChanged();
+            case UPDATE_CURRENT_SONG:
+                Song currentSong = PartyActivity.getPlaylist().getCurrentSong();
+                //mCurrentAlbumArt = ;
+                mCurrentArtist.setText(currentSong.getArtist());
+                mCurrentSongTitle.setText(currentSong.getTitle());
+                break;
+            case UPDATE_PAUSE_BUTTON:
+                if(PartyActivity.isPlaying())
+                    pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
+                else
+                    pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
+                break;
+            case UPDATE_VOTE:
+                mPlaylistAdapter.sortCurrentPlaylist();
+                mPlaylistAdapter.notifyDataSetChanged();
+                break;
+            default:
+                break;
         }
+
 	}
 	
 	public void updatePauseButton(final boolean playing) 

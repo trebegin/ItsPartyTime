@@ -34,12 +34,14 @@ public class Playlist
             mp.pause();
         else
             mp.start();
-	}
+        PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
+
+    }
 
 	public void playSong (final Song song)
 	{
 		currentSong = song;
-		PartyActivity.notifyChange(this);
+		PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
 
         new Thread(new Runnable() {
 
@@ -53,6 +55,7 @@ public class Playlist
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mp.start();
+                            PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
                         }
                     });
                 } catch (IllegalArgumentException e) {
@@ -87,7 +90,7 @@ public class Playlist
 	public void nextSong() 
 	{
 		currentSong = currentSongList.get(currentSongList.indexOf(currentSong) + 1);
-		PartyActivity.notifyChange(this);
+		PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
 		playSong(currentSong);
 	}
 
@@ -152,6 +155,20 @@ public class Playlist
     public ArrayList<Song> getCurrentSongList()
     {
         return currentSongList;
+    }
+
+    public boolean isPlaying()
+    {
+        if (mp == null)
+            return false;
+        else
+            return mp.isPlaying();
+    }
+
+    public void destroy()
+    {
+        if(mp != null)
+            mp.release();
     }
 	
 }
