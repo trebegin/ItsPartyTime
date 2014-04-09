@@ -1,6 +1,7 @@
 package com.itspartytime;
 
 import android.app.Fragment;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JoinPartyFragment extends Fragment
 {
@@ -33,19 +35,28 @@ public class JoinPartyFragment extends Fragment
 			{
                 // make ArrayList to pass ListDialog
                 ArrayList<String> test = new ArrayList<String>();
-                test.add("Test 1");
-                test.add("Test 2");
-                test.add("Test 3");
-                test.add("Test 4");
-                test.add("Test 5");
+                PartyActivity.getPeers();
+
+                final List peers = PartyActivity.getPeers();
+
+                for(int i = 0; i < peers.size(); i++)
+                {
+                    WifiP2pDevice currentPeer = (WifiP2pDevice) peers.get(i);
+                    test.add(currentPeer.deviceName);
+                }
+
                 // initialize ListDialog, must be final if you want to access dialog in OnItemClickListener as seen below
 				final ListDialog mListDialog = new ListDialog();
                 // create ListDialog, takes an ArrayList<String> to display, a string for the title, and an OnItemClickListener
-                mListDialog.createDialog(test, "Test Dialog", new AdapterView.OnItemClickListener() {
+                mListDialog.createDialog(test, "Select a Party", new AdapterView.OnItemClickListener()
+                {
                     @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+                    {
                         // Toasts string name
                         PartyActivity.toaster(String.valueOf(adapterView.getItemAtPosition(i)));
+                        PartyActivity.peerConnect((WifiP2pDevice)peers.get(i));
+
                         // exit dialog
                         mListDialog.dismiss();
                     }
