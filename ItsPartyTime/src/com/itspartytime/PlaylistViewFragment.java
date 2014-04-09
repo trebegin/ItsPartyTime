@@ -2,11 +2,17 @@ package com.itspartytime;
 
 import gmusic.api.model.Song;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,8 +121,37 @@ public class PlaylistViewFragment extends Fragment
 		switch(update_message)
         {
             case UPDATE_CURRENT_SONG:
-                Song currentSong = PartyActivity.getPlaylist().getCurrentSong();
+                final Song currentSong = PartyActivity.getPlaylist().getCurrentSong();
                 //mCurrentAlbumArt = ;
+                new Thread (new Runnable() {
+                    @Override
+                    public void run() {
+                        URL newurl = null;
+                        Bitmap mIcon_val = null;
+                        try
+                        {
+                            newurl = new URL(currentSong.getAlbumArtUrl());
+                        }
+                        catch (MalformedURLException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        try
+                        {
+                            mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        catch (NullPointerException e)
+                        {
+                            PartyActivity.toaster(currentSong.getTitle() + " does not have album art");
+                        }
+                        setAlbumArt(mIcon_val);
+
+                    }
+                }).start();
                 mCurrentArtist.setText(currentSong.getArtist());
                 mCurrentSongTitle.setText(currentSong.getTitle());
                 break;
@@ -135,6 +170,25 @@ public class PlaylistViewFragment extends Fragment
         }
 
 	}
+
+    private void setAlbumArt(final Bitmap mIcon_val) {
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mIcon_val != null)
+                {
+                    mCurrentAlbumArt.setImageBitmap(mIcon_val);
+                    Log.d("Image", "Image found:" + mIcon_val.toString());
+                }
+                else
+                {
+                    Bitmap mIcon = BitmapFactory.decodeResource(getResources(), R.drawable.generic_album_artwork);
+                    mCurrentAlbumArt.setImageBitmap(mIcon);
+                }
+            }
+        });
+    }
 	
 	public void updatePauseButton(final boolean playing) 
 	{
