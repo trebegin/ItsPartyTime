@@ -108,12 +108,14 @@ public class SongView extends RelativeLayout
         });
     }
 
-    public void setTitle(String title) {
-		mTitle.setText("Title: " + title);
+    public void setTitle(String title)
+    {
+		mTitle.setText(title);
 	}
 
-	public void setArtist(String artist) {
-		mArtist.setText("Artist: " + artist);
+	public void setArtist(String artist)
+    {
+		mArtist.setText(artist);
 	}
 
 	public void setIsCurrentSong(boolean isCurrentSong){

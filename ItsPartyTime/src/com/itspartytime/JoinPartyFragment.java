@@ -3,6 +3,7 @@ package com.itspartytime;
 import android.app.Fragment;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +30,12 @@ public class JoinPartyFragment extends Fragment
         //Needs to be conditional on correct party name
 		selectParty.setOnClickListener(new View.OnClickListener() 
 		{
-			
 			@Override
 			public void onClick(View v) 
 			{
                 // make ArrayList to pass ListDialog
                 ArrayList<String> test = new ArrayList<String>();
-                PartyActivity.getPeers();
-
+                PartyActivity.discoverPeers();
                 final List peers = PartyActivity.getPeers();
 
                 for(int i = 0; i < peers.size(); i++)
@@ -59,10 +58,11 @@ public class JoinPartyFragment extends Fragment
 
                         // exit dialog
                         mListDialog.dismiss();
+                        createPlaylistView();
                     }
                 });
                 mListDialog.show(getFragmentManager(), "Test Dialog");
-                createPlaylistView();
+
 			}
 		});
 		
@@ -91,7 +91,7 @@ public class JoinPartyFragment extends Fragment
 	 */
 	private void createPlaylistView()
 	{
-		
+		PartyActivity.openPlaylistViewFragment(this);
 	}
 	
 	/**

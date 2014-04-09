@@ -78,17 +78,6 @@ public class PartyActivity extends Activity
                 peers.clear();
                 peers.addAll(peerList.getDeviceList());
 
-                if(peers.size() == 0)
-                {
-                    Toast.makeText(getApplicationContext(), "No Peers", Toast.LENGTH_LONG).show();
-                }
-
-                else
-                {
-                    // Shows the first peer (Hardcoded)
-                    WifiP2pDevice testDevice = (WifiP2pDevice) peers.get(0);
-                    Toast.makeText(getApplicationContext(), testDevice.toString(), Toast.LENGTH_LONG).show();
-                }
             }
         };
 
@@ -278,14 +267,13 @@ public class PartyActivity extends Activity
         unregisterReceiver(mReceiver);
     }
 
-    public static List getPeers()
+    public static void discoverPeers()
     {
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener()
         {
             @Override
             public void onSuccess()
             {
-                toaster("Success");
                 mManager.requestPeers(mChannel, mListener);
             }
 
@@ -303,7 +291,10 @@ public class PartyActivity extends Activity
                 toaster(output);
             }
         });
+    }
 
+    public static List getPeers()
+    {
         return peers;
     }
 

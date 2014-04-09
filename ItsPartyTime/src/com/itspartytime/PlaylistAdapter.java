@@ -44,7 +44,8 @@ public class PlaylistAdapter extends BaseAdapter
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent)
+    {
 		return new SongView(mContext, (Song) getItem(position));
 	}
 

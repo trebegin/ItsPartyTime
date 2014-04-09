@@ -59,21 +59,21 @@ public class PlaylistViewFragment extends Fragment
 
 		skipButton = (Button) mLinearLayout.findViewById(R.id.skip_song_button);
 		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
-	
-		skipButton.setOnClickListener(new View.OnClickListener() 
+
+		skipButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				PartyActivity.getPlaylist().nextSong();
 			}
 		});
-		
-		pauseButton.setOnClickListener(new View.OnClickListener() 
-		{	
+
+		pauseButton.setOnClickListener(new View.OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				PartyActivity.getPlaylist().pause();
 			}
