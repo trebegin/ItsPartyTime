@@ -70,7 +70,6 @@ public class SongView extends RelativeLayout
     public void update(final Song song) {
 
         setTitle(song.getName());
-        setIsCurrentSong(Party.isCurrentSong(song));
         setArtist(song.getArtist());
         setUpVotes(song.getUpVotes());
         setDownVotes(song.getDownVotes());

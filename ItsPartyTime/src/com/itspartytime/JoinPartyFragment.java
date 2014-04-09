@@ -71,7 +71,7 @@ public class JoinPartyFragment extends Fragment
 	 * 
 	 * postconditions:
 	 * 		- returns 1 if party was found, 0 if party does not exist
-	 * 		- Party is updated with found party info if party was found 
+	 * 		- PartyActivity is updated with found party info if party was found
 	 * 
 	 * recent changes:
 	 * 		- 

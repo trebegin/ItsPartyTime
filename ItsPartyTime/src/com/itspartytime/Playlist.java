@@ -1,164 +1,82 @@
 package com.itspartytime;
 
+import gmusic.api.impl.GoogleMusicAPI;
+import gmusic.api.impl.InvalidCredentialsException;
 import gmusic.api.model.Song;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.util.Log;
 
 public class Playlist 
 {
+    private MediaPlayer mp;
+    private GoogleMusicAPI api;
+    private ArrayList<Song> currentSongList;
+	private Song currentSong;
 	
-	private GoogleMusicInterface mGoogleMusicInterface;
-	private static ArrayList<Song> songList; // probably want queue instead, but not sure which kind
-	private static Song currentSong;
-	
-	/**
-	 * Constructor, takes a list of songs to manage
-	 *
-	 * preconditions:
-	 * 		- 
-	 * 
-	 * parameters:
-	 * 		- ArrayList<Song> songs	-> list of songs for Playlist to manage
-	 * 
-	 * postconditions:
-	 * 		- 
-	 * 
-	 * recent changes:
-	 * 		-
-	 * 
-	 * known bugs:
-	 * 		-
-	 * 
-	 * @param context
-	 */
+
 	public Playlist(Context context) 
 	{
-		
-		
+        api = new GoogleMusicAPI();
+        mp = new MediaPlayer();
 	}
-		
-	/**
-	 * Changes the vote counts in 'song'
-	 * 
-	 * preconditions:
-	 * 		- parameter vote is a 1 or 0
-	 * 		- parameter song is non-null and exists in songList
-	 * 
-	 * parameters:
-	 * 		- int vote	-> 1 indicates upvote, 0 indicates downvote for song
-	 * 		- Song song	-> song is the object that should be changed
-	 * 
-	 * postconditions:
-	 * 		- either songUpVotes or songDownVotes is changed in song
-	 * 		- songList is reordered based on change in song
-	 * 
-	 * recent changes:
-	 * 		-
-	 * 
-	 * known bugs:
-	 * 		-
-	 * 
-	 * @param vote
-	 * @param song
-	 */
-	public void vote(int vote, Song song)
-	{
-		
-	}
-	
-	/**
-	 * pauses/plays current song depending, calls GoogleMusicInterface
-	 * 
-	 * preconditions:
-	 * 		- A song is being played or has been paused
-	 * 
-	 * parameters:
-	 * 		- none
-	 * 
-	 * postconditions:
-	 * 		- If a song was playing, song is now paused
-	 * 		- If a song was paused, it is now playing
-	 * 
-	 * recent changes:
-	 * 		-
-	 * 
-	 * known bugs:
-	 * 		-
-	 */
+
 	public void pause()
 	{
-		mGoogleMusicInterface.pause();
+        if (mp.isPlaying())
+            mp.pause();
+        else
+            mp.start();
 	}
-	
-	/**
-	 * changes the current song to 'song', calls GoogleMusicInterface
-	 * 
-	 * preconditions:
-	 * 		- 
-	 * 
-	 * parameters:
-	 * 		- Song newSong	-> song to be played
-	 * 
-	 * postconditions:
-	 * 		- newSong is playing
-	 * 		- currentSong equals newSong
-	 * 
-	 * recent changes:
-	 * 		-
-	 * 
-	 * known bugs:
-	 * 		-
-	 * 
-	 * @param song
-	 */
-	public void changeSong(gmusic.api.model.Song song)
+
+	public void playSong (final Song song)
 	{
 		currentSong = song;
-		Party.notifyChange(this);
-		
-		//while(currentSong != songList.iterator().next());
-		mGoogleMusicInterface.playSong(song);
-	}
-	
-	/**
-	 * changes songList order and calls GoogleMusicInterface
-	 * 
-	 * preconditions:
-	 * 		- parameter song is non-null
-	 * 		- parameter song exists in songList
-	 * 		- parameter song is not currentSong
-	 * 		- parameter song is the only song that has been changed in songList
-	 * 
-	 * parameters:
-	 * 		- Song song	-> song is the object that needs to be moved according to new 
-	 * 		  vote counts
-	 * 
-	 * postconditions:
-	 * 		- songList order is changed
-	 * 		- GoogleMusic has the updated version of songList
-	 * 
-	 * recent changes:
-	 * 		-
-	 * 
-	 * known bugs:
-	 * 		-
-	 * 
-	 * @param song
-	 */
-	private void updatePlaylist(Song song)
-	{
-		
+		PartyActivity.notifyChange(this);
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    mp.reset();
+                    mp.setDataSource(api.getSongURL(song).toString());
+                    mp.prepareAsync();
+                    mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.start();
+                        }
+                    });
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
 	}
 
 	public ArrayList<Song> getSongList()
 	{
-		ArrayList<gmusic.api.model.Song> list = new ArrayList<gmusic.api.model.Song>();
-		if(songList != null)
+		ArrayList<Song> list = new ArrayList<Song>();
+		if(currentSongList != null)
 		{
-			for(gmusic.api.model.Song item:songList)
+			for(Song item:currentSongList)
 			{
 				list.add(item);
 			}
@@ -166,55 +84,74 @@ public class Playlist
 		return list;
 	}
 
-    public static Song getNextSong(){
-        Collections.sort(songList);
-        currentSong = songList.get(0);
-        // remove currentSong from playlist
-        //songList.remove(currentSong);
-        return currentSong;
-    }
-
-	public void setSongList(ArrayList<Song> collection) 
-	{
-		if (collection != null)
-			this.songList = collection;
-	}
-
-	public void update() {
-		setSongList(mGoogleMusicInterface.getCurrentSongList());
-		
-	}
-
 	public void nextSong() 
 	{
-		currentSong = songList.get(songList.indexOf(currentSong) + 1);
-		Party.notifyChange(this);
-		mGoogleMusicInterface.playSong(currentSong);
-		
+		currentSong = currentSongList.get(currentSongList.indexOf(currentSong) + 1);
+		PartyActivity.notifyChange(this);
+		playSong(currentSong);
 	}
 
-	public boolean isCurrentSong(gmusic.api.model.Song song) {
-		if(currentSong == null) return false;
-		return currentSong == song;
+	public Song getCurrentSong()
+    {
+		return currentSong;
 	}
 
-	public void login() {
-		mGoogleMusicInterface = new GoogleMusicInterface();
-		try 
-		{
-			mGoogleMusicInterface.setup(Party.getEmail(), Party.getPassword());
-			//mPlaylist = new Playlist(mGoogleMusicInterface.getCurrentPlaylist());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	public void login(final String email, final String password)
+    {
+            new Thread(new Runnable() {
+
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        PartyActivity.toaster("Logging in...");
+                        api.login(email, password);
+                        setCurrentSongList(api.getAllSongs());
+                        Log.d("Done", "Songs done loading");
+                        PartyActivity.toaster("Login Success");
+                        PartyActivity.setLoggedIn(true);
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (URISyntaxException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (InvalidCredentialsException e)
+                    {
+                        PartyActivity.toaster("Invalid Credentials");
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
 	}
 
-	public static void updatePauseButton(boolean playing) {
-		Party.updatePauseButton(playing);
-		
+	public static void updatePauseButton(boolean playing)
+    {
+		PartyActivity.updatePauseButton(playing);
 	}
 
+
+    public void setCurrentSongList(Collection<Song> currentSongList)
+    {
+        if (this.currentSongList == null)
+            this.currentSongList = new ArrayList<Song>();
+        // limits size to 100 songs for now
+        int count = 0;
+        for (Song song : currentSongList) {
+            if (count++ < 100)
+                this.currentSongList.add(song);
+            else
+                break;
+        }
+    }
+
+    public ArrayList<Song> getCurrentSongList()
+    {
+        return currentSongList;
+    }
 	
 }

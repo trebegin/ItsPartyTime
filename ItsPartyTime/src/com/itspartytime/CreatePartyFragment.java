@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +50,7 @@ public class CreatePartyFragment extends Fragment
 			@Override
 			public void onClick(View v) 
 			{
-				if(Party.isLoggedIn())
+				if(PartyActivity.isLoggedIn())
 					openPlaylistViewFragment();
 				else
 				{
@@ -97,7 +96,7 @@ public class CreatePartyFragment extends Fragment
 	 */
 	private void openSelectPlaylistDialog()
 	{
-		Party.openSelectPlaylistDialog();
+		PartyActivity.openSelectPlaylistDialog();
 	}
 	
 	/**
@@ -125,14 +124,14 @@ public class CreatePartyFragment extends Fragment
 	private void openPlaylistViewFragment()
 	{
 		//EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
-		//Party.setPartyName(partyNameTxt.getText().toString());
+		//PartyActivity.setPartyName(partyNameTxt.getText().toString());
 		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
-		topRunner.setText(Party.getPartyName());
-		Party.openPlaylistViewFragment(this);
+		topRunner.setText(PartyActivity.getPartyName());
+		PartyActivity.openPlaylistViewFragment(this);
 	}
 
 	private void openLoginDialog()
 	{
-		Party.openLoginDialog();
+		PartyActivity.openLoginDialog();
 	}
 }

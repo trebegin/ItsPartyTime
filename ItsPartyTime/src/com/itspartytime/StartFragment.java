@@ -22,6 +22,7 @@ public class StartFragment extends Fragment
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.start_fragment_layout, container, false);
 		createPartyButton = (Button) mRelativeLayout.findViewById(R.id.create_party_button);
 		joinPartyButton = (Button) mRelativeLayout.findViewById(R.id.join_party_button);
+
 	
 		createPartyButton.setOnClickListener(new View.OnClickListener() 
 		{
@@ -61,14 +62,14 @@ public class StartFragment extends Fragment
 	 * 		- CreatePartyPage fragment is created and visible
 	 * 
 	 * recent changes:
-	 * 		- called openCreatePartyFragment from Party
+	 * 		- called openCreatePartyFragment from PartyActivity
 	 * 
 	 * known bugs:
 	 * 		-
 	 */
 	private void openCreatePartyFragment()
 	{
-		Party.openCreatePartyFragment(this);
+		PartyActivity.openCreatePartyFragment(this);
 	}
 	
 	/**
@@ -93,7 +94,7 @@ public class StartFragment extends Fragment
 	 */
 	private void openJoinPartyFragment()
 	{
-		Party.openJoinPartyFragment(this);
+		PartyActivity.openJoinPartyFragment(this);
 	}
 	
 	

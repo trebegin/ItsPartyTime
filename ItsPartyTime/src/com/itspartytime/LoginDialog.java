@@ -3,7 +3,6 @@ package com.itspartytime;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -56,8 +55,7 @@ public class LoginDialog extends DialogFragment
 			public void onClick(DialogInterface dialog, int which) {
 
                 // Sets the email and password in party
-                Party.setEmail(emailField.getText().toString());
-				Party.setPassword(passwordField.getText().toString());
+               PartyActivity.login(emailField.getText().toString(), passwordField.getText().toString());
 
                 // If save info is check, push the email and password to the saved preferences
                 if(saveCheckBox.isChecked())
@@ -76,11 +74,11 @@ public class LoginDialog extends DialogFragment
 
                 // Sets the party name to entered string
                 if(nameField.getText().toString() == "")
-                    Party.setPartyName("The Party");
+                    PartyActivity.setPartyName("The PartyActivity");
                 else
-                    Party.setPartyName(nameField.getText().toString());
+                    PartyActivity.setPartyName(nameField.getText().toString());
 
-				Party.login();
+
 			}
 		});
 		return builder.create();

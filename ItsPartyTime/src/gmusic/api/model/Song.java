@@ -10,9 +10,7 @@
  ******************************************************************************/
 package gmusic.api.model;
 
-import android.util.Log;
-
-import com.itspartytime.Party;
+import com.itspartytime.PartyActivity;
 
 import gmusic.model.Tune;
 
@@ -254,12 +252,12 @@ public class Song extends Tune implements Comparable<Song>
 
 	public void addUpVote() {
         upVoteCount++;
-        Party.notifyChange(this);
+        PartyActivity.notifyChange(this);
 	}
 
 	public void addDownVote() {
         downVoteCount++;
-        Party.notifyChange(this);
+        PartyActivity.notifyChange(this);
 	}
 	
 	public int getUpVotes() {
