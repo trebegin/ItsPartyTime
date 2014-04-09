@@ -13,8 +13,7 @@ public class StartFragment extends Fragment
 	
 	private Button createPartyButton;
 	private Button joinPartyButton;
-	private Button loginButton;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
@@ -47,13 +46,11 @@ public class StartFragment extends Fragment
 		return mRelativeLayout;
 	}
 
-
 	private void openCreatePartyFragment()
 	{
 		PartyActivity.openCreatePartyFragment(this);
         PartyActivity.setHost(true);
 	}
-	
 
 	private void openJoinPartyFragment()
 	{

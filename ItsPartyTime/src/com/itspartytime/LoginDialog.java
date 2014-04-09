@@ -55,7 +55,7 @@ public class LoginDialog extends DialogFragment
 			public void onClick(DialogInterface dialog, int which) {
 
                 // Sets the email and password in party
-               PartyActivity.login(emailField.getText().toString(), passwordField.getText().toString());
+               PartyActivity.getPlaylist().login(emailField.getText().toString(), passwordField.getText().toString());
 
                 // If save info is check, push the email and password to the saved preferences
                 if(saveCheckBox.isChecked())

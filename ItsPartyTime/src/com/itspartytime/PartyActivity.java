@@ -1,9 +1,5 @@
 package com.itspartytime;
 
-import gmusic.api.model.Song;
-
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -19,15 +15,14 @@ public class PartyActivity extends Activity
 	private static JoinPartyFragment mJoinPartyFragment;
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
-	private static SelectPlaylistFragment mSelectPlaylistFragment;
-	private static Fragment mFragment;
+	private static Fragment currentFragment;
 
     private static Playlist mPlaylist;
     private static String partyName;
     private static boolean isHost;
     private static boolean loggedIn = false;
 
-	private static Context mApplicationContext;
+    private static Context mApplicationContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -36,7 +31,7 @@ public class PartyActivity extends Activity
 		mApplicationContext = getApplicationContext();
 		setContentView(R.layout.activity_main);
 		initFragments();
-        mPlaylist = new Playlist(mApplicationContext);
+        mPlaylist = new Playlist();
 		openStartFragment(null);
 	}
 
@@ -48,6 +43,14 @@ public class PartyActivity extends Activity
 		return true;
 	}
 
+
+    @Override
+    protected void onDestroy() {
+        if(mPlaylist != null)
+            mPlaylist.destroy();
+        super.onDestroy();
+    }
+
 	private void initFragments()
 	{
 		mFragmentManager = getFragmentManager();
@@ -55,8 +58,6 @@ public class PartyActivity extends Activity
 		mCreatePartyFragment = new CreatePartyFragment();
 		mJoinPartyFragment = new JoinPartyFragment();
 		mPlaylistViewFragment = new PlaylistViewFragment();
-		mSelectPlaylistFragment = new SelectPlaylistFragment();
-		
 		
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mStartFragment, "StartPage").commit();
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mCreatePartyFragment, "CreatePartyPage")
@@ -76,7 +77,7 @@ public class PartyActivity extends Activity
 
 	public static void openStartFragment(Fragment currentFragment) 
 	{
-		mFragment = mStartFragment;
+		PartyActivity.currentFragment = mStartFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -89,7 +90,7 @@ public class PartyActivity extends Activity
 
 	public static void openCreatePartyFragment(Fragment currentFragment) 
 	{
-		mFragment = mCreatePartyFragment;
+		PartyActivity.currentFragment = mCreatePartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -102,7 +103,7 @@ public class PartyActivity extends Activity
 
 	public static void openJoinPartyFragment(Fragment currentFragment) 
 	{
-		mFragment = mJoinPartyFragment;
+		PartyActivity.currentFragment = mJoinPartyFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -115,7 +116,7 @@ public class PartyActivity extends Activity
 
 	public static void openPlaylistViewFragment(Fragment currentFragment) 
 	{	
-		mFragment = mPlaylistViewFragment;
+		PartyActivity.currentFragment = mPlaylistViewFragment;
 		if(currentFragment != null)
 		{
 			mFragmentManager.saveFragmentInstanceState(currentFragment);
@@ -134,19 +135,14 @@ public class PartyActivity extends Activity
 	}
 
 
-	public static void notifyChange(int update_message)
+	public static void notifyChange(int updateMessage)
     {
-		mPlaylistViewFragment.notifyChange(update_message);
+		mPlaylistViewFragment.notifyChange(updateMessage);
 	}
-
-    public static void updatePauseButton(boolean playing)
-    {
-        mPlaylistViewFragment.updatePauseButton(playing);
-    }
 	
 	public static void toaster(final String message)
 	{
-		mFragment.getActivity().runOnUiThread(new Runnable() {
+		currentFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
@@ -168,7 +164,6 @@ public class PartyActivity extends Activity
         return partyName;
     }
 
-
     public static boolean isLoggedIn()
     {
         return loggedIn;
@@ -187,16 +182,6 @@ public class PartyActivity extends Activity
     public static void setHost(boolean isHost)
     {
         PartyActivity.isHost = isHost;
-    }
-
-    public static void login(String email, String password)
-    {
-        mPlaylist.login(email, password);
-    }
-    
-    public static boolean isPlaying()
-    {
-        return mPlaylist.isPlaying();
     }
 
     public static Playlist getPlaylist()

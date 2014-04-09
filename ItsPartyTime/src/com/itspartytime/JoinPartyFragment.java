@@ -14,23 +14,21 @@ import java.util.ArrayList;
 
 public class JoinPartyFragment extends Fragment
 {
-	private Button selectParty;
+	private Button selectPartyButton;
 	private EditText userNameField;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.join_party_fragment_layout, container, false);
-		selectParty = (Button) mRelativeLayout.findViewById(R.id.select_party_button);
+		selectPartyButton = (Button) mRelativeLayout.findViewById(R.id.select_party_button);
 		userNameField = (EditText) mRelativeLayout.findViewById(R.id.userName);
 
         //Needs to be conditional on correct party name
-		selectParty.setOnClickListener(new View.OnClickListener() 
-		{
-			
-			@Override
-			public void onClick(View v) 
-			{
+		selectPartyButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
                 // make ArrayList to pass ListDialog
                 ArrayList<String> test = new ArrayList<String>();
                 test.add("Test 1");
@@ -39,7 +37,7 @@ public class JoinPartyFragment extends Fragment
                 test.add("Test 4");
                 test.add("Test 5");
                 // initialize ListDialog, must be final if you want to access dialog in OnItemClickListener as seen below
-				final ListDialog mListDialog = new ListDialog();
+                final ListDialog mListDialog = new ListDialog();
                 // create ListDialog, takes an ArrayList<String> to display, a string for the title, and an OnItemClickListener
                 mListDialog.createDialog(test, "Test Dialog", new AdapterView.OnItemClickListener() {
                     @Override
@@ -51,9 +49,9 @@ public class JoinPartyFragment extends Fragment
                     }
                 });
                 mListDialog.show(getFragmentManager(), "Test Dialog");
-                createPlaylistView();
-			}
-		});
+                openPlaylistViewFragment();
+            }
+        });
 		
 		return mRelativeLayout;
 	}
@@ -78,7 +76,7 @@ public class JoinPartyFragment extends Fragment
 	 * known bugs:
 	 * 		- 
 	 */
-	private void createPlaylistView()
+	private void openPlaylistViewFragment()
 	{
 		
 	}
@@ -108,7 +106,4 @@ public class JoinPartyFragment extends Fragment
 	{
 		return 1;
 	}
-	
-	// make createButton
-	
 }

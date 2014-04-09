@@ -26,7 +26,6 @@ public class CreatePartyFragment extends Fragment
 	private Button selectPlaylistButton;
 	private Button doneCreatingPartyButton;
 	private Button loginButton;
-	private Playlist selectedPlaylist;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

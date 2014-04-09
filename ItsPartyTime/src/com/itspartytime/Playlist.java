@@ -9,31 +9,29 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
 
 public class Playlist 
 {
-    private MediaPlayer mp;
+    private MediaPlayer mMediaPlayer;
     private GoogleMusicAPI api;
     private ArrayList<Song> currentSongList;
 	private Song currentSong;
 	
 
-	public Playlist(Context context) 
+	public Playlist()
 	{
         api = new GoogleMusicAPI();
-        mp = new MediaPlayer();
+        mMediaPlayer = new MediaPlayer();
 	}
 
 	public void pause()
 	{
-        if (mp.isPlaying())
-            mp.pause();
+        if (mMediaPlayer.isPlaying())
+            mMediaPlayer.pause();
         else
-            mp.start();
+            mMediaPlayer.start();
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
 
     }
@@ -48,10 +46,10 @@ public class Playlist
             @Override
             public void run() {
                 try {
-                    mp.reset();
-                    mp.setDataSource(api.getSongURL(song).toString());
-                    mp.prepareAsync();
-                    mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    mMediaPlayer.reset();
+                    mMediaPlayer.setDataSource(api.getSongURL(song).toString());
+                    mMediaPlayer.prepareAsync();
+                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mp.start();
@@ -74,29 +72,11 @@ public class Playlist
         }).start();
 	}
 
-	public ArrayList<Song> getSongList()
-	{
-		ArrayList<Song> list = new ArrayList<Song>();
-		if(currentSongList != null)
-		{
-			for(Song item:currentSongList)
-			{
-				list.add(item);
-			}
-		}
-		return list;
-	}
-
 	public void nextSong() 
 	{
 		currentSong = currentSongList.get(currentSongList.indexOf(currentSong) + 1);
 		PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
 		playSong(currentSong);
-	}
-
-	public Song getCurrentSong()
-    {
-		return currentSong;
 	}
 
 	public void login(final String email, final String password)
@@ -132,13 +112,20 @@ public class Playlist
             }).start();
 	}
 
-	public static void updatePauseButton(boolean playing)
+    public boolean isPlaying()
     {
-		PartyActivity.updatePauseButton(playing);
-	}
+        if (mMediaPlayer == null)
+            return false;
+        else
+            return mMediaPlayer.isPlaying();
+    }
 
+    public ArrayList<Song> getCurrentSongList()
+    {
+        return currentSongList;
+    }
 
-    public void setCurrentSongList(Collection<Song> currentSongList)
+    private void setCurrentSongList(Collection<Song> currentSongList)
     {
         if (this.currentSongList == null)
             this.currentSongList = new ArrayList<Song>();
@@ -152,23 +139,15 @@ public class Playlist
         }
     }
 
-    public ArrayList<Song> getCurrentSongList()
+    public Song getCurrentSong()
     {
-        return currentSongList;
-    }
-
-    public boolean isPlaying()
-    {
-        if (mp == null)
-            return false;
-        else
-            return mp.isPlaying();
+        return currentSong;
     }
 
     public void destroy()
     {
-        if(mp != null)
-            mp.release();
+        if(mMediaPlayer != null)
+            mMediaPlayer.release();
     }
 	
 }

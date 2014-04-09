@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 public class PlaylistViewFragment extends Fragment 
 {
-	private boolean isHost;
 	private Button skipButton;
 	private Button pauseButton;
     private TextView mCurrentSongTitle;
@@ -42,15 +41,11 @@ public class PlaylistViewFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		//getDisplayList();
 		mLinearLayout = (LinearLayout) inflater.inflate(R.layout.playlist_view_fragment, container, false);
         mCurrentArtist = (TextView) mLinearLayout.findViewById(R.id.current_song_artist);
         mCurrentSongTitle = (TextView) mLinearLayout.findViewById(R.id.current_song_title);
         mCurrentAlbumArt = (ImageView) mLinearLayout.findViewById(R.id.current_song_album_art);
 
-		
-		//if(displayList != null)
-		//	addSongsToDisplay((LinearLayout) mLinearLayout.findViewById(R.id.playlist_song_view_holder));
 		if(PartyActivity.isLoggedIn())
 		{
 			playlistAdapterInit();
@@ -82,8 +77,6 @@ public class PlaylistViewFragment extends Fragment
 		return mLinearLayout;
 	}
 	
-	
-	
 	private void playlistAdapterInit() {
 		ListView mListView = (ListView) mLinearLayout.findViewById(R.id.playlist_listview);
 		mLinearLayout.findViewById(R.id.not_logged_in).setVisibility(View.GONE);
@@ -99,8 +92,6 @@ public class PlaylistViewFragment extends Fragment
 	    });
     }
 
-
-
 	@Override
 	public void onAttach(Activity activity) {
 		if(PartyActivity.isLoggedIn() && (mPlaylistAdapter == null))
@@ -110,19 +101,16 @@ public class PlaylistViewFragment extends Fragment
 		super.onAttach(activity);
 	}
 
-	
 	private void changeSong(Song song)
 	{
 		PartyActivity.getPlaylist().playSong(song);
 	}
 
-
-	public void notifyChange(int update_message) {
-		switch(update_message)
+	public void notifyChange(int updateMessage) {
+		switch(updateMessage)
         {
             case UPDATE_CURRENT_SONG:
                 final Song currentSong = PartyActivity.getPlaylist().getCurrentSong();
-                //mCurrentAlbumArt = ;
                 new Thread (new Runnable() {
                     @Override
                     public void run() {
@@ -156,7 +144,7 @@ public class PlaylistViewFragment extends Fragment
                 mCurrentSongTitle.setText(currentSong.getTitle());
                 break;
             case UPDATE_PAUSE_BUTTON:
-                if(PartyActivity.isPlaying())
+                if(PartyActivity.getPlaylist().isPlaying())
                     pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
                 else
                     pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
@@ -189,19 +177,5 @@ public class PlaylistViewFragment extends Fragment
             }
         });
     }
-	
-	public void updatePauseButton(final boolean playing) 
-	{
-		getActivity().runOnUiThread(new Runnable () {
-			@Override
-			public void run()
-			{
-				if(playing)
-					pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
-				else
-					pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
-			}
-		});
-		
-	}
+
 }
