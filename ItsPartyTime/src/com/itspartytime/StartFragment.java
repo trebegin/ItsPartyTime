@@ -22,10 +22,6 @@ public class StartFragment extends Fragment
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.start_fragment_layout, container, false);
 		createPartyButton = (Button) mRelativeLayout.findViewById(R.id.create_party_button);
 		joinPartyButton = (Button) mRelativeLayout.findViewById(R.id.join_party_button);
-		
-		
-		if(Party.isLoggedIn())
-			loginButton.setVisibility(View.GONE);
 	
 		createPartyButton.setOnClickListener(new View.OnClickListener() 
 		{

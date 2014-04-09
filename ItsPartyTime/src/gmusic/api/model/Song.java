@@ -274,6 +274,7 @@ public class Song extends Tune implements Comparable<Song>
     public int compareTo(Song song) {
         int compareToVotes = song.getUpVotes() - song.getDownVotes();
         int thisVotes = getUpVotes() - getDownVotes();
+        if(compareToVotes - thisVotes == 0) return song.getUpVotes() - getUpVotes();
         return compareToVotes - thisVotes;
     }
 }

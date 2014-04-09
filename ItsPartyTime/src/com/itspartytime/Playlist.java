@@ -3,6 +3,7 @@ package com.itspartytime;
 import gmusic.api.model.Song;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 
@@ -10,8 +11,8 @@ public class Playlist
 {
 	
 	private GoogleMusicInterface mGoogleMusicInterface;
-	private ArrayList<gmusic.api.model.Song> songList; // probably want queue instead, but not sure which kind
-	private Song currentSong;
+	private static ArrayList<Song> songList; // probably want queue instead, but not sure which kind
+	private static Song currentSong;
 	
 	/**
 	 * Constructor, takes a list of songs to manage
@@ -152,7 +153,7 @@ public class Playlist
 		
 	}
 
-	public ArrayList<gmusic.api.model.Song> getSongList() 
+	public ArrayList<Song> getSongList()
 	{
 		ArrayList<gmusic.api.model.Song> list = new ArrayList<gmusic.api.model.Song>();
 		if(songList != null)
@@ -164,6 +165,14 @@ public class Playlist
 		}
 		return list;
 	}
+
+    public static Song getNextSong(){
+        Collections.sort(songList);
+        currentSong = songList.get(0);
+        // remove currentSong from playlist
+        //songList.remove(currentSong);
+        return currentSong;
+    }
 
 	public void setSongList(ArrayList<Song> collection) 
 	{
