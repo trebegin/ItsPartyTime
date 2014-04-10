@@ -41,6 +41,7 @@ public class PartyActivity extends Activity
     private static String partyName;
     private static boolean isHost;
     private static boolean loggedIn = false;
+    private static boolean loginAttempted = false;
 
     private static ProgressDialog progress;
 
@@ -128,8 +129,13 @@ public class PartyActivity extends Activity
 	
 	public static void openLoginDialog()
 	{
-		LoginDialog login = new LoginDialog();
-		login.show(mFragmentManager, "login");
+        if(loginAttempted || loggedIn) toaster("Already logging in...");
+        else
+        {
+            loginAttempted = true;
+		    LoginDialog login = new LoginDialog();
+		    login.show(mFragmentManager, "login");
+        }
 	}
 
 	public static void openStartFragment(Fragment currentFragment) 

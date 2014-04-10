@@ -18,6 +18,7 @@ public class Playlist
     private GoogleMusicAPI api;
     private ArrayList<Song> currentSongList;
 	private Song currentSong;
+    private boolean ableToPause = false;
 	
 
 	public Playlist()
@@ -28,55 +29,62 @@ public class Playlist
 
 	public void pause()
 	{
-        if (mMediaPlayer.isPlaying())
-            mMediaPlayer.pause();
-        else
-            mMediaPlayer.start();
+        if(ableToPause)
+        {
+            if (mMediaPlayer.isPlaying())
+                mMediaPlayer.pause();
+            else
+                mMediaPlayer.start();
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
+        }
 
     }
 
 	public void playSong (final Song song)
 	{
+        ableToPause = false;
 		currentSong = song;
 		PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
+        PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
 
-        new Thread(new Runnable() {
+        new Thread(new Runnable()
+        {
 
             @Override
-            public void run() {
+            public void run()
+            {
                 try {
                     mMediaPlayer.reset();
                     mMediaPlayer.setDataSource(api.getSongURL(song).toString());
                     mMediaPlayer.prepareAsync();
-                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+                    {
                         @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            mp.start();
+                        public void onPrepared(MediaPlayer mediaPlayer) {
+                            mMediaPlayer.start();
                             PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
+                            ableToPause = true;
                         }
                     });
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
+                    mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+                    {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            nextSong();
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
-
             }
         }).start();
 	}
 
 	public void nextSong() 
 	{
-		currentSong = currentSongList.get(currentSongList.indexOf(currentSong) + 1);
-		PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
-		playSong(currentSong);
+		playSong(currentSongList.get(currentSongList.indexOf(currentSong) + 1));
 	}
 
 	public void login(final String email, final String password)
