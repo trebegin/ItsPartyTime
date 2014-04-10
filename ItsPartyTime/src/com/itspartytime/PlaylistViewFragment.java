@@ -106,56 +106,62 @@ public class PlaylistViewFragment extends Fragment
 		PartyActivity.getPlaylist().playSong(song);
 	}
 
-	public void notifyChange(int updateMessage) {
-		switch(updateMessage)
-        {
-            case UPDATE_CURRENT_SONG:
-                final Song currentSong = PartyActivity.getPlaylist().getCurrentSong();
-                new Thread (new Runnable() {
-                    @Override
-                    public void run() {
-                        URL newurl = null;
-                        Bitmap mIcon_val = null;
-                        try
-                        {
-                            newurl = new URL(currentSong.getAlbumArtUrl());
-                        }
-                        catch (MalformedURLException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        try
-                        {
-                            mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-                        }
-                        catch (IOException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        catch (NullPointerException e)
-                        {
-                            PartyActivity.toaster(currentSong.getTitle() + " does not have album art");
-                        }
-                        setAlbumArt(mIcon_val);
+	public void notifyChange(final int updateMessage) {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                switch(updateMessage)
+                {
+                    case UPDATE_CURRENT_SONG:
+                        final Song currentSong = PartyActivity.getPlaylist().getCurrentSong();
+                        new Thread (new Runnable() {
+                            @Override
+                            public void run() {
+                                URL newurl = null;
+                                Bitmap mIcon_val = null;
+                                try
+                                {
+                                    newurl = new URL(currentSong.getAlbumArtUrl());
+                                }
+                                catch (MalformedURLException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                try
+                                {
+                                    mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                                }
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                catch (NullPointerException e)
+                                {
+                                    PartyActivity.toaster(currentSong.getTitle() + " does not have album art");
+                                }
+                                setAlbumArt(mIcon_val);
 
-                    }
-                }).start();
-                mCurrentArtist.setText(currentSong.getArtist());
-                mCurrentSongTitle.setText(currentSong.getTitle());
-                break;
-            case UPDATE_PAUSE_BUTTON:
-                if(PartyActivity.getPlaylist().isPlaying())
-                    pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
-                else
-                    pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
-                break;
-            case UPDATE_VOTE:
-                mPlaylistAdapter.sortCurrentPlaylist();
-                mPlaylistAdapter.notifyDataSetChanged();
-                break;
-            default:
-                break;
-        }
+                            }
+                        }).start();
+                        mCurrentArtist.setText(currentSong.getArtist());
+                        mCurrentSongTitle.setText(currentSong.getTitle());
+                        break;
+                    case UPDATE_PAUSE_BUTTON:
+                        if(PartyActivity.getPlaylist().isPlaying())
+                            pauseButton.setBackground(getResources().getDrawable(R.drawable.pause_icon));
+                        else
+                            pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
+                        break;
+                    case UPDATE_VOTE:
+                        mPlaylistAdapter.sortCurrentPlaylist();
+                        mPlaylistAdapter.notifyDataSetChanged();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
 
 	}
 
