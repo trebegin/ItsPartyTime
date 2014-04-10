@@ -119,7 +119,4 @@ public class JoinPartyFragment extends Fragment
 	{
 		return 1;
 	}
-	
-	// make createButton
-	
 }

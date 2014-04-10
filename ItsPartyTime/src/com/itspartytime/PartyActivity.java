@@ -40,7 +40,7 @@ public class PartyActivity extends Activity
     private static boolean isHost;
     private static boolean loggedIn = false;
 
-    private static Context mApplicationContext;
+	private static Context mApplicationContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -234,6 +234,16 @@ public class PartyActivity extends Activity
     public static void setHost(boolean isHost)
     {
         PartyActivity.isHost = isHost;
+    }
+
+    public static void login(String email, String password)
+    {
+        mPlaylist.login(email, password);
+    }
+    
+    public static boolean isPlaying()
+    {
+        return mPlaylist.isPlaying();
     }
 
     public static Playlist getPlaylist()
