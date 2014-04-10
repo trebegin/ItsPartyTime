@@ -7,7 +7,9 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -39,6 +41,8 @@ public class PartyActivity extends Activity
     private static String partyName;
     private static boolean isHost;
     private static boolean loggedIn = false;
+
+    private static ProgressDialog progress;
 
 	private static Context mApplicationContext;
 
@@ -75,6 +79,7 @@ public class PartyActivity extends Activity
                 // Clears the array list and adds the list of peers
                 peers.clear();
                 peers.addAll(peerList.getDeviceList());
+                toaster("Peers Added");
 
             }
         };
@@ -194,9 +199,11 @@ public class PartyActivity extends Activity
 	
 	public static void toaster(final String message)
 	{
-		currentFragment.getActivity().runOnUiThread(new Runnable() {
+		currentFragment.getActivity().runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run ()
+            {
                 Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
             }
         });
@@ -315,5 +322,22 @@ public class PartyActivity extends Activity
                toaster("Failed for Failure: " + reason);
             }
         });
+    }
+
+    public static void startProgress(String str1, String str2)
+    {
+        if(progress != null && progress.isShowing())
+            progress.dismiss();
+
+        ProgressDialog.show(currentFragment.getActivity(), str1, str2, true, true, new DialogInterface.OnCancelListener()
+        {
+
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+
+            }
+        });
+
     }
 }

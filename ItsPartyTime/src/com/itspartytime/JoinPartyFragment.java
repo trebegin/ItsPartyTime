@@ -34,27 +34,31 @@ public class JoinPartyFragment extends Fragment
 			public void onClick(View v) 
 			{
                 // make ArrayList to pass ListDialog
-                ArrayList<String> test = new ArrayList<String>();
+                ArrayList<String> devices = new ArrayList<String>();
                 PartyActivity.discoverPeers();
+
                 final List peers = PartyActivity.getPeers();
 
                 for(int i = 0; i < peers.size(); i++)
                 {
                     WifiP2pDevice currentPeer = (WifiP2pDevice) peers.get(i);
-                    test.add(currentPeer.deviceName);
+                    devices.add(currentPeer.deviceName);
                 }
 
                 // initialize ListDialog, must be final if you want to access dialog in OnItemClickListener as seen below
 				final ListDialog mListDialog = new ListDialog();
                 // create ListDialog, takes an ArrayList<String> to display, a string for the title, and an OnItemClickListener
-                mListDialog.createDialog(test, "Select a Party", new AdapterView.OnItemClickListener()
+                mListDialog.createDialog(devices, "Select a Party", new AdapterView.OnItemClickListener()
                 {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
                     {
                         // Toasts string name
                         PartyActivity.toaster(String.valueOf(adapterView.getItemAtPosition(i)));
-                        PartyActivity.peerConnect((WifiP2pDevice)peers.get(i));
+
+                        if(peers.size() <= i && i > 0)
+                            PartyActivity.toaster(peers.get(i).toString());
+                           //PartyActivity.peerConnect((WifiP2pDevice)peers.get(i));
 
                         // exit dialog
                         mListDialog.dismiss();
@@ -91,6 +95,7 @@ public class JoinPartyFragment extends Fragment
 	 */
 	private void openPlaylistViewFragment()
 	{
+        PartyActivity.toaster("Opening Frag");
 		PartyActivity.openPlaylistViewFragment(this);
 	}
 	

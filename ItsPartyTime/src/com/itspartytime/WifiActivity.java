@@ -1,6 +1,7 @@
 package com.itspartytime;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pConfig;
@@ -31,6 +32,7 @@ public class WifiActivity extends Activity
     private static WifiP2pManager.PeerListListener mListener;
     private static List peers = new ArrayList();
     private static WifiP2pConfig config;
+    private static ProgressDialog progress;
 
 
 

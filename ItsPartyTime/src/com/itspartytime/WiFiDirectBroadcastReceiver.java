@@ -15,6 +15,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;
     private PartyActivity mPartyActivity;
+    private WifiP2pManager.PeerListListener mPeerListListener;
 
     public WiFiDirectBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel, PartyActivity activity)
     {
@@ -48,7 +49,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver
 
         else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action))
         {
-            // Call WifiP2pManager.requestPeers() to get a list of current peers
+            if(mManager != null)
+                mManager.requestPeers(mChannel, mPeerListListener);
         }
 
         else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action))
