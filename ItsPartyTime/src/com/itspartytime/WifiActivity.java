@@ -60,6 +60,7 @@ public class WifiActivity extends Activity
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
 
+
        // Need to resolve with the PartyActivity Activity
        // mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, PartyActivity);
 

@@ -18,6 +18,7 @@ public class SongView extends RelativeLayout
 {
 	private TextView mTitle;
 	private TextView mArtist;
+	private ImageView mAlbumArt;
 	private Button voteUpButton;
 	private Button voteDownButton;
 
