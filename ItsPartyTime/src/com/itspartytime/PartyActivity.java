@@ -17,8 +17,16 @@ import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.Toast;
+
+import com.itspartytime.dialogs.LoginDialog;
+import com.itspartytime.dialogs.SelectPlaylistDialog;
+import com.itspartytime.fragments.CreatePartyFragment;
+import com.itspartytime.fragments.JoinPartyFragment;
+import com.itspartytime.fragments.PlaylistViewFragment;
+import com.itspartytime.fragments.StartFragment;
+import com.itspartytime.helpers.Playlist;
+import com.itspartytime.wifi.WiFiDirectBroadcastReceiver;
 
 public class PartyActivity extends Activity
 {

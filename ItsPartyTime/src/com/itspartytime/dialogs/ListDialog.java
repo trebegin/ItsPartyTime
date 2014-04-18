@@ -1,4 +1,4 @@
-package com.itspartytime;
+package com.itspartytime.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.itspartytime.R;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

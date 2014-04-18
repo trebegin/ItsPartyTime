@@ -11,7 +11,7 @@
 package gmusic.api.model;
 
 import com.itspartytime.PartyActivity;
-import com.itspartytime.PlaylistViewFragment;
+import com.itspartytime.fragments.PlaylistViewFragment;
 
 import gmusic.model.Tune;
 

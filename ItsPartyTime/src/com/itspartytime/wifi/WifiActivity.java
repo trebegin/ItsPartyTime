@@ -1,4 +1,4 @@
-package com.itspartytime;
+package com.itspartytime.wifi;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
+
+import com.itspartytime.R;
+
 import java.lang.Override;
 import java.lang.String;
 import java.util.ArrayList;

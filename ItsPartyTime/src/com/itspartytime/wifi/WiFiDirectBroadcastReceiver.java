@@ -1,9 +1,12 @@
-package com.itspartytime;
+package com.itspartytime.wifi;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pManager;
+
+import com.itspartytime.PartyActivity;
+
 import java.lang.Override;
 import java.lang.String;
 
