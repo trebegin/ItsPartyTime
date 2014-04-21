@@ -38,11 +38,15 @@ public class Song extends Tune implements Comparable<Song>
 	private int disc;
 	private int upVoteCount;
 	private int downVoteCount;
+    private boolean votedUp;
+    private boolean votedDown;
 
 	public Song()
 	{
 		upVoteCount = 0;
 		downVoteCount = 0;
+        votedDown = false;
+        votedUp = false;
 	}
 
 	public final String getMetajamId()
@@ -253,11 +257,13 @@ public class Song extends Tune implements Comparable<Song>
 
 	public void addUpVote() {
         upVoteCount++;
+        votedUp = true;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
 	}
 
 	public void addDownVote() {
         downVoteCount++;
+        votedDown = true;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
 	}
 	

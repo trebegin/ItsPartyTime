@@ -5,6 +5,7 @@ import gmusic.api.model.Song;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -24,13 +25,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.itspartytime.PartyActivity;
-import com.itspartytime.adapters.PlaylistAdapter;
 import com.itspartytime.R;
+import com.itspartytime.adapters.PlaylistAdapter;
 
 public class PlaylistViewFragment extends Fragment 
 {
 	private Button skipButton;
 	private Button pauseButton;
+    private Button voteUpButton;
+    private Button voteDownButton;
     private TextView mCurrentSongTitle;
     private TextView mCurrentArtist;
     private ImageView mCurrentAlbumArt;
@@ -57,6 +60,8 @@ public class PlaylistViewFragment extends Fragment
 
 		skipButton = (Button) mLinearLayout.findViewById(R.id.skip_song_button);
 		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
+        voteUpButton = (Button) mLinearLayout.findViewById(R.id.current_vote_up_button);
+        voteDownButton = (Button) mLinearLayout.findViewById(R.id.current_vote_down_button);
 
 		skipButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -148,6 +153,9 @@ public class PlaylistViewFragment extends Fragment
                         }).start();
                         mCurrentArtist.setText(currentSong.getArtist());
                         mCurrentSongTitle.setText(currentSong.getTitle());
+                        voteUpButton.setText(Integer.toString(currentSong.getUpVotes()));
+                        voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
+                        mCurrentSongTitle.setText(currentSong.getTitle());
                         break;
                     case UPDATE_PAUSE_BUTTON:
                         if(PartyActivity.getPlaylist().isPlaying())
@@ -156,8 +164,14 @@ public class PlaylistViewFragment extends Fragment
                             pauseButton.setBackground(getResources().getDrawable(R.drawable.play_icon));
                         break;
                     case UPDATE_VOTE:
+                        final Song currentSong2 = PartyActivity.getPlaylist().getCurrentSong();
                         mPlaylistAdapter.sortCurrentPlaylist();
                         mPlaylistAdapter.notifyDataSetChanged();
+                        if (currentSong2!= null)
+                        {
+                            voteUpButton.setText(Integer.toString(currentSong2.getUpVotes()));
+                            voteDownButton.setText(Integer.toString(currentSong2.getDownVotes()));
+                        }
                         break;
                     default:
                         break;

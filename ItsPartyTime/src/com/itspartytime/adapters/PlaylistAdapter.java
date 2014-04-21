@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.itspartytime.adapters.SongView;
+
 public class PlaylistAdapter extends BaseAdapter
 {
 
