@@ -1,24 +1,39 @@
 package com.itspartytime;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LogRecord;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.wifi.p2p.WifiP2pConfig;
-import android.net.wifi.p2p.WifiP2pDevice;
-import android.net.wifi.p2p.WifiP2pDeviceList;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.Menu;
+
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itspartytime.bluetooth.BluetoothHelper;
 import com.itspartytime.dialogs.LoginDialog;
 import com.itspartytime.dialogs.SelectPlaylistDialog;
 import com.itspartytime.fragments.CreatePartyFragment;
@@ -26,7 +41,9 @@ import com.itspartytime.fragments.JoinPartyFragment;
 import com.itspartytime.fragments.PlaylistViewFragment;
 import com.itspartytime.fragments.StartFragment;
 import com.itspartytime.helpers.Playlist;
-import com.itspartytime.wifi.WiFiDirectBroadcastReceiver;
+
+import org.w3c.dom.Text;
+
 
 public class PartyActivity extends Activity
 {
@@ -38,12 +55,6 @@ public class PartyActivity extends Activity
 	private static Fragment currentFragment;
 
     private final IntentFilter mIntentFilter = new IntentFilter();
-    private static WifiP2pManager.Channel mChannel;
-    private static WifiP2pManager mManager;
-    private static WiFiDirectBroadcastReceiver mReceiver;
-    private static WifiP2pManager.PeerListListener mListener;
-    private static List peers = new ArrayList();
-    private static WifiP2pConfig config;
 
     private static Playlist mPlaylist;
     private static String partyName;
@@ -53,7 +64,19 @@ public class PartyActivity extends Activity
 
     private static ProgressDialog progress;
 
+    private static BluetoothHelper mBluetoothHelper;
+    private static ArrayList<BluetoothDevice> devices;
+    private Handler mHandler;
+
 	private static Context mApplicationContext;
+
+    private final int REQUEST_ENABLE_BT = 1;
+    private final int MESSAGE_READ = 2;
+    private final int REQUEST_UPDATE = 3;
+    private final int RECEIVE_UPDATE = 4;
+    private final int VOTE_SONG = 5;
+
+    private TextView topRunner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -63,40 +86,77 @@ public class PartyActivity extends Activity
 		setContentView(R.layout.activity_main);
 		initFragments();
         mPlaylist = new Playlist();
+        topRunner = (TextView)findViewById(R.id.top_runner);
 
-        //  Indicates a change in the Wi-Fi P2P status.
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
-
-        // Indicates a change in the list of available peers.
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-
-        // Indicates the state of Wi-Fi P2P connectivity has changed.
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
-
-        // Indicates this device's details have changed.
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
-
-        // Registers the receiver
-        registerReceiver(mReceiver, mIntentFilter);
-
-        // Gets a list of peers
-        mListener = new WifiP2pManager.PeerListListener()
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null)
         {
-            @Override
-            public void onPeersAvailable (WifiP2pDeviceList peerList)
-            {
-                // Clears the array list and adds the list of peers
-                peers.clear();
-                peers.addAll(peerList.getDeviceList());
-                toaster("Peers Added");
+            toaster("Bluetooth is not Supported");
+        }
 
+        if (!mBluetoothAdapter.isEnabled())
+        {
+            Intent enableBtIntent = new Intent((BluetoothAdapter.ACTION_REQUEST_ENABLE));
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+
+        devices = new ArrayList<BluetoothDevice>();
+        mHandler = new Handler()
+        {
+            public void handleMessage(Message msg)
+            {
+                switch (msg.what)
+                {
+                    case MESSAGE_READ:
+                    {
+                        String data = "";
+                        try
+                        {
+                            data = new String((byte[]) msg.obj, "UTF-8");
+                        }
+                        catch (UnsupportedEncodingException e) {}
+
+                       toaster(data);
+
+                        break;
+                    }
+                    case REQUEST_UPDATE:
+                    {
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        try
+                        {
+                            ObjectOutputStream out = new ObjectOutputStream(bos);
+                            out.writeObject(mPlaylist);
+                            mBluetoothHelper.send(bos.toByteArray());
+                        }
+                        catch (IOException e) {}
+
+                    }
+
+                    case RECEIVE_UPDATE:
+                    {
+                        ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
+                        ObjectInput in = null;
+
+                        try
+                        {
+                            in = new ObjectInputStream(bis);
+                            mPlaylist = (Playlist) in.readObject();
+                        }
+                        catch (IOException e) {}
+                        catch (ClassNotFoundException e) {}
+
+                    }
+
+                    case VOTE_SONG:
+                    {
+
+                    }
+
+                }
             }
         };
-
-        // Three most important parts of the Wifi communication
-        mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        mChannel = mManager.initialize(this, getMainLooper(), null);
-        mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
+        mBluetoothHelper = new BluetoothHelper(mBluetoothAdapter, mHandler);
 
 		openStartFragment(null);
 	}
@@ -276,84 +336,49 @@ public class PartyActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-        registerReceiver(mReceiver, mIntentFilter);
+
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-        unregisterReceiver(mReceiver);
+
     }
 
-    public static void discoverPeers()
+    public static ArrayList<BluetoothDevice> discoverDevices()
     {
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener()
-        {
-            @Override
-            public void onSuccess()
-            {
-                mManager.requestPeers(mChannel, mListener);
-            }
-
-            @Override
-            public void onFailure(int reasonCode)
-            {
-                String output = "null";
-                switch (reasonCode)
-                {
-                    case WifiP2pManager.NO_SERVICE_REQUESTS:
-                        output = "No Service Requests";
-                    case WifiP2pManager.P2P_UNSUPPORTED:
-                        output = "P2P Unsupported";
-                }
-                toaster(output);
-            }
-        });
+        return mBluetoothHelper.discover();
     }
 
-    public static List getPeers()
-    {
-        return peers;
-    }
+
 
     // Also used for a button
-    public static void peerConnect(WifiP2pDevice peer)
+    public static void deviceConnect(BluetoothDevice device)
     {
-        config = new WifiP2pConfig();
-        config.deviceAddress = peer.deviceAddress;
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener()
-        {
-            @Override
-            public void onSuccess()
-            {
-               toaster("Connected to Device");
-            }
-
-            @Override
-            public void onFailure(int reason)
-            {
-               toaster("Failed for Failure: " + reason);
-            }
-        });
+        mBluetoothHelper.connect(device);
+        toaster("Connecting");
     }
 
-    public static void startProgress(String str1, String str2)
+    public static ArrayList<BluetoothDevice> getDevices()
     {
-        if(progress != null && progress.isShowing())
-            progress.dismiss();
-
-        ProgressDialog.show(currentFragment.getActivity(), str1, str2, true, true, new DialogInterface.OnCancelListener()
-        {
-
-            @Override
-            public void onCancel(DialogInterface dialog)
-            {
-
-            }
-        });
-
+        return devices;
     }
+
+    public static void bluetoothAccept()
+    {
+        mBluetoothHelper.accept();
+    }
+
+    public static void send(String msg)
+    {
+        try
+        {
+            mBluetoothHelper.send(msg.getBytes("UTF-8"));
+        }
+        catch (UnsupportedEncodingException e) {}
+    }
+
 }
 
 

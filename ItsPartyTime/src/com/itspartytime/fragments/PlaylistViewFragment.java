@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,6 +40,8 @@ public class PlaylistViewFragment extends Fragment
     private ImageView mCurrentAlbumArt;
 	private PlaylistAdapter mPlaylistAdapter;
 	private LinearLayout mLinearLayout;
+    private Button mSendButton;
+    private EditText mMessageEdit;
     public static final int UPDATE_VOTE =          0;
     public static final int UPDATE_CURRENT_SONG =  1;
     public static final int UPDATE_PAUSE_BUTTON =  2;
@@ -51,6 +54,18 @@ public class PlaylistViewFragment extends Fragment
         mCurrentArtist = (TextView) mLinearLayout.findViewById(R.id.current_song_artist);
         mCurrentSongTitle = (TextView) mLinearLayout.findViewById(R.id.current_song_title);
         mCurrentAlbumArt = (ImageView) mLinearLayout.findViewById(R.id.current_song_album_art);
+
+        mSendButton = (Button) mLinearLayout.findViewById(R.id.sendBtn);
+        mMessageEdit = (EditText) mLinearLayout.findViewById(R.id.messageText);
+
+        mSendButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v)
+            {
+                PartyActivity.send(mMessageEdit.getText().toString());
+            }
+        });
 
 		if(PartyActivity.isLoggedIn())
 		{
@@ -81,6 +96,7 @@ public class PlaylistViewFragment extends Fragment
 				PartyActivity.getPlaylist().pause();
 			}
 		});
+
 		
 		return mLinearLayout;
 	}

@@ -1,7 +1,7 @@
 package com.itspartytime.fragments;
 
 import android.app.Fragment;
-import android.net.wifi.p2p.WifiP2pDevice;
+import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,14 +38,14 @@ public class JoinPartyFragment extends Fragment
 			{
                 // make ArrayList to pass ListDialog
                 ArrayList<String> devices = new ArrayList<String>();
-                PartyActivity.discoverPeers();
 
-                final List peers = PartyActivity.getPeers();
+
+                final List peers = PartyActivity.discoverDevices();
 
                 for(int i = 0; i < peers.size(); i++)
                 {
-                    WifiP2pDevice currentPeer = (WifiP2pDevice) peers.get(i);
-                    devices.add(currentPeer.deviceName);
+                    BluetoothDevice currentPeer = (BluetoothDevice) peers.get(i);
+                    devices.add(currentPeer.getName());
                 }
 
                 // initialize ListDialog, must be final if you want to access dialog in OnItemClickListener as seen below
@@ -59,9 +59,10 @@ public class JoinPartyFragment extends Fragment
                         // Toasts string name
                         PartyActivity.toaster(String.valueOf(adapterView.getItemAtPosition(i)));
 
-                        if(peers.size() <= i && i > 0)
-                            PartyActivity.toaster(peers.get(i).toString());
-                           //PartyActivity.peerConnect((WifiP2pDevice)peers.get(i));
+                        if(peers.size() >= i && i > 0)
+                        {
+                            PartyActivity.deviceConnect((BluetoothDevice)peers.get(i));
+                        }
 
                         // exit dialog
                         mListDialog.dismiss();
@@ -98,7 +99,6 @@ public class JoinPartyFragment extends Fragment
 	 */
 	private void openPlaylistViewFragment()
 	{
-        PartyActivity.toaster("Opening Frag");
 		PartyActivity.openPlaylistViewFragment(this);
 	}
 	

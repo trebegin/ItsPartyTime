@@ -36,6 +36,8 @@ public class WifiActivity extends Activity
     private static WifiP2pConfig config;
     private static ProgressDialog progress;
 
+    //test
+
 
 
     @Override

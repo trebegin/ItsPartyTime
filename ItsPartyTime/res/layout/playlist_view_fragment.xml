@@ -80,6 +80,24 @@
             android:background="@drawable/skip_icon"
             android:layout_toRightOf="@+id/pause_button"
             android:layout_alignBaseline="@id/pause_button"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:id="@+id/sendBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/messageText"
+            android:layout_alignTop="@+id/sendBtn"
+            android:layout_toRightOf="@+id/current_song_album_art"
+            android:hint="Type a Message"/>
     </RelativeLayout>
 
     <ListView
