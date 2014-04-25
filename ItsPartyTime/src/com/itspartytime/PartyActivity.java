@@ -146,6 +146,7 @@ public class PartyActivity extends Activity
                                 out.writeObject(mPlaylist.getCurrentSongList().get(i));
                                 byte[] data = bos.toByteArray();
                                 mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
+                                toaster("Sent " + mPlaylist.getCurrentSongList().get(i).getName());
                                 out.close();
                                 bos.close();
                             }
@@ -165,14 +166,15 @@ public class PartyActivity extends Activity
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
                             songs.add((Song) in.readObject());
+                            mPlaylist.setCurrentSongList(songs);
+                            toaster("Got " + songs.get(0).getName());
                             in.close();
                         }
                         catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
 
-                        if(mPlaylist.getCurrentSongList().size() == 10)
+                        if(songs.size() == 10)
                         {
-                            mPlaylist.setCurrentSongList(songs);
                             toaster(mPlaylist.getCurrentSongList().toString());
                             songs.clear();
                         }
