@@ -9,8 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.LogRecord;
+import java.util.StringTokenizer;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -24,6 +23,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 
 import android.os.Handler;
@@ -43,6 +43,8 @@ import com.itspartytime.fragments.StartFragment;
 import com.itspartytime.helpers.Playlist;
 
 import org.w3c.dom.Text;
+
+import gmusic.api.model.Song;
 
 
 public class PartyActivity extends Activity
@@ -64,17 +66,19 @@ public class PartyActivity extends Activity
 
     private static ProgressDialog progress;
 
+    private static ArrayList<Song> songs;
+
     private static BluetoothHelper mBluetoothHelper;
     private static ArrayList<BluetoothDevice> devices;
     private Handler mHandler;
 
 	private static Context mApplicationContext;
 
-    private final int REQUEST_ENABLE_BT = 1;
-    private final int MESSAGE_READ = 2;
-    private final int REQUEST_UPDATE = 3;
-    private final int RECEIVE_UPDATE = 4;
-    private final int VOTE_SONG = 5;
+    private final static int REQUEST_ENABLE_BT = 1;
+    private final static int MESSAGE_READ = 2;
+    private final static int REQUEST_UPDATE = 3;
+    private final static int RECEIVE_UPDATE = 4;
+    private final static int VOTE_SONG = 5;
 
     private TextView topRunner;
 
@@ -101,12 +105,18 @@ public class PartyActivity extends Activity
         }
 
         devices = new ArrayList<BluetoothDevice>();
+        songs = new ArrayList<Song>();
         mHandler = new Handler()
         {
             public void handleMessage(Message msg)
             {
+//                String byteString = String.valueOf(bytes);
+//                StringTokenizer tokens = new StringTokenizer(byteString, ":");
+//                String msgType = tokens.nextToken();
+
                 switch (msg.what)
                 {
+
                     case MESSAGE_READ:
                     {
                         String data = "";
@@ -120,44 +130,66 @@ public class PartyActivity extends Activity
 
                         break;
                     }
+
                     case REQUEST_UPDATE:
                     {
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
                         try
                         {
-                            ObjectOutputStream out = new ObjectOutputStream(bos);
-                            out.writeObject(mPlaylist);
-                            mBluetoothHelper.send(bos.toByteArray());
-                        }
-                        catch (IOException e) {}
 
+
+                            for(int i = 1; i <= 10; i++)
+                            {
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                ObjectOutputStream out = new ObjectOutputStream(bos);
+                                out.flush();
+                                bos.flush();
+                                out.writeObject(mPlaylist.getCurrentSongList().get(i));
+                                byte[] data = bos.toByteArray();
+                                mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
+                                out.close();
+                                bos.close();
+                            }
+
+
+
+                        }
+                        catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
+                        break;
                     }
 
                     case RECEIVE_UPDATE:
                     {
-                        ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
-                        ObjectInput in = null;
-
                         try
                         {
-                            in = new ObjectInputStream(bis);
-                            mPlaylist = (Playlist) in.readObject();
+
+                            ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
+                            ObjectInputStream in = new ObjectInputStream(bis);
+
+                            songs.add((Song) in.readObject());
+                            mPlaylist.setCurrentSongList(songs);
+                            in.close();
                         }
-                        catch (IOException e) {}
-                        catch (ClassNotFoundException e) {}
+                        catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
+                        catch (ClassNotFoundException f) {}
+
+                        if(mPlaylist.getCurrentSongList().size() == 10)
+                            toaster(mPlaylist.getCurrentSongList().toString());
+
+                        break;
+
 
                     }
 
                     case VOTE_SONG:
                     {
-
+                        break;
                     }
 
                 }
             }
         };
         mBluetoothHelper = new BluetoothHelper(mBluetoothAdapter, mHandler);
-
+        bluetoothAccept();
 		openStartFragment(null);
 	}
 
@@ -357,7 +389,6 @@ public class PartyActivity extends Activity
     public static void deviceConnect(BluetoothDevice device)
     {
         mBluetoothHelper.connect(device);
-        toaster("Connecting");
     }
 
     public static ArrayList<BluetoothDevice> getDevices()
@@ -374,7 +405,17 @@ public class PartyActivity extends Activity
     {
         try
         {
-            mBluetoothHelper.send(msg.getBytes("UTF-8"));
+            mBluetoothHelper.send(msg.getBytes("UTF-8"), MESSAGE_READ);
+        }
+        catch (UnsupportedEncodingException e) {}
+    }
+
+    public static void requestPlaylist(View view)
+    {
+        String str = " ";
+        try
+        {
+            mBluetoothHelper.send(str.getBytes("UTF-8"), REQUEST_UPDATE);
         }
         catch (UnsupportedEncodingException e) {}
     }

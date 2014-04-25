@@ -101,7 +101,8 @@ public class PlaylistViewFragment extends Fragment
 		return mLinearLayout;
 	}
 	
-	private void playlistAdapterInit() {
+	private void playlistAdapterInit()
+    {
 		ListView mListView = (ListView) mLinearLayout.findViewById(R.id.playlist_listview);
 		mLinearLayout.findViewById(R.id.not_logged_in).setVisibility(View.GONE);
 		mPlaylistAdapter = new PlaylistAdapter(getActivity(), PartyActivity.getPlaylist().getCurrentSongList());

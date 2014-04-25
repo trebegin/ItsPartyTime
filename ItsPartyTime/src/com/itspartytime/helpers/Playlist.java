@@ -160,5 +160,10 @@ public class Playlist
         if(mMediaPlayer != null)
             mMediaPlayer.release();
     }
+
+    public void setCurrentSongList(ArrayList<Song> songs)
+    {
+        currentSongList = songs;
+    }
 	
 }

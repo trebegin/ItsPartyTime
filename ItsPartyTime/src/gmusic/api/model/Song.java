@@ -15,10 +15,11 @@ import com.itspartytime.fragments.PlaylistViewFragment;
 
 import gmusic.model.Tune;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Song extends Tune implements Comparable<Song>
+public class Song extends Tune implements Comparable<Song>, Serializable
 {
 	private int totalTracks;
 	private boolean subjectToCuration;

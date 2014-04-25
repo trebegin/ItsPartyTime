@@ -123,6 +123,7 @@ public class CreatePartyFragment extends Fragment
 	 * known bugs:
 	 * 		- 
 	 */
+
 	private void openPlaylistViewFragment()
 	{
 		//EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
@@ -130,7 +131,6 @@ public class CreatePartyFragment extends Fragment
 		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
 		topRunner.setText(PartyActivity.getPartyName());
 		PartyActivity.openPlaylistViewFragment(this);
-        PartyActivity.bluetoothAccept();
 	}
 
 	private void openLoginDialog()

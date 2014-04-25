@@ -95,9 +95,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/messageText"
+            android:hint="Type a Message"
             android:layout_alignTop="@+id/sendBtn"
-            android:layout_toRightOf="@+id/current_song_album_art"
-            android:hint="Type a Message"/>
+            android:layout_alignRight="@id/skip_song_button"
+            android:layout_alignEnd="@id/skip_song_button"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recieve"
+            android:id="@+id/receiveBtn"
+            android:onClick="requestPlaylist"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/current_song_artist"
+            android:layout_alignEnd="@+id/current_song_artist"/>
     </RelativeLayout>
 
     <ListView

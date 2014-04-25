@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.itspartytime.PartyActivity;
+import com.itspartytime.R;
 
 
 /**
@@ -44,7 +47,8 @@ public class BluetoothHelper
         devices = new ArrayList<BluetoothDevice>();
     }
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver()
+    {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             // When discovery finds a device
@@ -60,8 +64,6 @@ public class BluetoothHelper
 
             }
         }
-
-
     };
 
     private class AcceptThread extends Thread {
@@ -192,11 +194,13 @@ public class BluetoothHelper
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
+
         }
 
         public void run()
         {
-            byte[] buffer = new byte[1024];  // buffer store for the stream
+            byte[] buffer = new byte[2048];  // buffer store for the stream
+            byte[] headerBytes = new byte[4];
             int bytes; // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs
@@ -205,9 +209,14 @@ public class BluetoothHelper
                 try
                 {
                     // Read from the InputStream
+                    mmInStream.read(headerBytes, 0, 4);
+                    ByteBuffer target = ByteBuffer.wrap(headerBytes);
+                    int header = target.getInt();
+
                     bytes = mmInStream.read(buffer);
+
                     // Send the obtained bytes to the UI activity
-                    mBluetoothHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                    mBluetoothHandler.obtainMessage(header, bytes, -1, buffer).sendToTarget();
                 } catch (IOException e) {
                     break;
                 }
@@ -273,13 +282,17 @@ public class BluetoothHelper
         mConnectedThread.start();
     }
 
-    public void send(byte [] bytes)
+    public void send(byte [] bytes, int messageType)
     {
+        byte[] message = new byte[4 + bytes.length];
+        ByteBuffer target = ByteBuffer.wrap(message);
+
+        target.putInt(messageType);
+        target.put(bytes);
+
         if(mConnectedThread != null)
         {
-            mConnectedThread.write(bytes);
+            mConnectedThread.write(message);
         }
     }
-
-
 }
