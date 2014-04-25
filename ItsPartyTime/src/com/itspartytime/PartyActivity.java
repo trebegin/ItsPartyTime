@@ -164,7 +164,6 @@ public class PartyActivity extends Activity
 
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
-                            songs.clear();
                             songs.add((Song) in.readObject());
                             mPlaylist.setCurrentSongList(songs);
                             in.close();
@@ -173,7 +172,10 @@ public class PartyActivity extends Activity
                         catch (ClassNotFoundException f) {}
 
                         if(mPlaylist.getCurrentSongList().size() == 10)
+                        {
                             toaster(mPlaylist.getCurrentSongList().toString());
+                            songs.clear();
+                        }
 
                         break;
 
@@ -187,7 +189,6 @@ public class PartyActivity extends Activity
 
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
-                            songs.clear();
                             songs.add((Song) in.readObject());
                             Song s = mPlaylist.findSongByName(songs.get(0).getName());
                             s.setUpVotes(songs.get(0).getUpVotes());
@@ -195,6 +196,7 @@ public class PartyActivity extends Activity
                             in.close();
                             if(isHost())
                                 sendVote(s);
+                            songs.clear();
                         }
                         catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
