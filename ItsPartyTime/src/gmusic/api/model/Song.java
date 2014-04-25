@@ -283,13 +283,11 @@ public class Song extends Tune implements Comparable<Song>, Serializable
     public void setUpVotes(int upVotes) {
         upVoteCount = upVotes;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
-        PartyActivity.sendVote(this);
     }
 
     public void setDownVotes(int downVotes) {
         downVoteCount = downVotes;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
-        PartyActivity.sendVote(this);
     }
 
     @Override
