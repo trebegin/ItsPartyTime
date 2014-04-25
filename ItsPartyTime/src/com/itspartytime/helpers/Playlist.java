@@ -164,6 +164,22 @@ public class Playlist
     public void setCurrentSongList(ArrayList<Song> songs)
     {
         currentSongList = songs;
+        PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG_LIST);
+    }
+
+    public void setCurrentSong(Song currSong)
+    {
+        currentSong = currSong;
+    }
+
+    public Song findSongByName(String name)
+    {
+        for(Song s: currentSongList)
+        {
+            if(s.getName() == name)
+                return s;
+        }
+        return null;
     }
 	
 }

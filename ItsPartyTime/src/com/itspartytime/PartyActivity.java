@@ -164,7 +164,7 @@ public class PartyActivity extends Activity
 
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
-
+                            songs.clear();
                             songs.add((Song) in.readObject());
                             mPlaylist.setCurrentSongList(songs);
                             in.close();
@@ -182,6 +182,22 @@ public class PartyActivity extends Activity
 
                     case VOTE_SONG:
                     {
+                        try
+                        {
+
+                            ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
+                            ObjectInputStream in = new ObjectInputStream(bis);
+                            songs.clear();
+                            songs.add((Song) in.readObject());
+                            Song s = mPlaylist.findSongByName(songs.get(0).getName());
+                            s.setUpVotes(songs.get(0).getUpVotes());
+                            s.setDownVotes(songs.get(0).getUpVotes());
+                            in.close();
+                            if(isHost())
+                                sendVote(s);
+                        }
+                        catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
+                        catch (ClassNotFoundException f) {}
                         break;
                     }
 
@@ -418,6 +434,23 @@ public class PartyActivity extends Activity
             mBluetoothHelper.send(str.getBytes("UTF-8"), REQUEST_UPDATE);
         }
         catch (UnsupportedEncodingException e) {}
+    }
+
+    public static void sendVote(Song song)
+    {
+        try
+        {
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ObjectOutputStream out = new ObjectOutputStream(bos);
+                out.flush();
+                bos.flush();
+                out.writeObject(song);
+                byte[] data = bos.toByteArray();
+                mBluetoothHelper.send(bos.toByteArray(), VOTE_SONG);
+                out.close();
+                bos.close();
+        }
+        catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
     }
 
 }

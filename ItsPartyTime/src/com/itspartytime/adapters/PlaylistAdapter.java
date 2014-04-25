@@ -27,6 +27,11 @@ public class PlaylistAdapter extends BaseAdapter
     public void sortCurrentPlaylist(){
         Collections.sort(currentPlaylist);
     }
+
+    public void setCurrentPlaylist(ArrayList<Song> songs)
+    {
+        currentPlaylist = songs;
+    }
 	
 	@Override
 	public int getCount() 

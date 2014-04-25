@@ -7,11 +7,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +48,7 @@ public class PlaylistViewFragment extends Fragment
     public static final int UPDATE_VOTE =          0;
     public static final int UPDATE_CURRENT_SONG =  1;
     public static final int UPDATE_PAUSE_BUTTON =  2;
+    public static final int UPDATE_CURRENT_SONG_LIST = 3;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +61,11 @@ public class PlaylistViewFragment extends Fragment
 
         mSendButton = (Button) mLinearLayout.findViewById(R.id.sendBtn);
         mMessageEdit = (EditText) mLinearLayout.findViewById(R.id.messageText);
+        Button receive = (Button) mLinearLayout.findViewById(R.id.receiveBtn);
+        receive.setVisibility(View.GONE);
 
+        mSendButton.setVisibility(View.GONE);
+        mMessageEdit.setVisibility(View.GONE);
         mSendButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -67,18 +75,23 @@ public class PlaylistViewFragment extends Fragment
             }
         });
 
-		if(PartyActivity.isLoggedIn())
-		{
-			playlistAdapterInit();
-			mLinearLayout.findViewById(R.id.not_logged_in).setVisibility(View.GONE);
-		}
+		if(PartyActivity.getPlaylist().getCurrentSongList() != null)
+            playlistAdapterInit();
+
+        if(PartyActivity.getPlaylist().getCurrentSong() != null)
+            setCurrentSong(PartyActivity.getPlaylist().getCurrentSong());
 
 		skipButton = (Button) mLinearLayout.findViewById(R.id.skip_song_button);
 		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
         voteUpButton = (Button) mLinearLayout.findViewById(R.id.current_vote_up_button);
         voteDownButton = (Button) mLinearLayout.findViewById(R.id.current_vote_down_button);
+        if(!PartyActivity.isHost())
+        {
+            skipButton.setVisibility(View.GONE);
+            pauseButton.setVisibility(View.GONE);
+        }
 
-		skipButton.setOnClickListener(new View.OnClickListener()
+        skipButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -104,7 +117,6 @@ public class PlaylistViewFragment extends Fragment
 	private void playlistAdapterInit()
     {
 		ListView mListView = (ListView) mLinearLayout.findViewById(R.id.playlist_listview);
-		mLinearLayout.findViewById(R.id.not_logged_in).setVisibility(View.GONE);
 		mPlaylistAdapter = new PlaylistAdapter(getActivity(), PartyActivity.getPlaylist().getCurrentSongList());
 		mListView.setAdapter(mPlaylistAdapter);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -119,7 +131,7 @@ public class PlaylistViewFragment extends Fragment
 
 	@Override
 	public void onAttach(Activity activity) {
-		if(PartyActivity.isLoggedIn() && (mPlaylistAdapter == null))
+		if(PartyActivity.getPlaylist().getCurrentSongList() != null && (mPlaylistAdapter == null))
 		{
 			playlistAdapterInit();
 		}
@@ -128,51 +140,58 @@ public class PlaylistViewFragment extends Fragment
 
 	private void changeSong(Song song)
 	{
-		PartyActivity.getPlaylist().playSong(song);
+        if(PartyActivity.isHost())
+		    PartyActivity.getPlaylist().playSong(song);
 	}
+
+    private void setCurrentSong(final Song currentSong)
+    {
+        new Thread (new Runnable() {
+            @Override
+            public void run() {
+                URL newurl = null;
+                Bitmap mIcon_val = null;
+                try
+                {
+                    newurl = new URL(currentSong.getAlbumArtUrl());
+                }
+                catch (MalformedURLException e)
+                {
+                    e.printStackTrace();
+                }
+                try
+                {
+                    mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (NullPointerException e)
+                {
+                    PartyActivity.toaster(currentSong.getTitle() + " does not have album art");
+                }
+                setAlbumArt(mIcon_val);
+
+            }
+        }).start();
+        mCurrentArtist.setText(currentSong.getArtist());
+        mCurrentSongTitle.setText(currentSong.getTitle());
+        voteUpButton.setText(Integer.toString(currentSong.getUpVotes()));
+        voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
+        mCurrentSongTitle.setText(currentSong.getTitle());
+    }
 
 	public void notifyChange(final int updateMessage) {
         this.getActivity().runOnUiThread(new Runnable() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void run() {
                 switch(updateMessage)
                 {
                     case UPDATE_CURRENT_SONG:
-                        final Song currentSong = PartyActivity.getPlaylist().getCurrentSong();
-                        new Thread (new Runnable() {
-                            @Override
-                            public void run() {
-                                URL newurl = null;
-                                Bitmap mIcon_val = null;
-                                try
-                                {
-                                    newurl = new URL(currentSong.getAlbumArtUrl());
-                                }
-                                catch (MalformedURLException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                                try
-                                {
-                                    mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-                                }
-                                catch (IOException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                                catch (NullPointerException e)
-                                {
-                                    PartyActivity.toaster(currentSong.getTitle() + " does not have album art");
-                                }
-                                setAlbumArt(mIcon_val);
+                        setCurrentSong(PartyActivity.getPlaylist().getCurrentSong());
 
-                            }
-                        }).start();
-                        mCurrentArtist.setText(currentSong.getArtist());
-                        mCurrentSongTitle.setText(currentSong.getTitle());
-                        voteUpButton.setText(Integer.toString(currentSong.getUpVotes()));
-                        voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
-                        mCurrentSongTitle.setText(currentSong.getTitle());
                         break;
                     case UPDATE_PAUSE_BUTTON:
                         if(PartyActivity.getPlaylist().isPlaying())
@@ -188,6 +207,16 @@ public class PlaylistViewFragment extends Fragment
                         {
                             voteUpButton.setText(Integer.toString(currentSong2.getUpVotes()));
                             voteDownButton.setText(Integer.toString(currentSong2.getDownVotes()));
+                        }
+                        break;
+                    case UPDATE_CURRENT_SONG_LIST:
+                        if(PartyActivity.getPlaylist().getCurrentSongList() != null)
+                        {
+                            if(mPlaylistAdapter == null)
+                                playlistAdapterInit();
+                            mPlaylistAdapter.setCurrentPlaylist(PartyActivity.getPlaylist().getCurrentSongList());
+                            mPlaylistAdapter.sortCurrentPlaylist();
+                            mPlaylistAdapter.notifyDataSetChanged();
                         }
                         break;
                     default:

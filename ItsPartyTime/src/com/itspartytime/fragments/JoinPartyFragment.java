@@ -99,6 +99,7 @@ public class JoinPartyFragment extends Fragment
 	 */
 	private void openPlaylistViewFragment()
 	{
+        PartyActivity.requestPlaylist(null);
 		PartyActivity.openPlaylistViewFragment(this);
 	}
 	
