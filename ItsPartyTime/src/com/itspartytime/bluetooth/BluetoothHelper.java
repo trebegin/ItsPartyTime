@@ -199,15 +199,17 @@ public class BluetoothHelper
 
         public void run()
         {
-            byte[] buffer = new byte[2048];  // buffer store for the stream
-            byte[] headerBytes = new byte[4];
-            int bytes; // bytes returned from read()
+            // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs
             while (true)
             {
                 try
                 {
+                    byte[] buffer = new byte[4096];  // buffer store for the stream
+                    byte[] headerBytes = new byte[4];
+                    int bytes;
+
                     // Read from the InputStream
                     mmInStream.read(headerBytes, 0, 4);
                     ByteBuffer target = ByteBuffer.wrap(headerBytes);
@@ -217,7 +219,10 @@ public class BluetoothHelper
 
                     // Send the obtained bytes to the UI activity
                     mBluetoothHandler.obtainMessage(header, bytes, -1, buffer).sendToTarget();
-                } catch (IOException e) {
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
                     break;
                 }
             }

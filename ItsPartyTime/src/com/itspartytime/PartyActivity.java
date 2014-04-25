@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -27,6 +28,8 @@ import android.util.Log;
 import android.view.Menu;
 
 import android.os.Handler;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,6 +82,7 @@ public class PartyActivity extends Activity
     private final static int REQUEST_UPDATE = 3;
     private final static int RECEIVE_UPDATE = 4;
     private final static int VOTE_SONG = 5;
+    private final static int RECEIVE_VOTE = 6;
 
     private TextView topRunner;
 
@@ -135,24 +139,19 @@ public class PartyActivity extends Activity
                     {
                         try
                         {
-
-
-                            for(int i = 1; i <= 10; i++)
+                            int size = mPlaylist.getCurrentSongList().size();
+                            for(int i = 0; i < size; i++)
                             {
                                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                                 ObjectOutputStream out = new ObjectOutputStream(bos);
-                                out.flush();
-                                bos.flush();
                                 out.writeObject(mPlaylist.getCurrentSongList().get(i));
                                 byte[] data = bos.toByteArray();
                                 mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
-                                toaster("Sent " + mPlaylist.getCurrentSongList().get(i).getName());
+                                out.flush();
+                                bos.flush();
                                 out.close();
                                 bos.close();
                             }
-
-
-
                         }
                         catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
                         break;
@@ -162,33 +161,23 @@ public class PartyActivity extends Activity
                     {
                         try
                         {
-
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
                             songs.add((Song) in.readObject());
-                            toaster("Got " + songs.get(0).getName());
                             in.close();
                         }
                         catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
 
-                        if(songs.size() == 10)
-                        {
-                            mPlaylist.setCurrentSongList(songs);
-                            toaster(mPlaylist.getCurrentSongList().toString());
-                            songs.clear();
-                        }
+                        mPlaylist.setCurrentSongList(songs);
 
                         break;
-
-
                     }
 
                     case VOTE_SONG:
                     {
                         try
                         {
-
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
                             songs.add((Song) in.readObject());
@@ -196,6 +185,7 @@ public class PartyActivity extends Activity
                             s.setUpVotes(songs.get(0).getUpVotes());
                             s.setDownVotes(songs.get(0).getUpVotes());
                             in.close();
+
                             if(isHost())
                                 sendVote(s);
                             songs.clear();
@@ -205,9 +195,15 @@ public class PartyActivity extends Activity
                         break;
                     }
 
+                    case RECEIVE_VOTE:
+                    {
+
+                    }
+
                 }
             }
         };
+
         mBluetoothHelper = new BluetoothHelper(mBluetoothAdapter, mHandler);
         bluetoothAccept();
 		openStartFragment(null);
@@ -219,7 +215,26 @@ public class PartyActivity extends Activity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch ((item.getItemId()))
+        {
+            case(R.id.action_refresh):
+            {
+                songs.clear();
+                requestPlaylist(null);
+                toaster("Requesting Playlist");
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 
     @Override
@@ -388,14 +403,12 @@ public class PartyActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-
     }
 
     public static ArrayList<BluetoothDevice> discoverDevices()
