@@ -165,7 +165,6 @@ public class PartyActivity extends Activity
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
                             songs.add((Song) in.readObject());
-                            mPlaylist.setCurrentSongList(songs);
                             in.close();
                         }
                         catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
@@ -173,6 +172,7 @@ public class PartyActivity extends Activity
 
                         if(mPlaylist.getCurrentSongList().size() == 10)
                         {
+                            mPlaylist.setCurrentSongList(songs);
                             toaster(mPlaylist.getCurrentSongList().toString());
                             songs.clear();
                         }

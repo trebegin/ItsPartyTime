@@ -127,6 +127,7 @@ public class PlaylistViewFragment extends Fragment
                 changeSong((Song) adapter.getItemAtPosition(position));
             }
 	    });
+        mListView.invalidate();
     }
 
 	@Override
