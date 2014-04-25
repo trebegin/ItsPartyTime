@@ -166,7 +166,6 @@ public class PartyActivity extends Activity
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
                             songs.add((Song) in.readObject());
-                            mPlaylist.setCurrentSongList(songs);
                             toaster("Got " + songs.get(0).getName());
                             in.close();
                         }
@@ -175,6 +174,7 @@ public class PartyActivity extends Activity
 
                         if(songs.size() == 10)
                         {
+                            mPlaylist.setCurrentSongList(songs);
                             toaster(mPlaylist.getCurrentSongList().toString());
                             songs.clear();
                         }
