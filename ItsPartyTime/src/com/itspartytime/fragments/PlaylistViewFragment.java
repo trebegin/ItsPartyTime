@@ -165,7 +165,7 @@ public class PlaylistViewFragment extends Fragment
             }
         }).start();
         mCurrentArtist.setText(currentSong.getArtist());
-        mCurrentSongTitle.setText(currentSong.getTitle());
+        mCurrentSongTitle.setText(currentSong.getName());
         voteUpButton.setText(Integer.toString(currentSong.getUpVotes()));
         voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
         mCurrentSongTitle.setText(currentSong.getTitle());
@@ -180,7 +180,6 @@ public class PlaylistViewFragment extends Fragment
                 {
                     case UPDATE_CURRENT_SONG:
                         setCurrentSong(PartyActivity.getPlaylist().getCurrentSong());
-
                         break;
                     case UPDATE_PAUSE_BUTTON:
                         if(PartyActivity.getPlaylist().isPlaying())

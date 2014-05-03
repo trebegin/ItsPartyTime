@@ -188,7 +188,10 @@ public class PartyActivity extends Activity
                                 break;
                             }
                             else
+                            {
                                 songs.add((Song) o);
+                                toaster(((Song) o).getName() + ", " + ((Song) o).getArtist());
+                            }
                             in.close();
                         }
                         catch (IOException e) {e.printStackTrace();}
@@ -220,7 +223,7 @@ public class PartyActivity extends Activity
                             if(voteSong != null)
                             {
                                 voteSong.setUpVotes(inSong.getUpVotes());
-                                voteSong.setDownVotes(inSong.getUpVotes());
+                                voteSong.setDownVotes(inSong.getDownVotes());
                                 if(isHost())
                                     sendVote(voteSong);
                             }
