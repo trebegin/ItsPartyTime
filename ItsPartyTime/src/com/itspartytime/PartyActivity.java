@@ -4,14 +4,11 @@ package com.itspartytime;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -19,7 +16,6 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -28,11 +24,8 @@ import android.util.Log;
 import android.view.Menu;
 
 import android.os.Handler;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +37,6 @@ import com.itspartytime.fragments.JoinPartyFragment;
 import com.itspartytime.fragments.PlaylistViewFragment;
 import com.itspartytime.fragments.StartFragment;
 import com.itspartytime.helpers.Playlist;
-
-import org.w3c.dom.Text;
 
 import gmusic.api.model.Song;
 
@@ -83,6 +74,8 @@ public class PartyActivity extends Activity
     private final static int RECEIVE_UPDATE = 4;
     private final static int VOTE_SONG = 5;
     private final static int RECEIVE_VOTE = 6;
+
+    private boolean receiveCurrentSong = false;
 
     private TextView topRunner;
 
@@ -139,12 +132,18 @@ public class PartyActivity extends Activity
                     {
                         try
                         {
-                            int size = mPlaylist.getCurrentSongList().size();
-                            for(int i = 0; i < size; i++)
+
+                            ArrayList<Song> playlistPackage = mPlaylist.getCurrentSongList();
+                            playlistPackage.add(0 ,mPlaylist.getCurrentSong());
+
+                            int packageSize = mPlaylist.getCurrentSongList().size();
+                            for(int i = 0; i < packageSize; i++)
                             {
                                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                                 ObjectOutputStream out = new ObjectOutputStream(bos);
-                                out.writeObject(mPlaylist.getCurrentSongList().get(i));
+
+                                Song song = mPlaylist.getCurrentSongList().get(i);
+                                out.writeObject(song);
                                 byte[] data = bos.toByteArray();
                                 mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
                                 out.flush();
@@ -166,10 +165,17 @@ public class PartyActivity extends Activity
                             songs.add((Song) in.readObject());
                             in.close();
                         }
-                        catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
+                        catch (IOException e) {e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
 
-                        mPlaylist.setCurrentSongList(songs);
+                        if(receiveCurrentSong == false)
+                        {
+                            mPlaylist.setCurrentSong(songs.get(0));
+                            songs.clear();
+                            receiveCurrentSong = true;
+                        }
+                        else
+                            mPlaylist.setCurrentSongList(songs);
 
                         break;
                     }
@@ -226,6 +232,7 @@ public class PartyActivity extends Activity
             case(R.id.action_refresh):
             {
                 songs.clear();
+                receiveCurrentSong = false;
                 requestPlaylist(null);
                 toaster("Requesting Playlist");
                 return true;

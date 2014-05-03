@@ -170,6 +170,7 @@ public class Playlist
     public void setCurrentSong(Song currSong)
     {
         currentSong = currSong;
+        PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
     }
 
     public Song findSongByName(String name)

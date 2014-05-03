@@ -85,6 +85,7 @@ public class PlaylistViewFragment extends Fragment
 		pauseButton = (Button) mLinearLayout.findViewById(R.id.pause_button);
         voteUpButton = (Button) mLinearLayout.findViewById(R.id.current_vote_up_button);
         voteDownButton = (Button) mLinearLayout.findViewById(R.id.current_vote_down_button);
+
         if(!PartyActivity.isHost())
         {
             skipButton.setVisibility(View.GONE);
@@ -119,7 +120,8 @@ public class PlaylistViewFragment extends Fragment
 		ListView mListView = (ListView) mLinearLayout.findViewById(R.id.playlist_listview);
 		mPlaylistAdapter = new PlaylistAdapter(getActivity(), PartyActivity.getPlaylist().getCurrentSongList());
 		mListView.setAdapter(mPlaylistAdapter);
-		mListView.setOnItemClickListener(new OnItemClickListener() {
+		mListView.setOnItemClickListener(new OnItemClickListener()
+        {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
@@ -147,6 +149,7 @@ public class PlaylistViewFragment extends Fragment
 
     private void setCurrentSong(final Song currentSong)
     {
+
         new Thread (new Runnable() {
             @Override
             public void run() {
