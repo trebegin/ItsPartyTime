@@ -51,14 +51,14 @@ public class StartFragment extends Fragment
 
 	private void openCreatePartyFragment()
 	{
-		PartyActivity.openCreatePartyFragment(this);
         PartyActivity.setHost(true);
+        PartyActivity.openCreatePartyFragment(this);
 	}
 
 	private void openJoinPartyFragment()
 	{
-		PartyActivity.openJoinPartyFragment(this);
         PartyActivity.setHost(false);
+        PartyActivity.openJoinPartyFragment(this);
 	}
 
 }

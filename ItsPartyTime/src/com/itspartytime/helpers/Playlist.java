@@ -51,6 +51,7 @@ public class Playlist
 		PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG_LIST);
+        PartyActivity.updateSongList();
 
 
         new Thread(new Runnable()

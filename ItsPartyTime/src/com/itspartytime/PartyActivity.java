@@ -127,43 +127,7 @@ public class PartyActivity extends Activity
 
                     case REQUEST_UPDATE:
                     {
-                        try
-                        {
-                            if(!loggedIn)
-                            {
-                                break;
-                            }
-                            ArrayList<Song> playlistPackage = (ArrayList<Song>) mPlaylist.getCurrentSongList().clone();
-                            playlistPackage.add(0 ,mPlaylist.getCurrentSong());
-
-                            int packageSize = playlistPackage.size();
-                            for(int i = 0; i < packageSize; i++)
-                            {
-                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                ObjectOutputStream out = new ObjectOutputStream(bos);
-
-                                out.writeObject(playlistPackage.get(i));
-                                byte[] data = bos.toByteArray();
-                                mBluetoothHelper.send(data, RECEIVE_UPDATE);
-                                out.flush();
-                                bos.flush();
-                                out.close();
-                                bos.close();
-                            }
-
-                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                            ObjectOutputStream out = new ObjectOutputStream(bos);
-
-                            String s = "done";
-                            out.writeObject(s);
-                            byte[] data = bos.toByteArray();
-                            mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
-                            out.flush();
-                            bos.flush();
-                            out.close();
-                            bos.close();
-                        }
-                        catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
+                        updateSongList();
                         break;
                     }
 
@@ -178,6 +142,7 @@ public class PartyActivity extends Activity
                             {
                                 mPlaylist.setCurrentSong(songs.get(0));
                                 songs.remove(0);
+                                //mPlaylist.getCurrentSongList().clear();
                                 mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
                                 songs.clear();
                                 //receiveCurrentSong = false;
@@ -358,6 +323,8 @@ public class PartyActivity extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mPlaylistViewFragment).commit();
+        if(!isHost())
+            requestPlaylist(null);
 	}
 	
 	
@@ -501,6 +468,47 @@ public class PartyActivity extends Activity
                 mBluetoothHelper.send(bos.toByteArray(), VOTE_SONG);
                 out.close();
                 bos.close();
+        }
+        catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
+    }
+
+    public static void updateSongList()
+    {
+        try
+        {
+            if(!loggedIn)
+            {
+                return;
+            }
+            ArrayList<Song> playlistPackage = (ArrayList<Song>) mPlaylist.getCurrentSongList().clone();
+            playlistPackage.add(0 ,mPlaylist.getCurrentSong());
+
+            int packageSize = playlistPackage.size();
+            for(int i = 0; i < packageSize; i++)
+            {
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ObjectOutputStream out = new ObjectOutputStream(bos);
+
+                out.writeObject(playlistPackage.get(i));
+                byte[] data = bos.toByteArray();
+                mBluetoothHelper.send(data, RECEIVE_UPDATE);
+                out.flush();
+                bos.flush();
+                out.close();
+                bos.close();
+            }
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+
+            String s = "done";
+            out.writeObject(s);
+            byte[] data = bos.toByteArray();
+            mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
+            out.flush();
+            bos.flush();
+            out.close();
+            bos.close();
         }
         catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
     }
