@@ -77,8 +77,6 @@ public class PartyActivity extends Activity
 
     private boolean receiveCurrentSong = false;
 
-    private TextView topRunner;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -87,7 +85,6 @@ public class PartyActivity extends Activity
 		setContentView(R.layout.activity_main);
 		initFragments();
         mPlaylist = new Playlist();
-        topRunner = (TextView)findViewById(R.id.top_runner);
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null)
@@ -179,7 +176,6 @@ public class PartyActivity extends Activity
                             Object o = in.readObject();
                             if(o instanceof String)
                             {
-                                toaster("Done");
                                 mPlaylist.setCurrentSong(songs.get(0));
                                 songs.remove(0);
                                 mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
@@ -190,7 +186,6 @@ public class PartyActivity extends Activity
                             else
                             {
                                 songs.add((Song) o);
-                                toaster(((Song) o).getName() + ", " + ((Song) o).getArtist());
                             }
                             in.close();
                         }

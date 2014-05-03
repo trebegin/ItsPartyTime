@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    style="@style/FragmentTheme">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,15 +20,16 @@
             android:id="@+id/current_song_title"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/current_song_album_art"
+            android:layout_toRightOf="@id/current_song_album_art"
             android:layout_alignParentTop="true"
-            />
+            style="@style/TextTheme"/>
 
         <TextView
+            style="@style/TextTheme"
             android:id="@+id/current_song_artist"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/current_song_title"
+            android:layout_toRightOf="@id/current_song_album_art"
             android:layout_below="@id/current_song_title"
             />
 

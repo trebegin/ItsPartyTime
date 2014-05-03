@@ -10,7 +10,7 @@
         android:id="@+id/login_name_field"
         android:hint="@string/login_name_hint"
         android:ems="10"
-        android:textColor="#287AA9"
+        style="@style/TextTheme"
         android:inputType="textAutoCorrect"
         android:layout_gravity="center"
         android:imeOptions="actionGo"/>
@@ -24,7 +24,7 @@
         android:ems="10"
         android:hint="@string/login_email_hint"
         android:imeOptions="actionGo"
-        android:textColor="#287AA9" />
+        style="@style/TextTheme" />
 
     <EditText
         android:id="@+id/login_password_field"
@@ -34,7 +34,7 @@
         android:ems="10"
         android:hint="@string/login_password_hint"
         android:imeOptions="actionGo"
-        android:textColor="#287AA9" />
+        style="@style/TextTheme" />
 
     <CheckBox
         android:layout_width="wrap_content"

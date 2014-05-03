@@ -134,6 +134,7 @@ public class PlaylistViewFragment extends Fragment
 
     private void setCurrentSong(final Song currentSong)
     {
+        PartyActivity.toaster("Setting current Song");
 
         new Thread (new Runnable() {
             @Override
@@ -165,10 +166,11 @@ public class PlaylistViewFragment extends Fragment
             }
         }).start();
         mCurrentArtist.setText(currentSong.getArtist());
-        mCurrentSongTitle.setText(currentSong.getName());
+        mCurrentSongTitle.setText(currentSong.getName().toString());
+        PartyActivity.toaster("Set to: " + mCurrentSongTitle.getText());
         voteUpButton.setText(Integer.toString(currentSong.getUpVotes()));
         voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
-        mCurrentSongTitle.setText(currentSong.getTitle());
+        //mCurrentSongTitle.setText(currentSong.getTitle());
     }
 
 	public void notifyChange(final int updateMessage) {
@@ -202,8 +204,6 @@ public class PlaylistViewFragment extends Fragment
                         {
                             if(mPlaylistAdapter == null)
                                 playlistAdapterInit();
-                            mPlaylistAdapter.setCurrentPlaylist(PartyActivity.getPlaylist().getCurrentSongList());
-                            mPlaylistAdapter.sortCurrentPlaylist();
                             mPlaylistAdapter.notifyDataSetChanged();
                         }
                         break;

@@ -118,8 +118,8 @@ public class CreatePartyFragment extends Fragment
 	{
 		//EditText partyNameTxt = (EditText) this.getActivity().findViewById(R.id.partyNameTxt);
 		//PartyActivity.setPartyName(partyNameTxt.getText().toString());
-		TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
-		topRunner.setText(PartyActivity.getPartyName());
+		//TextView topRunner = (TextView) this.getActivity().findViewById(R.id.top_runner);
+		//topRunner.setText(PartyActivity.getPartyName());
 		PartyActivity.openPlaylistViewFragment(this);
 	}
 

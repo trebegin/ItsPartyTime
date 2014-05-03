@@ -52,11 +52,11 @@ public class SongView extends RelativeLayout
 
 
         mTitle.setTextSize(19);
-        mTitle.setTextColor(Color.BLACK);
+        //mTitle.setTextColor(Color.BLACK);
         mTitle.setText(song.getName());
 
         mArtist.setTextSize(12);
-        mArtist.setTextColor(Color.GRAY);
+        //mArtist.setTextColor(Color.GRAY);
         mArtist.setText(song.getArtist());
 	}
 
