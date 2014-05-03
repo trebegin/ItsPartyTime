@@ -130,20 +130,21 @@ public class PartyActivity extends Activity
 
                     case REQUEST_UPDATE:
                     {
+                        toaster("Sending Update");
                         try
                         {
 
-                            ArrayList<Song> playlistPackage = mPlaylist.getCurrentSongList();
+                            ArrayList<Song> playlistPackage = (ArrayList<Song>) mPlaylist.getCurrentSongList().clone();
+
                             playlistPackage.add(0 ,mPlaylist.getCurrentSong());
 
-                            int packageSize = mPlaylist.getCurrentSongList().size();
+                            int packageSize = playlistPackage.size();
                             for(int i = 0; i < packageSize; i++)
                             {
                                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                                 ObjectOutputStream out = new ObjectOutputStream(bos);
 
-                                Song song = mPlaylist.getCurrentSongList().get(i);
-                                out.writeObject(song);
+                                out.writeObject(playlistPackage.get(i));
                                 byte[] data = bos.toByteArray();
                                 mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
                                 out.flush();
@@ -151,6 +152,17 @@ public class PartyActivity extends Activity
                                 out.close();
                                 bos.close();
                             }
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            ObjectOutputStream out = new ObjectOutputStream(bos);
+
+                            String s = "done";
+                            out.writeObject(s);
+                            byte[] data = bos.toByteArray();
+                            mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
+                            out.flush();
+                            bos.flush();
+                            out.close();
+                            bos.close();
                         }
                         catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
                         break;
@@ -158,24 +170,41 @@ public class PartyActivity extends Activity
 
                     case RECEIVE_UPDATE:
                     {
+                        //toaster("Got Update");
+                       // boolean song = true;
                         try
                         {
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
-                            songs.add((Song) in.readObject());
+                            Object o = in.readObject();
+                            if(o instanceof String)
+                            {
+                                toaster("Done");
+                                mPlaylist.setCurrentSong(songs.get(0));
+                                songs.remove(0);
+                                mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
+                                songs.clear();
+                                //receiveCurrentSong = false;
+                                break;
+                            }
+                            else
+                                songs.add((Song) o);
                             in.close();
                         }
                         catch (IOException e) {e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
 
-                        if(receiveCurrentSong == false)
-                        {
-                            mPlaylist.setCurrentSong(songs.get(0));
-                            songs.clear();
-                            receiveCurrentSong = true;
-                        }
-                        else
-                            mPlaylist.setCurrentSongList(songs);
+//                        if(song)
+//                        {
+//                            if(receiveCurrentSong == false && !songs.isEmpty())
+//                            {
+//                                mPlaylist.setCurrentSong(songs.get(0));
+//                                songs.clear();
+//                                receiveCurrentSong = true;
+//                            }
+//                            else if(!songs.isEmpty())
+//                                mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
+//                        }
 
                         break;
                     }

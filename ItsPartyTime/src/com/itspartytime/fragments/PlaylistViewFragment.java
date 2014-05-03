@@ -97,7 +97,7 @@ public class PlaylistViewFragment extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				PartyActivity.getPlaylist().nextSong();
+				PartyActivity.getPlaylist().playSong((Song) mPlaylistAdapter.getItem(0));
 			}
 		});
 

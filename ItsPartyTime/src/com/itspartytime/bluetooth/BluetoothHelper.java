@@ -19,6 +19,7 @@ import java.util.UUID;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Telephony;
 import android.view.View;
 
 import com.itspartytime.PartyActivity;
@@ -218,13 +219,22 @@ public class BluetoothHelper
                     bytes = mmInStream.read(buffer);
 
                     // Send the obtained bytes to the UI activity
-                    mBluetoothHandler.obtainMessage(header, bytes, -1, buffer).sendToTarget();
+                    synchronized (this)
+                    {
+                        mBluetoothHandler.obtainMessage(header, bytes, -1, buffer).sendToTarget();
+                        //wait(10);
+                    }
 
                 } catch (IOException e)
                 {
                     e.printStackTrace();
                     break;
                 }
+//                catch (InterruptedException e)
+//                {
+//                    e.printStackTrace();
+//                    break;
+//                }
             }
         }
 
@@ -298,6 +308,16 @@ public class BluetoothHelper
         if(mConnectedThread != null)
         {
             mConnectedThread.write(message);
+            synchronized (mConnectedThread)
+            {
+                try{
+                mConnectedThread.wait(10);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
