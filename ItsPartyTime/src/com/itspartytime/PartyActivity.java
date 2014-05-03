@@ -130,12 +130,13 @@ public class PartyActivity extends Activity
 
                     case REQUEST_UPDATE:
                     {
-                        toaster("Sending Update");
                         try
                         {
-
+                            if(!loggedIn)
+                            {
+                                break;
+                            }
                             ArrayList<Song> playlistPackage = (ArrayList<Song>) mPlaylist.getCurrentSongList().clone();
-
                             playlistPackage.add(0 ,mPlaylist.getCurrentSong());
 
                             int packageSize = playlistPackage.size();
@@ -146,12 +147,13 @@ public class PartyActivity extends Activity
 
                                 out.writeObject(playlistPackage.get(i));
                                 byte[] data = bos.toByteArray();
-                                mBluetoothHelper.send(bos.toByteArray(), RECEIVE_UPDATE);
+                                mBluetoothHelper.send(data, RECEIVE_UPDATE);
                                 out.flush();
                                 bos.flush();
                                 out.close();
                                 bos.close();
                             }
+
                             ByteArrayOutputStream bos = new ByteArrayOutputStream();
                             ObjectOutputStream out = new ObjectOutputStream(bos);
 
@@ -170,8 +172,6 @@ public class PartyActivity extends Activity
 
                     case RECEIVE_UPDATE:
                     {
-                        //toaster("Got Update");
-                       // boolean song = true;
                         try
                         {
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
@@ -194,17 +194,16 @@ public class PartyActivity extends Activity
                         catch (IOException e) {e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
 
-//                        if(song)
-//                        {
-//                            if(receiveCurrentSong == false && !songs.isEmpty())
-//                            {
-//                                mPlaylist.setCurrentSong(songs.get(0));
-//                                songs.clear();
-//                                receiveCurrentSong = true;
-//                            }
-//                            else if(!songs.isEmpty())
-//                                mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
-//                        }
+                        /*
+                        if(receiveCurrentSong == false)
+                        {
+                            mPlaylist.setCurrentSong(songs.get(0));
+                            songs.clear();
+                            receiveCurrentSong = true;
+                        }
+                        else
+                            mPlaylist.setCurrentSongList(songs);
+                        */
 
                         break;
                     }
@@ -215,17 +214,19 @@ public class PartyActivity extends Activity
                         {
                             ByteArrayInputStream bis = new ByteArrayInputStream((byte []) msg.obj);
                             ObjectInputStream in = new ObjectInputStream(bis);
-                            songs.add((Song) in.readObject());
-                            Song s = mPlaylist.findSongByName(songs.get(0).getName());
-                            s.setUpVotes(songs.get(0).getUpVotes());
-                            s.setDownVotes(songs.get(0).getUpVotes());
-                            in.close();
+                            Song inSong = (Song) in.readObject();
+                            Song voteSong = mPlaylist.findSongByName(inSong.getName());
 
-                            if(isHost())
-                                sendVote(s);
-                            songs.clear();
+                            if(voteSong != null)
+                            {
+                                voteSong.setUpVotes(inSong.getUpVotes());
+                                voteSong.setDownVotes(inSong.getUpVotes());
+                                if(isHost())
+                                    sendVote(voteSong);
+                            }
+                            in.close();
                         }
-                        catch (IOException e) {toaster("Receive IO Exception"); Log.d("SUCKMYWEENS", e.toString()); e.printStackTrace();}
+                        catch (IOException e) {toaster("Receive IO Exception"); Log.d("IOEXCEPTION", e.toString()); e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
                         break;
                     }

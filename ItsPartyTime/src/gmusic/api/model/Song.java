@@ -280,18 +280,21 @@ public class Song extends Tune implements Comparable<Song>, Serializable
 		return downVoteCount;
 	}
 
-    public void setUpVotes(int upVotes) {
+    public void setUpVotes(int upVotes)
+    {
         upVoteCount = upVotes;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
     }
 
-    public void setDownVotes(int downVotes) {
+    public void setDownVotes(int downVotes)
+    {
         downVoteCount = downVotes;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
     }
 
     @Override
-    public int compareTo(Song song) {
+    public int compareTo(Song song)
+    {
         int compareToVotes = song.getUpVotes() - song.getDownVotes();
         int thisVotes = getUpVotes() - getDownVotes();
         if(compareToVotes - thisVotes == 0) return song.getUpVotes() - getUpVotes();

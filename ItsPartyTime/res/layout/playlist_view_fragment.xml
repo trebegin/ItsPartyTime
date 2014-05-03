@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/current_song_album_art"
             android:layout_alignParentTop="true"
-            android:text="Title: This is an Extremely Long Test Title"/>
+            />
 
         <TextView
             android:id="@+id/current_song_artist"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/current_song_title"
             android:layout_below="@id/current_song_title"
-            android:text="This is a Long Artist Name"/>
+            />
 
         <Button
             android:id="@+id/current_vote_up_button"
@@ -81,34 +81,6 @@
             android:layout_toRightOf="@+id/pause_button"
             android:layout_alignBaseline="@id/pause_button"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send"
-            android:id="@+id/sendBtn"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/messageText"
-            android:hint="Type a Message"
-            android:layout_alignTop="@+id/sendBtn"
-            android:layout_alignRight="@id/skip_song_button"
-            android:layout_alignEnd="@id/skip_song_button"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Recieve"
-            android:id="@+id/receiveBtn"
-            android:onClick="requestPlaylist"
-            android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/current_song_artist"
-            android:layout_alignEnd="@+id/current_song_artist"/>
     </RelativeLayout>
 
     <ListView

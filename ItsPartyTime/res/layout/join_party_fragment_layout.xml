@@ -18,18 +18,4 @@
         android:layout_marginBottom="18dp"
         android:text="@string/select_party_button" />
 
-    <EditText
-        android:id="@+id/userName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:hint="@string/username_hint"
-        android:imeOptions="actionDone"
-        android:textColor="#287AA9" >
-
-        <requestFocus />
-    </EditText>
-
 </RelativeLayout>

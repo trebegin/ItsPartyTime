@@ -28,7 +28,6 @@ public class JoinPartyFragment extends Fragment
 	{
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.join_party_fragment_layout, container, false);
 		selectPartyButton = (Button) mRelativeLayout.findViewById(R.id.select_party_button);
-		userNameField = (EditText) mRelativeLayout.findViewById(R.id.userName);
 
         //Needs to be conditional on correct party name
 		selectPartyButton.setOnClickListener(new View.OnClickListener() 

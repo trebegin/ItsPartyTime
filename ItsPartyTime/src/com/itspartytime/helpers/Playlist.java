@@ -162,7 +162,7 @@ public class Playlist
 
     public void setCurrentSongList(ArrayList<Song> songs)
     {
-        currentSongList = songs;
+        currentSongList = (ArrayList<Song>)songs.clone();
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG_LIST);
     }
 
@@ -176,7 +176,7 @@ public class Playlist
     {
         for(Song s: currentSongList)
         {
-            if(s.getName() == name)
+            if(s.getName().compareTo(name) == 0)
                 return s;
         }
         return null;

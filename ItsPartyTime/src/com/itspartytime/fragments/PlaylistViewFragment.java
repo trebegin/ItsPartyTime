@@ -59,21 +59,6 @@ public class PlaylistViewFragment extends Fragment
         mCurrentSongTitle = (TextView) mLinearLayout.findViewById(R.id.current_song_title);
         mCurrentAlbumArt = (ImageView) mLinearLayout.findViewById(R.id.current_song_album_art);
 
-        mSendButton = (Button) mLinearLayout.findViewById(R.id.sendBtn);
-        mMessageEdit = (EditText) mLinearLayout.findViewById(R.id.messageText);
-        Button receive = (Button) mLinearLayout.findViewById(R.id.receiveBtn);
-        receive.setVisibility(View.GONE);
-
-        mSendButton.setVisibility(View.GONE);
-        mMessageEdit.setVisibility(View.GONE);
-        mSendButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick (View v)
-            {
-                PartyActivity.send(mMessageEdit.getText().toString());
-            }
-        });
 
 		if(PartyActivity.getPlaylist().getCurrentSongList() != null)
             playlistAdapterInit();

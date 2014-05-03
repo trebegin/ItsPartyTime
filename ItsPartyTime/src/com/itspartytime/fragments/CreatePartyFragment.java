@@ -26,7 +26,6 @@ import com.itspartytime.R;
 
 public class CreatePartyFragment extends Fragment
 {
-	private Button selectPlaylistButton;
 	private Button doneCreatingPartyButton;
 	private Button loginButton;
 
@@ -34,18 +33,9 @@ public class CreatePartyFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		RelativeLayout mRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.create_party_fragment_layout, container, false);
-		selectPlaylistButton = (Button) mRelativeLayout.findViewById(R.id.select_playlist_button);
 		doneCreatingPartyButton = (Button) mRelativeLayout.findViewById(R.id.done_creating_party_button);
 		loginButton = (Button) mRelativeLayout.findViewById(R.id.login_button); 
-	
-		selectPlaylistButton.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				openSelectPlaylistDialog();
-			}
-		});
+
 		
 		doneCreatingPartyButton.setOnClickListener(new View.OnClickListener() 
 		{	
