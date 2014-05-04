@@ -22,7 +22,8 @@ public class JoinPartyFragment extends Fragment
 {
 	private Button selectPartyButton;
 	private EditText userNameField;
-	
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
@@ -37,7 +38,6 @@ public class JoinPartyFragment extends Fragment
 			{
                 // make ArrayList to pass ListDialog
                 ArrayList<String> devices = new ArrayList<String>();
-
 
                 final List peers = PartyActivity.discoverDevices();
 

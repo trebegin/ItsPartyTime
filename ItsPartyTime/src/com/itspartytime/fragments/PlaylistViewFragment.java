@@ -73,6 +73,7 @@ public class PlaylistViewFragment extends Fragment
 
         if(!PartyActivity.isHost())
         {
+            //getActivity().findViewById(R.id.action_refresh).setVisibility(View.INVISIBLE);
             skipButton.setVisibility(View.GONE);
             pauseButton.setVisibility(View.GONE);
         }

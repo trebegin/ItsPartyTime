@@ -213,6 +213,7 @@ public class PartyActivity extends Activity
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+        //findViewById(R.id.action_refresh).setVisibility(View.INVISIBLE);
 		return true;
 
 	}
@@ -224,18 +225,18 @@ public class PartyActivity extends Activity
         {
             case(R.id.action_refresh):
             {
-                songs.clear();
-                receiveCurrentSong = false;
-                requestPlaylist(null);
-                toaster("Requesting Playlist");
-                return true;
+                if(!isHost)
+                {
+                    songs.clear();
+                    receiveCurrentSong = false;
+                    requestPlaylist(null);
+                    toaster("Requesting Playlist");
+                    return true;
+                }
             }
         }
         return false;
     }
-
-
-
 
     @Override
     protected void onDestroy() {
@@ -299,7 +300,7 @@ public class PartyActivity extends Activity
 			mFragmentManager.beginTransaction().attach(mCreatePartyFragment).commit();
 	}
 
-	public static void openJoinPartyFragment(Fragment currentFragment) 
+	public static void openJoinPartyFragment(Fragment currentFragment)
 	{
 		PartyActivity.currentFragment = mJoinPartyFragment;
 		if(currentFragment != null)
@@ -342,11 +343,9 @@ public class PartyActivity extends Activity
 	
 	public static void toaster(final String message)
 	{
-		currentFragment.getActivity().runOnUiThread(new Runnable()
-        {
+		currentFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
-            public void run ()
-            {
+            public void run() {
                 Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
             }
         });
@@ -481,7 +480,7 @@ public class PartyActivity extends Activity
                 return;
             }
             ArrayList<Song> playlistPackage = (ArrayList<Song>) mPlaylist.getCurrentSongList().clone();
-            playlistPackage.add(0 ,mPlaylist.getCurrentSong());
+            playlistPackage.add(0, mPlaylist.getCurrentSong());
 
             int packageSize = playlistPackage.size();
             for(int i = 0; i < packageSize; i++)
