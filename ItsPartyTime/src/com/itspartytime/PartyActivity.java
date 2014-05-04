@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.itspartytime.bluetooth.BluetoothHelper;
 import com.itspartytime.dialogs.LoginDialog;
 import com.itspartytime.dialogs.SelectPlaylistDialog;
-import com.itspartytime.fragments.CreatePartyFragment;
 import com.itspartytime.fragments.JoinPartyFragment;
 import com.itspartytime.fragments.PlaylistViewFragment;
 import com.itspartytime.fragments.StartFragment;
@@ -44,7 +43,6 @@ import gmusic.api.model.Song;
 public class PartyActivity extends Activity
 {
 	private static StartFragment mStartFragment;
-	private static CreatePartyFragment mCreatePartyFragment;
 	private static JoinPartyFragment mJoinPartyFragment;
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
@@ -56,7 +54,6 @@ public class PartyActivity extends Activity
     private static String partyName;
     private static boolean isHost;
     private static boolean loggedIn = false;
-    private static boolean loginAttempted = false;
 
     private static ProgressDialog progress;
 
@@ -140,12 +137,17 @@ public class PartyActivity extends Activity
                             Object o = in.readObject();
                             if(o instanceof String)
                             {
-                                mPlaylist.setCurrentSong(songs.get(0));
-                                songs.remove(0);
-                                //mPlaylist.getCurrentSongList().clear();
-                                mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
+                                if(songs.get(0) != null)
+                                {
+                                    mPlaylist.setCurrentSong(songs.get(0));
+                                    songs.remove(0);
+                                    mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
+                                }
+                                else
+                                {
+                                    toaster("The Party Hasn't Started Yet!");
+                                }
                                 songs.clear();
-                                //receiveCurrentSong = false;
                                 break;
                             }
                             else
@@ -213,7 +215,6 @@ public class PartyActivity extends Activity
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-        //findViewById(R.id.action_refresh).setVisibility(View.INVISIBLE);
 		return true;
 
 	}
@@ -249,15 +250,12 @@ public class PartyActivity extends Activity
 	{
 		mFragmentManager = getFragmentManager();
 		mStartFragment = new StartFragment();
-		mCreatePartyFragment = new CreatePartyFragment();
 		mJoinPartyFragment = new JoinPartyFragment();
 		mPlaylistViewFragment = new PlaylistViewFragment();
 		
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mStartFragment, "StartPage").commit();
-		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mCreatePartyFragment, "CreatePartyPage")
-			.detach(mStartFragment).commit();
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mJoinPartyFragment, "JoinPartyPage")
-			.detach(mCreatePartyFragment).commit();
+			.detach(mJoinPartyFragment).commit();
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mPlaylistViewFragment, "PlaylistViewPage")
 			.detach(mJoinPartyFragment).commit();
 		mFragmentManager.beginTransaction().detach(mPlaylistViewFragment).commit();
@@ -265,13 +263,8 @@ public class PartyActivity extends Activity
 	
 	public static void openLoginDialog()
 	{
-        if(loginAttempted || loggedIn) toaster("Already logging in...");
-        else
-        {
-            loginAttempted = true;
-		    LoginDialog login = new LoginDialog();
-		    login.show(mFragmentManager, "login");
-        }
+        LoginDialog login = new LoginDialog();
+        login.show(mFragmentManager, "login");
 	}
 
 	public static void openStartFragment(Fragment currentFragment) 
@@ -285,19 +278,6 @@ public class PartyActivity extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mStartFragment).commit();
-	}
-
-	public static void openCreatePartyFragment(Fragment currentFragment) 
-	{
-		PartyActivity.currentFragment = mCreatePartyFragment;
-		if(currentFragment != null)
-		{
-			mFragmentManager.saveFragmentInstanceState(currentFragment);
-			mFragmentManager.beginTransaction().detach(currentFragment).attach(mCreatePartyFragment)
-				.addToBackStack(currentFragment.getTag()).commit();
-		}
-		else
-			mFragmentManager.beginTransaction().attach(mCreatePartyFragment).commit();
 	}
 
 	public static void openJoinPartyFragment(Fragment currentFragment)
@@ -343,9 +323,11 @@ public class PartyActivity extends Activity
 	
 	public static void toaster(final String message)
 	{
-		currentFragment.getActivity().runOnUiThread(new Runnable() {
+		currentFragment.getActivity().runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run ()
+            {
                 Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
             }
         });

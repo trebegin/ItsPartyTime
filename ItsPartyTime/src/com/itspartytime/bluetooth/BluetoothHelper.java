@@ -302,7 +302,6 @@ public class BluetoothHelper
     {
         byte[] message = new byte[4 + bytes.length];
         ByteBuffer target = ByteBuffer.wrap(message);
-
         target.putInt(messageType);
         target.put(bytes);
 

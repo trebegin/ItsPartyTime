@@ -48,6 +48,7 @@ public class SongView extends RelativeLayout
 				song.addDownVote();
 			}
 		});
+
         voteDownButton.setText(Integer.toString(song.getDownVotes()));
 
 

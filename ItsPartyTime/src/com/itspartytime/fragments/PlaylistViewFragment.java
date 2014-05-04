@@ -59,7 +59,6 @@ public class PlaylistViewFragment extends Fragment
         mCurrentSongTitle = (TextView) mLinearLayout.findViewById(R.id.current_song_title);
         mCurrentAlbumArt = (ImageView) mLinearLayout.findViewById(R.id.current_song_album_art);
 
-
 		if(PartyActivity.getPlaylist().getCurrentSongList() != null)
             playlistAdapterInit();
 
@@ -130,7 +129,9 @@ public class PlaylistViewFragment extends Fragment
 	private void changeSong(Song song)
 	{
         if(PartyActivity.isHost())
-		    PartyActivity.getPlaylist().playSong(song);
+        {
+            PartyActivity.getPlaylist().playSong(song);
+        }
 	}
 
     private void setCurrentSong(final Song currentSong)

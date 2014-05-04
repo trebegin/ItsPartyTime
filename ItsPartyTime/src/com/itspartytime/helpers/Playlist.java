@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import android.media.MediaPlayer;
+import android.provider.Telephony;
 import android.util.Log;
 
 import com.itspartytime.PartyActivity;
@@ -52,6 +53,7 @@ public class Playlist
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_PAUSE_BUTTON);
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG_LIST);
         PartyActivity.updateSongList();
+
 
 
         new Thread(new Runnable()
@@ -104,6 +106,7 @@ public class Playlist
                         Log.d("Done", "Songs done loading");
                         PartyActivity.toaster("Login Success");
                         PartyActivity.setLoggedIn(true);
+                        PartyActivity.openPlaylistViewFragment(null);
                     }
                     catch (IOException e)
                     {

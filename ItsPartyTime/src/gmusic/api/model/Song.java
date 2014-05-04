@@ -24,6 +24,7 @@ public class Song extends Tune implements Comparable<Song>, Serializable
 	private int totalTracks;
 	private boolean subjectToCuration;
 	private String name;
+    private String artistNorm;
 	private int totalDiscs;
 	private String titleNorm;
 	private String albumNorm;
@@ -32,13 +33,13 @@ public class Song extends Tune implements Comparable<Song>, Serializable
 	private String url;
 	private float creationDate;
 	private String albumArtistNorm;
-	private String artistNorm;
 	private double lastPlayed;
 	private String metajamId;
 	private int type;
 	private int disc;
 	private int upVoteCount;
 	private int downVoteCount;
+
     private boolean votedUp;
     private boolean votedDown;
 
@@ -256,7 +257,8 @@ public class Song extends Tune implements Comparable<Song>, Serializable
 		this.comment = comment;
 	}
 
-	public void addUpVote() {
+	public void addUpVote()
+    {
         upVoteCount++;
         votedUp = true;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
@@ -264,16 +266,17 @@ public class Song extends Tune implements Comparable<Song>, Serializable
 
     }
 
-	public void addDownVote() {
+	public void addDownVote()
+    {
         downVoteCount++;
         votedDown = true;
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_VOTE);
         PartyActivity.sendVote(this);
 	}
 	
-	public int getUpVotes() {
+	public int getUpVotes()
+    {
 		return upVoteCount;
-
 	}
 	
 	public int getDownVotes() {

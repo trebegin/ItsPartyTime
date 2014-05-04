@@ -10,9 +10,12 @@
  ******************************************************************************/
 package gmusic.model;
 
-public abstract class Tune
+import java.io.Serializable;
+
+public abstract class Tune implements Serializable
 {
 	protected String genre;
+    protected String artist;
 	protected int beatsPerMinute;
 	protected String album;
 	protected String id;
@@ -20,7 +23,6 @@ public abstract class Tune
 	protected String title;
 	protected String albumArtist;
 	protected int year;
-	protected String artist;
 	protected long durationMillis;
 	protected boolean deleted;
 	protected int playCount;
