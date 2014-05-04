@@ -306,6 +306,7 @@ public class BluetoothHelper
         target.put(bytes);
 
         if(mConnectedThread != null)
+        if(mConnectedThread != null)
         {
             mConnectedThread.write(message);
             synchronized (mConnectedThread)

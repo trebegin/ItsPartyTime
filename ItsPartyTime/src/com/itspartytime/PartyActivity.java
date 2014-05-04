@@ -32,7 +32,7 @@ import android.widget.Toast;
 import com.itspartytime.bluetooth.BluetoothHelper;
 import com.itspartytime.dialogs.LoginDialog;
 import com.itspartytime.dialogs.SelectPlaylistDialog;
-import com.itspartytime.fragments.JoinPartyFragment;
+
 import com.itspartytime.fragments.PlaylistViewFragment;
 import com.itspartytime.fragments.StartFragment;
 import com.itspartytime.helpers.Playlist;
@@ -43,7 +43,6 @@ import gmusic.api.model.Song;
 public class PartyActivity extends Activity
 {
 	private static StartFragment mStartFragment;
-	private static JoinPartyFragment mJoinPartyFragment;
 	private static PlaylistViewFragment mPlaylistViewFragment;
 	private static FragmentManager mFragmentManager;
 	private static Fragment currentFragment;
@@ -71,8 +70,6 @@ public class PartyActivity extends Activity
     private final static int RECEIVE_UPDATE = 4;
     private final static int VOTE_SONG = 5;
     private final static int RECEIVE_VOTE = 6;
-
-    private boolean receiveCurrentSong = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -146,6 +143,8 @@ public class PartyActivity extends Activity
                                 else
                                 {
                                     toaster("The Party Hasn't Started Yet!");
+                                    songs.remove(0);
+                                    mPlaylist.setCurrentSongList((ArrayList<Song>) songs.clone());
                                 }
                                 songs.clear();
                                 break;
@@ -158,17 +157,6 @@ public class PartyActivity extends Activity
                         }
                         catch (IOException e) {e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
-
-                        /*
-                        if(receiveCurrentSong == false)
-                        {
-                            mPlaylist.setCurrentSong(songs.get(0));
-                            songs.clear();
-                            receiveCurrentSong = true;
-                        }
-                        else
-                            mPlaylist.setCurrentSongList(songs);
-                        */
 
                         break;
                     }
@@ -194,11 +182,6 @@ public class PartyActivity extends Activity
                         catch (IOException e) {toaster("Receive IO Exception"); Log.d("IOEXCEPTION", e.toString()); e.printStackTrace();}
                         catch (ClassNotFoundException f) {}
                         break;
-                    }
-
-                    case RECEIVE_VOTE:
-                    {
-
                     }
 
                 }
@@ -229,7 +212,6 @@ public class PartyActivity extends Activity
                 if(!isHost)
                 {
                     songs.clear();
-                    receiveCurrentSong = false;
                     requestPlaylist(null);
                     toaster("Requesting Playlist");
                     return true;
@@ -250,14 +232,11 @@ public class PartyActivity extends Activity
 	{
 		mFragmentManager = getFragmentManager();
 		mStartFragment = new StartFragment();
-		mJoinPartyFragment = new JoinPartyFragment();
 		mPlaylistViewFragment = new PlaylistViewFragment();
 		
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mStartFragment, "StartPage").commit();
-		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mJoinPartyFragment, "JoinPartyPage")
-			.detach(mJoinPartyFragment).commit();
 		mFragmentManager.beginTransaction().add(R.id.fragmentFrame, mPlaylistViewFragment, "PlaylistViewPage")
-			.detach(mJoinPartyFragment).commit();
+			.detach(mStartFragment).commit();
 		mFragmentManager.beginTransaction().detach(mPlaylistViewFragment).commit();
 	}
 	
@@ -278,19 +257,6 @@ public class PartyActivity extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mStartFragment).commit();
-	}
-
-	public static void openJoinPartyFragment(Fragment currentFragment)
-	{
-		PartyActivity.currentFragment = mJoinPartyFragment;
-		if(currentFragment != null)
-		{
-			mFragmentManager.saveFragmentInstanceState(currentFragment);
-			mFragmentManager.beginTransaction().detach(currentFragment).attach(mJoinPartyFragment)
-				.addToBackStack(currentFragment.getTag()).commit();
-		}
-		else
-			mFragmentManager.beginTransaction().attach(mJoinPartyFragment).commit();
 	}
 
 	public static void openPlaylistViewFragment(Fragment currentFragment) 

@@ -94,10 +94,11 @@ public class StartFragment extends Fragment
 
                 // exit dialog
                 mListDialog.dismiss();
-                PartyActivity.openPlaylistViewFragment(null);
+                //PartyActivity.openPlaylistViewFragment(null);
             }
         });
         mListDialog.show(getFragmentManager(), "Test Dialog");
+
         PartyActivity.setHost(false);
 	}
 

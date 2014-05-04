@@ -136,8 +136,6 @@ public class PlaylistViewFragment extends Fragment
 
     private void setCurrentSong(final Song currentSong)
     {
-        PartyActivity.toaster("Setting current Song");
-
         new Thread (new Runnable() {
             @Override
             public void run() {
@@ -169,7 +167,6 @@ public class PlaylistViewFragment extends Fragment
         }).start();
         mCurrentArtist.setText(currentSong.getArtist());
         mCurrentSongTitle.setText(currentSong.getName().toString());
-        PartyActivity.toaster("Set to: " + mCurrentSongTitle.getText());
         voteUpButton.setText(Integer.toString(currentSong.getUpVotes()));
         voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
         //mCurrentSongTitle.setText(currentSong.getTitle());
