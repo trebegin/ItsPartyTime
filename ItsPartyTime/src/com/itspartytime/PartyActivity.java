@@ -189,7 +189,6 @@ public class PartyActivity extends Activity
         };
 
         mBluetoothHelper = new BluetoothHelper(mBluetoothAdapter, mHandler);
-        bluetoothAccept();
 		openStartFragment(null);
 	}
 
@@ -270,7 +269,9 @@ public class PartyActivity extends Activity
 		}
 		else
 			mFragmentManager.beginTransaction().attach(mPlaylistViewFragment).commit();
-        if(!isHost())
+        if(isHost())
+            bluetoothAccept();
+        else
             requestPlaylist(null);
 	}
 	

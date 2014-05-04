@@ -163,6 +163,7 @@ public class BluetoothHelper
 
             // Do work to manage the connection (in a separate thread)
             manageConnectedSocket(mmSocket);
+            PartyActivity.openPlaylistViewFragment(null);
             PartyActivity.requestPlaylist(null);
         }
 

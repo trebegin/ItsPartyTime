@@ -85,7 +85,7 @@ public class StartFragment extends Fragment
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 // Toasts string name
-                PartyActivity.toaster(String.valueOf(adapterView.getItemAtPosition(i)));
+                PartyActivity.toaster("Connecting to: " + String.valueOf(adapterView.getItemAtPosition(i)));
 
                 if(peers.size() >= i && i > 0)
                 {
@@ -94,7 +94,6 @@ public class StartFragment extends Fragment
 
                 // exit dialog
                 mListDialog.dismiss();
-                //PartyActivity.openPlaylistViewFragment(null);
             }
         });
         mListDialog.show(getFragmentManager(), "Test Dialog");
