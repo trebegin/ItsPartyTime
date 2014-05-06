@@ -1,3 +1,24 @@
+/**
+ * ListDialog.java
+ *
+ * This class is the dialog responsible for showing the list of available parties
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ * private ArrayList<String> displayList:                           The list of device names
+ * private String title                                             Dialog Title
+ * private ListView mListView                                       UI List View
+ * private AdapterView.OnItemClickListener mOnItemClickListener     Listener for List Item Click
+ *
+ *
+ *
+ * Known Faults:
+ *
+ *
+ *
+ */
 package com.itspartytime.dialogs;
 
 import android.app.AlertDialog;
@@ -18,10 +39,8 @@ import com.itspartytime.R;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * Created by Matt on 4/8/14.
- */
-public class ListDialog extends DialogFragment {
+public class ListDialog extends DialogFragment
+{
 
     private ArrayList<String> displayList;
     private String title;
@@ -34,7 +53,8 @@ public class ListDialog extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         LinearLayout mLinearLayout = (LinearLayout)inflater.inflate(R.layout.list_dialog_layout, null);
         ListView mListView = (ListView) mLinearLayout.findViewById(R.id.display_list);
@@ -49,7 +69,14 @@ public class ListDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void createDialog(ArrayList<String> displayList, String title, AdapterView.OnItemClickListener onItemClickListener){
+    /**
+     * Creates a dialog based on parameters
+     * @param displayList
+     * @param title
+     * @param onItemClickListener
+     */
+    public void createDialog(ArrayList<String> displayList, String title, AdapterView.OnItemClickListener onItemClickListener)
+    {
         this.displayList = displayList;
         this.title = title;
         this.mOnItemClickListener = onItemClickListener;

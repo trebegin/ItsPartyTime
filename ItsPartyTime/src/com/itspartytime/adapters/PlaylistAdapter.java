@@ -1,3 +1,20 @@
+/**
+ * PlaylistAdapter.java
+ *
+ * The class is a UI adapter for the Playlist object and contains the logic for interacting with the UI.
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ * private Context mContext:                            The UI application context
+ * private static ArrayList<Song> currentPlaylist:      The current Arraylist of Songs
+ *
+ * Known Faults:
+ *
+ */
+
+
 package com.itspartytime.adapters;
 
 import gmusic.api.model.Song;
@@ -17,13 +34,22 @@ public class PlaylistAdapter extends BaseAdapter
 
 	private Context mContext;
 	private static ArrayList<Song> currentPlaylist = new ArrayList<Song>();
-	
+
+    /**
+     * Creates a new PlaylistAdapter that takes the current playlist and the context from which
+     *  it was created
+     * @param context
+     * @param playlist
+     */
 	public PlaylistAdapter(Context context, ArrayList<Song> playlist)
 	{
 		mContext = context;
 		currentPlaylist = playlist;
     }
 
+    /**
+     * Getters and setters for Playlist Adapter
+     */
     public void sortCurrentPlaylist(){
         Collections.sort(currentPlaylist);
     }

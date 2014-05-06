@@ -1,9 +1,42 @@
+/**
+ * PartyActivity.java
+ *
+ * This class is responsible for controlling the UI and logically linking other classes together.
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ *
+ *
+ *
+ * Known Faults:
+ *
+ * The name of the code artifact
+ A brief description of what the code artifact does
+ The programmer’s name
+ The date the code artifact was coded
+ The date the code artifact was approved
+ The name of the person who approved the code artifact
+ The arguments of the code artifact
+ A list of the name of each variable of the code artifact, preferably in alphabetical
+ order, and a brief description of its use
+ The names of any files accessed by this code artifact
+ The names of any files changed by this code artifact
+ Input–output, if any
+ Error-handling capabilities
+ The name of the file containing test data (to be used later for regression testing)
+ A list of each modification made to the code artifact, the date the modification was
+ made, and who approved the modification
+ Any known faults
+ *
+ *
+ */
 package com.itspartytime.fragments;
 
 import android.app.Fragment;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +80,7 @@ public class StartFragment extends Fragment
 			@Override
 			public void onClick(View v) 
 			{
-				openJoinPartyFragment();
+				openJoinParty();
 			}
 		});
 		
@@ -62,7 +95,7 @@ public class StartFragment extends Fragment
         PartyActivity.setHost(true);
 	}
 
-	private void openJoinPartyFragment()
+	private void openJoinParty ()
 	{
         // make ArrayList to pass ListDialog
         ArrayList<String> devices = new ArrayList<String>();

@@ -1,3 +1,24 @@
+/**
+ * LoginDialog.java
+ *
+ * This class creates a dialog for the Login Screen, passes the email and password to the playlist
+ *  class and starts the login process.
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ * private EditText nameField:                      EditText for the Party Name
+ * private EditText emailField                      EditText for Google Music Email
+ * private EditText passwordField                   EditText for Google Music Password
+ * private CheckBox saveCheckBox                    Checkbox for saving login information
+ * private SharedPreferences.Editor editor          Editor to write the email and password to the preferences.
+ *
+ *
+ * Known Faults:
+ *
+ *
+ */
 package com.itspartytime.dialogs;
 
 import android.app.AlertDialog;
