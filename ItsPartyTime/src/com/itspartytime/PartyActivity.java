@@ -10,17 +10,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 
 import android.os.Handler;
@@ -361,6 +364,49 @@ public class PartyActivity extends Activity
         super.onPause();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitByBackKey();
+
+            //moveTaskToBack(false);
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    protected void exitByBackKey() {
+
+        AlertDialog alertbox = new AlertDialog.Builder(this)
+                .setMessage("Do you want to exit application?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        finish();
+                        //close();
+
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                })
+                .show();
+
+    }
+
     public static ArrayList<BluetoothDevice> discoverDevices()
     {
         return mBluetoothHelper.discover();
@@ -436,14 +482,19 @@ public class PartyActivity extends Activity
             {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 ObjectOutputStream out = new ObjectOutputStream(bos);
+                Bundle b = new Bundle();
+                b.putString("title", playlistPackage.get(i).getTitle());
+                b.putString("artist", playlistPackage.get(i).getArtist());
+                b.putString("art", playlistPackage.get(i).getAlbumArtUrl());
 
-                out.writeObject(playlistPackage.get(i));
+                out.writeObject(b);
                 byte[] data = bos.toByteArray();
                 mBluetoothHelper.send(data, RECEIVE_UPDATE);
                 out.flush();
                 bos.flush();
                 out.close();
                 bos.close();
+
             }
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
