@@ -34,7 +34,6 @@ import android.widget.Toast;
 
 import com.itspartytime.bluetooth.BluetoothHelper;
 import com.itspartytime.dialogs.LoginDialog;
-import com.itspartytime.dialogs.SelectPlaylistDialog;
 
 import com.itspartytime.fragments.PlaylistViewFragment;
 import com.itspartytime.fragments.StartFragment;
@@ -277,13 +276,6 @@ public class PartyActivity extends Activity
         else
             requestPlaylist(null);
 	}
-	
-	
-	public static void openSelectPlaylistDialog()
-	{
-		SelectPlaylistDialog mSelectPlaylistDialog = new SelectPlaylistDialog();
-		mSelectPlaylistDialog.show(mFragmentManager, "SelectPlaylistDialog");
-	}
 
 
 	public static void notifyChange(int updateMessage)
@@ -303,118 +295,11 @@ public class PartyActivity extends Activity
         });
 	}
 
-    /**
-     * Getters and Setters
-     * @param name
-     */
-    public static void setPartyName(String name)
-    {
-        partyName = name;
-    }
-
-    public static String getPartyName()
-    {
-        return partyName;
-    }
-
-    public static boolean isLoggedIn()
-    {
-        return loggedIn;
-    }
-
-    public static void setLoggedIn(boolean login)
-    {
-        loggedIn = login;
-    }
-
-    public static boolean isHost()
-    {
-        return isHost;
-    }
-
-    public static void setHost(boolean isHost)
-    {
-        PartyActivity.isHost = isHost;
-    }
-
-    public static void login(String email, String password)
-    {
-        mPlaylist.login(email, password);
-    }
-    
-    public static boolean isPlaying()
-    {
-        return mPlaylist.isPlaying();
-    }
-
-    public static Playlist getPlaylist()
-    {
-        return mPlaylist;
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exitByBackKey();
-
-            //moveTaskToBack(false);
-
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    protected void exitByBackKey() {
-
-        AlertDialog alertbox = new AlertDialog.Builder(this)
-                .setMessage("Do you want to exit application?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                    // do something when the button is clicked
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        finish();
-                        //close();
-
-
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-                    // do something when the button is clicked
-                    public void onClick(DialogInterface arg0, int arg1) {
-                    }
-                })
-                .show();
-
-    }
-
     public static ArrayList<BluetoothDevice> discoverDevices()
     {
         return mBluetoothHelper.discover();
     }
 
-
-
-    // Also used for a button
     public static void deviceConnect(BluetoothDevice device)
     {
         mBluetoothHelper.connect(device);
@@ -511,6 +396,68 @@ public class PartyActivity extends Activity
         }
         catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
     }
+
+    /**
+     * Getters and Setters
+     * @param name
+     */
+    public static void setPartyName(String name)
+    {
+        partyName = name;
+    }
+
+    public static String getPartyName()
+    {
+        return partyName;
+    }
+
+    public static boolean isLoggedIn()
+    {
+        return loggedIn;
+    }
+
+    public static void setLoggedIn(boolean login)
+    {
+        loggedIn = login;
+    }
+
+    public static boolean isHost()
+    {
+        return isHost;
+    }
+
+    public static void setHost(boolean isHost)
+    {
+        PartyActivity.isHost = isHost;
+    }
+
+    public static void login(String email, String password)
+    {
+        mPlaylist.login(email, password);
+    }
+
+    public static boolean isPlaying()
+    {
+        return mPlaylist.isPlaying();
+    }
+
+    public static Playlist getPlaylist()
+    {
+        return mPlaylist;
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
 
 }
 
