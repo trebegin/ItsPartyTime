@@ -169,7 +169,7 @@ public class BluetoothHelper
             // Do work to manage the connection (in a separate thread)
             manageConnectedSocket(mmSocket);
             PartyActivity.openPlaylistViewFragment(null);
-            PartyActivity.requestPlaylist(null);
+            //PartyActivity.requestPlaylist(null);
         }
 
         /** Will cancel an in-progress connection, and close the socket */
