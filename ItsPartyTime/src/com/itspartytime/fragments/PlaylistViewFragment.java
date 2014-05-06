@@ -1,3 +1,37 @@
+/**
+ * PartyActivity.java
+ *
+ * This class is responsible for controlling the UI and logically linking other classes together.
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ *
+ *
+ *
+ * Known Faults:
+ *
+ * The name of the code artifact
+ A brief description of what the code artifact does
+ The programmer’s name
+ The date the code artifact was coded
+ The date the code artifact was approved
+ The name of the person who approved the code artifact
+ The arguments of the code artifact
+ A list of the name of each variable of the code artifact, preferably in alphabetical
+ order, and a brief description of its use
+ The names of any files accessed by this code artifact
+ The names of any files changed by this code artifact
+ Input–output, if any
+ Error-handling capabilities
+ The name of the file containing test data (to be used later for regression testing)
+ A list of each modification made to the code artifact, the date the modification was
+ made, and who approved the modification
+ Any known faults
+ *
+ *
+ */
 package com.itspartytime.fragments;
 
 import gmusic.api.model.Song;
@@ -43,8 +77,6 @@ public class PlaylistViewFragment extends Fragment
     private ImageView mCurrentAlbumArt;
 	private PlaylistAdapter mPlaylistAdapter;
 	private LinearLayout mLinearLayout;
-    private Button mSendButton;
-    private EditText mMessageEdit;
     public static final int UPDATE_VOTE =          0;
     public static final int UPDATE_CURRENT_SONG =  1;
     public static final int UPDATE_PAUSE_BUTTON =  2;
@@ -169,7 +201,6 @@ public class PlaylistViewFragment extends Fragment
         mCurrentSongTitle.setText(currentSong.getName().toString());
         voteUpButton.setText(Integer.toString(currentSong.getUpVotes()));
         voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
-        //mCurrentSongTitle.setText(currentSong.getTitle());
     }
 
 	public void notifyChange(final int updateMessage) {

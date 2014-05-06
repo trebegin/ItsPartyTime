@@ -1,3 +1,22 @@
+/**
+ * PartyActivity.java
+ *
+ * This class is responsible for controlling the UI and logically linking other classes together.
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ *  private BluetoothAdapter mBluetoothAdapter:         Phone's Bluetooth Adapter
+ *  private Handler mBluetoothHandler:                  Handler for Bluetooth Changes
+ *  private ArrayList<BluetoothDevice> devices;         ArrayList of available devices
+ *  private ConnectedThread mConnectedThread;           Thread for Connected Bluetooth Device
+ *
+ *
+ * Known Faults:
+ *
+ *
+ */
 package com.itspartytime.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
@@ -25,14 +44,8 @@ import android.view.View;
 import com.itspartytime.PartyActivity;
 import com.itspartytime.R;
 
-
-/**
- * Created by Trent on 4/23/14.
- */
 public class BluetoothHelper
 {
-    final int MESSAGE_READ = 2;
-    final int MESSAGE_WRITE = 3;
 
     private static final UUID mUUID = UUID.fromString("643E9340-CB33-11E3-9C1A-0800200C9A66");
 
@@ -96,14 +109,6 @@ public class BluetoothHelper
                     // Do work to manage the connection (in a separate thread)
                     manageConnectedSocket(socket);
 
-                    /*
-                    try
-                    {
-                        //mmServerSocket.close();
-                    }
-                    catch (IOException e) {}
-                    break;
-                    */
                 }
             }
         }
@@ -232,11 +237,6 @@ public class BluetoothHelper
                     e.printStackTrace();
                     break;
                 }
-//                catch (InterruptedException e)
-//                {
-//                    e.printStackTrace();
-//                    break;
-//                }
             }
         }
 

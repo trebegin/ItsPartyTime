@@ -1,3 +1,25 @@
+/**
+ * Playlist.java
+ *
+ * This class is a wrapper for the Google Music Interface. It keeps track of the songs in a playlist,
+ *  and provides logic for interacting with them.
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ * private MediaPlayer mMediaPlayer:            Object that is responsible for playing songs through phone
+ * private GoogleMusicAPI api:                  API Object for the Google Music Interface
+ * private ArrayList<Song> currentSongList:     The current playlist of songs
+ * private Song currentSong:                    The song currently playing
+ * private boolean ableToPause:                 If the device is able to play and pause the music
+ *
+ *
+ * Known Faults:
+ *
+ *
+ *
+ */
 package com.itspartytime.helpers;
 
 import gmusic.api.impl.GoogleMusicAPI;
@@ -23,14 +45,20 @@ public class Playlist
     private ArrayList<Song> currentSongList;
 	private Song currentSong;
     private boolean ableToPause = false;
-	
 
+
+    /**
+     * Constructor that creates a new MediaPlayer and instantiates a Google Music API
+     */
 	public Playlist()
 	{
         api = new GoogleMusicAPI();
         mMediaPlayer = new MediaPlayer();
 	}
 
+    /**
+     * Pauses and Plays a song, dependent on the ableToPause Boolean
+     */
 	public void pause()
 	{
         if(ableToPause)
@@ -44,6 +72,10 @@ public class Playlist
 
     }
 
+    /**
+     * Plays the parameter song and then updates the current playlist
+     * @param song
+     */
 	public void playSong (final Song song)
 	{
         ableToPause = false;
@@ -100,6 +132,12 @@ public class Playlist
         }).start();
 	}
 
+    /**
+     * The login attempt for the Google Music Interface. If Successful, the open the playlist view,
+     * otherwise notify the device for invalid credentials
+     * @param email
+     * @param password
+     */
 	public void login(final String email, final String password)
     {
             new Thread(new Runnable() {
@@ -134,6 +172,10 @@ public class Playlist
             }).start();
 	}
 
+    /**
+     * Returns the boolean if the device is playing music
+     * @return mMediaPlayer.isPlaying() or false if not instantiated
+     */
     public boolean isPlaying()
     {
         if (mMediaPlayer == null)
@@ -142,11 +184,20 @@ public class Playlist
             return mMediaPlayer.isPlaying();
     }
 
+    /**
+     * Returns the current song list
+     * @return currentSongList
+     */
     public ArrayList<Song> getCurrentSongList()
     {
         return currentSongList;
     }
 
+    /**
+     * Sets the current song list to the first 100 songs in the Google Music Account. Passes the song
+     *  list to add from
+     * @param currentSongList
+     */
     private void setCurrentSongList(Collection<Song> currentSongList)
     {
         if (this.currentSongList == null)
@@ -159,9 +210,11 @@ public class Playlist
             else
                 break;
         }
-        //PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG_LIST);
     }
 
+    /**
+     * Getters and setters for Playlist Class
+     */
     public Song getCurrentSong()
     {
         return currentSong;
@@ -185,6 +238,11 @@ public class Playlist
         PartyActivity.notifyChange(PlaylistViewFragment.UPDATE_CURRENT_SONG);
     }
 
+    /**
+     * Finds a song object in the currentSongList by name and returns it, returns null otherwise
+     * @param name
+     * @return
+     */
     public Song findSongByName(String name)
     {
         for(Song s: currentSongList)

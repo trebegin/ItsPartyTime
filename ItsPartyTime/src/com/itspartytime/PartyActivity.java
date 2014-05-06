@@ -1,3 +1,48 @@
+/**
+ * PartyActivity.java
+ *
+ * This class is responsible for controlling the UI and logically linking other classes together.
+ *
+ * Trent Begin, Matt Shore, Becky Torrey
+ * 5/5/2014
+ *
+ * Variables:
+ *
+ * private static StartFragment mStartFragment:                 Fragment for the Start Page
+ * private static PlaylistViewFragment mPlaylistViewFragment:   Fragment for Playlist Page
+ * private static FragmentManager mFragmentManager:             Manages Fragments
+ * private static Fragment currentFragment:                     Stores the Current Fragment
+ *
+ * private static Playlist mPlaylist:       The Current Playlist
+ * private static String partyName:         The Party Name
+ * private static boolean isHost:           Is the User a Host
+ * private static boolean loggedIn:         Is the Host Logged in to Google Services
+ *
+ * private static ArrayList<Song> songs:     An Array of Songs used for Receiving and sending
+ *
+ * private static BluetoothHelper mBluetoothHelper:     Handler for Bluetooth Connection
+ * private static ArrayList<BluetoothDevice> devices:   An Array list of paired bluetooth Devices
+ * private Handler mHandler:                            Handles the receiving of messages
+ *
+ * private static Context mApplicationContext:          The current context of the application
+ *
+ * private final static int REQUEST_ENABLE_BT = 1:      Enabling Bluetooth
+ * private final static int MESSAGE_READ = 2:           Send a message to toast
+ * private final static int REQUEST_UPDATE = 3:         Request for a playlist update
+ * private final static int RECEIVE_UPDATE = 4:         Receiving an update
+ * private final static int VOTE_SONG = 5:              Voting a song up or down
+ *
+ *
+ * Known Faults:
+ *
+ *
+ *
+ *
+ */
+
+
+
+
 package com.itspartytime;
 
 
@@ -10,26 +55,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itspartytime.bluetooth.BluetoothHelper;
@@ -49,14 +88,10 @@ public class PartyActivity extends Activity
 	private static FragmentManager mFragmentManager;
 	private static Fragment currentFragment;
 
-    private final IntentFilter mIntentFilter = new IntentFilter();
-
     private static Playlist mPlaylist;
     private static String partyName;
     private static boolean isHost;
     private static boolean loggedIn = false;
-
-    private static ProgressDialog progress;
 
     private static ArrayList<Song> songs;
 
@@ -71,11 +106,15 @@ public class PartyActivity extends Activity
     private final static int REQUEST_UPDATE = 3;
     private final static int RECEIVE_UPDATE = 4;
     private final static int VOTE_SONG = 5;
-    private final static int RECEIVE_VOTE = 6;
 
     private static Thread SendingThread;
 
 	@Override
+    /**
+     * When the Application is Created:
+     *
+     * Initializes private variables
+     */
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
@@ -84,12 +123,15 @@ public class PartyActivity extends Activity
 		initFragments();
         mPlaylist = new Playlist();
 
+        // Checks if phone has bluetooth capabilities, if not exits app
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null)
         {
             toaster("Bluetooth is not Supported");
+            System.exit(0);
         }
 
+        // Checks if  Bluetooth is enabled
         if (!mBluetoothAdapter.isEnabled())
         {
             Intent enableBtIntent = new Intent((BluetoothAdapter.ACTION_REQUEST_ENABLE));
@@ -98,17 +140,17 @@ public class PartyActivity extends Activity
 
         devices = new ArrayList<BluetoothDevice>();
         songs = new ArrayList<Song>();
+
+        // Creates Message Bundle Handler for Bluetooth Communication
         mHandler = new Handler()
         {
             public void handleMessage(Message msg)
             {
-//                String byteString = String.valueOf(bytes);
-//                StringTokenizer tokens = new StringTokenizer(byteString, ":");
-//                String msgType = tokens.nextToken();
 
                 switch (msg.what)
                 {
 
+                    // Sending a message over toast
                     case MESSAGE_READ:
                     {
                         String data = "";
@@ -123,12 +165,14 @@ public class PartyActivity extends Activity
                         break;
                     }
 
+                    // Another phone has requested an Update
                     case REQUEST_UPDATE:
                     {
                         updateSongList();
                         break;
                     }
 
+                    // This phone is receiving an update
                     case RECEIVE_UPDATE:
                     {
                         try
@@ -165,6 +209,7 @@ public class PartyActivity extends Activity
                         break;
                     }
 
+                    // Either a guest of host is voting a song up or down
                     case VOTE_SONG:
                     {
                         try
@@ -205,11 +250,17 @@ public class PartyActivity extends Activity
 
 	}
 
+    /**
+     * When a button is pushed on the action bar, handle based on which button is pressed
+     * @param item:     The button that was pushed
+     * @return:         Boolean if the event was handled or not
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch ((item.getItemId()))
         {
+            // Refresh Button for Guests
             case(R.id.action_refresh):
             {
                 if(!isHost)
@@ -225,12 +276,19 @@ public class PartyActivity extends Activity
     }
 
     @Override
-    protected void onDestroy() {
+    /**
+     * If the Activity is destroyed, destroy the current playlist
+     */
+    protected void onDestroy()
+    {
         if(mPlaylist != null)
             mPlaylist.destroy();
         super.onDestroy();
     }
 
+    /**
+     * Function for initializing all fragments
+     */
 	private void initFragments()
 	{
 		mFragmentManager = getFragmentManager();
@@ -242,13 +300,20 @@ public class PartyActivity extends Activity
 			.detach(mStartFragment).commit();
 		mFragmentManager.beginTransaction().detach(mPlaylistViewFragment).commit();
 	}
-	
+
+    /**
+     * Opens the Login Dialog
+     */
 	public static void openLoginDialog()
 	{
         LoginDialog login = new LoginDialog();
         login.show(mFragmentManager, "login");
 	}
 
+    /**
+     * Opens the Start Page Fragment
+     * @param currentFragment
+     */
 	public static void openStartFragment(Fragment currentFragment) 
 	{
 		PartyActivity.currentFragment = mStartFragment;
@@ -262,6 +327,12 @@ public class PartyActivity extends Activity
 			mFragmentManager.beginTransaction().attach(mStartFragment).commit();
 	}
 
+    /**
+     * Opens the Playlist view fragment. If Device is hosting, begins to accept bluetooth connections,
+     * otherwise it requests the playlist from the host
+     *
+     * @param currentFragment
+     */
 	public static void openPlaylistViewFragment(Fragment currentFragment) 
 	{	
 		PartyActivity.currentFragment = mPlaylistViewFragment;
@@ -279,12 +350,20 @@ public class PartyActivity extends Activity
             requestPlaylist(null);
 	}
 
-
+    /**
+     * Signals the Playlist Fragment that a change has been made from the UI
+     * @param updateMessage:    Type of Update
+     */
 	public static void notifyChange(int updateMessage)
     {
 		mPlaylistViewFragment.notifyChange(updateMessage);
 	}
-	
+
+
+    /**
+     * Toasts a message to the device
+     * @param message
+     */
 	public static void toaster(final String message)
 	{
 		currentFragment.getActivity().runOnUiThread(new Runnable()
@@ -297,26 +376,36 @@ public class PartyActivity extends Activity
         });
 	}
 
+    /**
+     * Invokes the Bluetooth helper to return a list of paired devices
+     * @return ArrayList of Bluetooth Devices
+     */
     public static ArrayList<BluetoothDevice> discoverDevices()
     {
         return mBluetoothHelper.discover();
     }
 
+    /**
+     * Invokes the Bluetooth helper to connect to a new Bluetooth Device
+     * @param device
+     */
     public static void deviceConnect(BluetoothDevice device)
     {
         mBluetoothHelper.connect(device);
     }
 
-    public static ArrayList<BluetoothDevice> getDevices()
-    {
-        return devices;
-    }
-
+    /**
+     * Invokes the Bluetooth helper to begin accepting connections for other devices
+     */
     public static void bluetoothAccept()
     {
         mBluetoothHelper.accept();
     }
 
+    /**
+     * Send a message to connected devices through bluetooth
+     * @param msg
+     */
     public static void send(String msg)
     {
         try
@@ -326,6 +415,11 @@ public class PartyActivity extends Activity
         catch (UnsupportedEncodingException e) {}
     }
 
+    /**
+     * Called by guests to request the latest version of the playlist
+     *
+     * @param view:     Refresh Button
+     */
     public static void requestPlaylist(View view)
     {
         String str = " ";
@@ -336,6 +430,10 @@ public class PartyActivity extends Activity
         catch (UnsupportedEncodingException e) {}
     }
 
+    /**
+     * Called by either host or guest to signal a voted song, sends updated song
+     * @param song
+     */
     public static void sendVote(Song song)
     {
         try
@@ -353,6 +451,9 @@ public class PartyActivity extends Activity
         catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
     }
 
+    /**
+     *  Called by the host device to create an updated playlist and send to guests
+     */
     public static void updateSongList()
     {
         if(SendingThread == null || !SendingThread.isAlive())
@@ -407,9 +508,9 @@ public class PartyActivity extends Activity
     }
 
     /**
-     * Getters and Setters
-     * @param name
+     * Getters and Setters for local variables of the Activity
      */
+
     public static void setPartyName(String name)
     {
         partyName = name;
