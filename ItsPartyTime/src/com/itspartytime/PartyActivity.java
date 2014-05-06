@@ -367,12 +367,7 @@ public class PartyActivity extends Activity
             {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 ObjectOutputStream out = new ObjectOutputStream(bos);
-                Bundle b = new Bundle();
-                b.putString("title", playlistPackage.get(i).getTitle());
-                b.putString("artist", playlistPackage.get(i).getArtist());
-                b.putString("art", playlistPackage.get(i).getAlbumArtUrl());
-
-                out.writeObject(b);
+                out.writeObject(playlistPackage.get(i));
                 byte[] data = bos.toByteArray();
                 mBluetoothHelper.send(data, RECEIVE_UPDATE);
                 out.flush();
