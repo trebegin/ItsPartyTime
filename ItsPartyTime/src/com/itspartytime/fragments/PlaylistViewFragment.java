@@ -173,6 +173,7 @@ public class PlaylistViewFragment extends Fragment
             public void run() {
                 URL newurl = null;
                 Bitmap mIcon_val = null;
+                setAlbumArt(mIcon_val);
                 try
                 {
                     newurl = new URL(currentSong.getAlbumArtUrl());

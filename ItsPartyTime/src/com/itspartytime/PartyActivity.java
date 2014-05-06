@@ -458,7 +458,6 @@ public class PartyActivity extends Activity
     {
         if(SendingThread == null || !SendingThread.isAlive())
         {
-            toaster("Sending");
             SendingThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -499,7 +498,6 @@ public class PartyActivity extends Activity
                         bos.close();
                     }
                     catch (IOException e) {toaster("Request IO Exception"); e.printStackTrace();}
-                    toaster("Done sending");
                 }
             });
             SendingThread.start();
