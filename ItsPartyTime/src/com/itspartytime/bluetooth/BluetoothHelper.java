@@ -307,13 +307,12 @@ public class BluetoothHelper
         target.put(bytes);
 
         if(mConnectedThread != null)
-        if(mConnectedThread != null)
         {
             mConnectedThread.write(message);
             synchronized (mConnectedThread)
             {
                 try{
-                mConnectedThread.wait(10);
+                mConnectedThread.wait(25);
                 }
                 catch (InterruptedException e)
                 {

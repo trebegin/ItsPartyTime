@@ -63,8 +63,9 @@ public class Playlist
             public void run()
             {
                 try {
+
                     mMediaPlayer.reset();
-                    mMediaPlayer.setDataSource(api.getSongURL(song).toString());
+                        mMediaPlayer.setDataSource(api.getSongURL(song).toString());
                     mMediaPlayer.prepareAsync();
                     mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
                     {
@@ -84,8 +85,16 @@ public class Playlist
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return;
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
+                    return;
+                }
+                catch (IllegalStateException e)
+                {
+                    e.printStackTrace();
+                    playSong(song);
+                    return;
                 }
             }
         }).start();

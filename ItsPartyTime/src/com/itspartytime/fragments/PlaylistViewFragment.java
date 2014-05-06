@@ -203,6 +203,8 @@ public class PlaylistViewFragment extends Fragment
                         {
                             if(mPlaylistAdapter == null)
                                 playlistAdapterInit();
+                            mPlaylistAdapter.setCurrentPlaylist(PartyActivity.getPlaylist().getCurrentSongList());
+                            mPlaylistAdapter.sortCurrentPlaylist();
                             mPlaylistAdapter.notifyDataSetChanged();
                         }
                         break;
