@@ -1,34 +1,19 @@
 /**
- * PartyActivity.java
+ * StartFragment.java
  *
- * This class is responsible for controlling the UI and logically linking other classes together.
+ * This fragment is the first fragment in the app. It gives users a choice to create a party or to
+ *  join a party.
  *
  * Trent Begin, Matt Shore, Becky Torrey
  * 5/5/2014
  *
  * Variables:
- *
+ * private Button createPartyButton:        Button to Create a Party
+ * private Button joinPartyButton:          Button to Join a Party
  *
  *
  * Known Faults:
  *
- * The name of the code artifact
- A brief description of what the code artifact does
- The programmer’s name
- The date the code artifact was coded
- The date the code artifact was approved
- The name of the person who approved the code artifact
- The arguments of the code artifact
- A list of the name of each variable of the code artifact, preferably in alphabetical
- order, and a brief description of its use
- The names of any files accessed by this code artifact
- The names of any files changed by this code artifact
- Input–output, if any
- Error-handling capabilities
- The name of the file containing test data (to be used later for regression testing)
- A list of each modification made to the code artifact, the date the modification was
- made, and who approved the modification
- Any known faults
  *
  *
  */
@@ -65,7 +50,6 @@ public class StartFragment extends Fragment
 		createPartyButton = (Button) mRelativeLayout.findViewById(R.id.create_party_button);
 		joinPartyButton = (Button) mRelativeLayout.findViewById(R.id.join_party_button);
 
-	
 		createPartyButton.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
@@ -89,12 +73,14 @@ public class StartFragment extends Fragment
 		return mRelativeLayout;
 	}
 
+    // Opens the login Dialog and sets the device's host status to true
 	private void login ()
 	{
         PartyActivity.openLoginDialog();
         PartyActivity.setHost(true);
 	}
 
+    // Creates and inflates a list of potential parties to join
 	private void openJoinParty ()
 	{
         // make ArrayList to pass ListDialog

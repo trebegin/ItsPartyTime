@@ -1,37 +1,33 @@
 /**
- * PartyActivity.java
- *
- * This class is responsible for controlling the UI and logically linking other classes together.
+ * PlaylistViewFragment.java
  *
  * Trent Begin, Matt Shore, Becky Torrey
  * 5/5/2014
  *
  * Variables:
  *
+ * private Button skipButton:                                   Button to skip song
+ * private Button pauseButton:                                  Button to Play/Pause song
+ * private Button voteUpButton:                                 Button to vote up song
+ * private Button voteDownButton:                               Button to vote down song
+ * private TextView mCurrentSongTitle:                          Current Song Title
+ * private TextView mCurrentArtist:                             Current Artist Name
+ * private ImageView mCurrentAlbumArt:                          Current Album Art URL
+ * private PlaylistAdapter mPlaylistAdapter:                    The adapter for holding playlist info
+ * private LinearLayout mLinearLayout:                          UI Layout for each song
+ *
+ * // Integer Codes for Update Handlers
+ * public static final int UPDATE_VOTE =          0;            Voting Up Song
+ * public static final int UPDATE_CURRENT_SONG =  1;            Update the current song
+ * public static final int UPDATE_PAUSE_BUTTON =  2;            Alternates the Play/Pause Button
+ * public static final int UPDATE_CURRENT_SONG_LIST = 3;        Update the list of current songs
  *
  *
  * Known Faults:
  *
- * The name of the code artifact
- A brief description of what the code artifact does
- The programmer’s name
- The date the code artifact was coded
- The date the code artifact was approved
- The name of the person who approved the code artifact
- The arguments of the code artifact
- A list of the name of each variable of the code artifact, preferably in alphabetical
- order, and a brief description of its use
- The names of any files accessed by this code artifact
- The names of any files changed by this code artifact
- Input–output, if any
- Error-handling capabilities
- The name of the file containing test data (to be used later for regression testing)
- A list of each modification made to the code artifact, the date the modification was
- made, and who approved the modification
- Any known faults
- *
  *
  */
+
 package com.itspartytime.fragments;
 
 import gmusic.api.model.Song;
@@ -77,10 +73,10 @@ public class PlaylistViewFragment extends Fragment
     private ImageView mCurrentAlbumArt;
 	private PlaylistAdapter mPlaylistAdapter;
 	private LinearLayout mLinearLayout;
-    public static final int UPDATE_VOTE =          0;
-    public static final int UPDATE_CURRENT_SONG =  1;
-    public static final int UPDATE_PAUSE_BUTTON =  2;
-    public static final int UPDATE_CURRENT_SONG_LIST = 3;
+    public static final int UPDATE_VOTE =                   0;
+    public static final int UPDATE_CURRENT_SONG =           1;
+    public static final int UPDATE_PAUSE_BUTTON =           2;
+    public static final int UPDATE_CURRENT_SONG_LIST =      3;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,9 +98,11 @@ public class PlaylistViewFragment extends Fragment
         voteUpButton = (Button) mLinearLayout.findViewById(R.id.current_vote_up_button);
         voteDownButton = (Button) mLinearLayout.findViewById(R.id.current_vote_down_button);
 
+        /**
+         * Only Shows play pause buttons if the device is a host
+         */
         if(!PartyActivity.isHost())
         {
-            //getActivity().findViewById(R.id.action_refresh).setVisibility(View.INVISIBLE);
             skipButton.setVisibility(View.GONE);
             pauseButton.setVisibility(View.GONE);
         }
@@ -131,7 +129,10 @@ public class PlaylistViewFragment extends Fragment
 		
 		return mLinearLayout;
 	}
-	
+
+    /**
+     * Initializes the adapter for holding the playlist information
+     */
 	private void playlistAdapterInit()
     {
 		ListView mListView = (ListView) mLinearLayout.findViewById(R.id.playlist_listview);
@@ -158,6 +159,10 @@ public class PlaylistViewFragment extends Fragment
 		super.onAttach(activity);
 	}
 
+    /**
+     * Only Changes song on click if the device is a host
+     * @param song
+     */
 	private void changeSong(Song song)
 	{
         if(PartyActivity.isHost())
@@ -166,6 +171,11 @@ public class PlaylistViewFragment extends Fragment
         }
 	}
 
+
+    /**
+     * Sets the Current song to the incoming parameter
+     * @param currentSong
+     */
     private void setCurrentSong(final Song currentSong)
     {
         new Thread (new Runnable() {
@@ -204,11 +214,18 @@ public class PlaylistViewFragment extends Fragment
         voteDownButton.setText(Integer.toString(currentSong.getDownVotes()));
     }
 
-	public void notifyChange(final int updateMessage) {
-        this.getActivity().runOnUiThread(new Runnable() {
+    /**
+     * Notifies the UI of an update to the Playlist based on the sent updateMessage
+     * @param updateMessage
+     */
+	public void notifyChange(final int updateMessage)
+    {
+        this.getActivity().runOnUiThread(new Runnable()
+        {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
-            public void run() {
+            public void run()
+            {
                 switch(updateMessage)
                 {
                     case UPDATE_CURRENT_SONG:
@@ -249,11 +266,18 @@ public class PlaylistViewFragment extends Fragment
 
 	}
 
-    private void setAlbumArt(final Bitmap mIcon_val) {
+    /**
+     * Sets the Current Album Art to the Bitmap received from the Art URL
+     * @param mIcon_val
+     */
+    private void setAlbumArt(final Bitmap mIcon_val)
+    {
 
-        getActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 if(mIcon_val != null)
                 {
                     mCurrentAlbumArt.setImageBitmap(mIcon_val);
